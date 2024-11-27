@@ -30,6 +30,8 @@
     </div>
 
    <!-- Sign In Section Begin -->
+<!-- Sign In Section Begin -->
+<!-- Sign In Section Begin -->
 <div class="signin">
     <div class="signin__warp">
         <div class="signin__content">
@@ -52,7 +54,7 @@
                 </ul>
                 <div class="tab-content">
                     <!-- Sign Up Tab -->
-                     <div class="tab-pane active" id="tabs-1" role="tabpanel">
+                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
                         <div class="signin__form__text">
                             <p>with your social network:</p>
                             <div class="signin__form__signup__social">
@@ -62,46 +64,44 @@
                             </div>
                             <div class="divide">or</div> 
                             <!-- Registration Form -->
-                            <form method="POST" action="{{ route('register') }}">
-                                @csrf
-                                <input type="text" name="username" placeholder="User Name*" value="{{ old('username') }}">
-                                @error('username')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+                          
+<!-- Registration Form -->
+<!-- Registration Form -->
+<form method="POST" action="{{ route('register') }}" id="registerForm" autocomplete="off">
+    @csrf
 
-                                <input type="password" name="password" placeholder="Password">
-                                @error('password')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+    <input type="text" name="full_name" placeholder="Full Name" 
+           value="{{ old('full_name') }}" autocomplete="off">
+    @error('full_name')
+        <div class="text-danger">{{ $message }}</div>
+    @enderror
 
-                                <input type="password" name="password_confirmation" placeholder="Confirm Password">
-                                
-                                <input type="email" name="email" placeholder="Email Address" value="{{ old('email') }}">
-                                @error('email')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+    <input type="text" name="username" placeholder="User Name*" 
+           value="{{ old('username') }}" autocomplete="off">
+    @error('username')
+        <div class="text-danger">{{ $message }}</div>
+    @enderror
 
-                                <input type="text" name="full_name" placeholder="Full Name" value="{{ old('full_name') }}">
-                                @error('full_name')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+    <input type="email" name="email" placeholder="Email Address" 
+           value="{{ old('email') }}" autocomplete="off">
+    @error('email')
+        <div class="text-danger">{{ $message }}</div>
+    @enderror
 
-                                <label for="sign-agree-check">
-                                    I agree to the terms & conditions
-                                    <input type="checkbox" id="sign-agree-check" name="terms" {{ old('terms') ? 'checked' : '' }}>
-                                    <span class="checkmark"></span>
-                                </label>
-                                @error('terms')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
+    <input type="password" name="password" placeholder="Password" autocomplete="new-password">
+    @error('password')
+        <div class="text-danger">{{ $message }}</div>
+    @enderror
 
-                                <button type="submit" class="site-btn">Register Now</button>
-                            </form>
+    <input type="password" name="password_confirmation" placeholder="Confirm Password">
+    
+    <button type="submit" class="site-btn">Register Now</button>
+</form>
                         </div>
                     </div>
 
                     <!-- Sign In Tab -->
-                     <div class="tab-pane" id="tabs-2" role="tabpanel">
+                    <div class="tab-pane" id="tabs-2" role="tabpanel">
                         <div class="signin__form__text">
                             <p>with your social network:</p>
                             <div class="signin__form__signup__social">
@@ -111,18 +111,17 @@
                             </div>
                             <div class="divide">or</div>  
                             <!-- Sign In Form -->
-                            <form method="POST" action="{{ route('login') }}">
+                            <form method="POST" action="{{ route('login') }}" id="loginForm" autocomplete="off">
                                 @csrf
-                                <input type="text" name="email" placeholder="Email Address" value="{{ old('email') }}">
-                                @error('email')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-
-                                <input type="password" name="password" placeholder="Password">
+                                <input type="email" name="email" placeholder="Email Address" 
+                                       value="{{ request()->is('login') && $errors->has('email') ? old('email') : '' }}"
+                                       autocomplete="off">
+                                
+                                <input type="password" name="password" placeholder="Password" autocomplete="new-password">
                                 @error('password')
                                     <div class="text-danger">{{ $message }}</div>
                                 @enderror
-
+                                
                                 <button type="submit" class="site-btn">Sign In</button>
                             </form>
                         </div>
@@ -132,6 +131,11 @@
         </div>
     </div>
 </div>
+<!-- Sign In Section End -->
+
+
+<!-- Sign In Section End -->
+
 <!-- Sign In Section End -->
 
 
@@ -911,6 +915,18 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Clear forms when switching tabs
+            document.querySelectorAll('.nav-link').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.getElementById('registerForm').reset();
+                    document.getElementById('loginForm').reset();
+                });
+            });
+        });
+        </script>
+        
 </body>
 
 </html>

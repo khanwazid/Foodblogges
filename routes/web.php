@@ -14,16 +14,17 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/', function () {
+Route::get('/welcome', function () {
     return view('welcome');
 });
 /*Route::get('/login', function () {
     return view('login');
 })->name('login');*/
 Route::get('/home',[TempController::class, 'index'])->name('home');
-Route::get('/signin', function () {
+
+Route::get('/', function () {
     return view('signin');
-});
+})->name('signin');
 Route::post('/register', [UserController::class, 'register'])->name('register');
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
