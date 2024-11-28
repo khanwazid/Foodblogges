@@ -26,6 +26,7 @@ Route::get('/', function () {
     return view('signin');
 })->name('signin');
 Route::post('/register', [UserController::class, 'register'])->name('register');
+Route::get('/login', [UserController::class, 'showLoginForm'])->name('login.show');
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 //Route::get('/account', [UserController::class, 'account'])->name('account')->middleware('auth');

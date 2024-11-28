@@ -21,6 +21,8 @@
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
 </head>
 
 <body class="fixed-position">
@@ -28,9 +30,6 @@
     <div id="preloder">
         <div class="loader"></div>
     </div>
-
-   <!-- Sign In Section Begin -->
-<!-- Sign In Section Begin -->
 <!-- Sign In Section Begin -->
 <div class="signin">
     <div class="signin__warp">
@@ -56,74 +55,100 @@
                     <!-- Sign Up Tab -->
                     <div class="tab-pane active" id="tabs-1" role="tabpanel">
                         <div class="signin__form__text">
-                            <p>with your social network:</p>
-                            <div class="signin__form__signup__social">
-                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="google"><i class="fa fa-google"></i></a>
-                            </div>
-                            <div class="divide">or</div> 
-                            <!-- Registration Form -->
-                          
-<!-- Registration Form -->
 <!-- Registration Form -->
 <form method="POST" action="{{ route('register') }}" id="registerForm" autocomplete="off">
     @csrf
-
-    <input type="text" name="full_name" placeholder="Full Name" 
-           value="{{ old('full_name') }}" autocomplete="off">
-    @error('full_name')
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-
-    <input type="text" name="username" placeholder="User Name*" 
-           value="{{ old('username') }}" autocomplete="off">
-    @error('username')
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-
-    <input type="email" name="email" placeholder="Email Address" 
-           value="{{ old('email') }}" autocomplete="off">
-    @error('email')
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-
-    <input type="password" name="password" placeholder="Password" autocomplete="new-password">
-    @error('password')
-        <div class="text-danger">{{ $message }}</div>
-    @enderror
-
-    <input type="password" name="password_confirmation" placeholder="Confirm Password">
     
+    <div class="form-group">
+        <input type="text" 
+               class="form-control @error('full_name') is-invalid @enderror" 
+               name="full_name" 
+               placeholder="Full Name" 
+               value="{{ old('full_name') }}" 
+               autocomplete="off">
+        @error('full_name')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="form-group">
+        <input type="text" 
+               class="form-control @error('username') is-invalid @enderror" 
+               name="username" 
+               placeholder="User Name*" 
+               value="{{ old('username') }}" 
+               autocomplete="off">
+        @error('username')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="form-group">
+        <input type="email" 
+               class="form-control @error('email') is-invalid @enderror" 
+               name="email" 
+               placeholder="Email Address" 
+               value="{{ old('email') }}" 
+               autocomplete="off">
+        @error('email')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="form-group">
+        <input type="password" 
+               class="form-control @error('password') is-invalid @enderror" 
+               name="password" 
+               placeholder="Password" 
+               autocomplete="new-password">
+        @error('password')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+
+    <div class="form-group">
+        <input type="password" 
+               class="form-control" 
+               name="password_confirmation" 
+               placeholder="Confirm Password">
+    </div>
+
     <button type="submit" class="site-btn">Register Now</button>
 </form>
-                        </div>
+               </div>
                     </div>
 
                     <!-- Sign In Tab -->
-                    <div class="tab-pane" id="tabs-2" role="tabpanel">
+                 <div class="tab-pane" id="tabs-2" role="tabpanel">
                         <div class="signin__form__text">
-                            <p>with your social network:</p>
-                            <div class="signin__form__signup__social">
-                                <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
-                                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
-                                <a href="#" class="google"><i class="fa fa-google"></i></a>
-                            </div>
-                            <div class="divide">or</div>  
+                            
                             <!-- Sign In Form -->
                             <form method="POST" action="{{ route('login') }}" id="loginForm" autocomplete="off">
                                 @csrf
-                                <input type="email" name="email" placeholder="Email Address" 
-                                       value="{{ request()->is('login') && $errors->has('email') ? old('email') : '' }}"
-                                       autocomplete="off">
                                 
-                                <input type="password" name="password" placeholder="Password" autocomplete="new-password">
-                                @error('password')
-                                    <div class="text-danger">{{ $message }}</div>
-                                @enderror
-                                
+                                <div class="form-group">
+                                    <input type="email" 
+                                           class="form-control {{ session('loginError') ? 'is-invalid' : '' }}" 
+                                           name="email" 
+                                           placeholder="Email Address" 
+                                           value="{{ old('email') }}"
+                                           autocomplete="off">
+                                    @if(session('loginError'))
+                                        <div class="invalid-feedback">{{ session('loginError') }}</div>
+                                    @endif
+                                </div>
+                            
+                                <div class="form-group">
+                                    <input type="password" 
+                                           class="form-control {{ session('loginError') ? 'is-invalid' : '' }}" 
+                                           name="password" 
+                                           placeholder="Password" 
+                                           autocomplete="new-password">
+                                </div>
+                            
                                 <button type="submit" class="site-btn">Sign In</button>
                             </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -132,12 +157,6 @@
     </div>
 </div>
 <!-- Sign In Section End -->
-
-
-<!-- Sign In Section End -->
-
-<!-- Sign In Section End -->
-
 
     <!-- Humberger Begin -->
     <div class="humberger__menu__overlay"></div>

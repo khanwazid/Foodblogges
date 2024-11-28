@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Exception;
 
 
 class UserController extends Controller
@@ -44,6 +45,12 @@ public function profile()
     $user = Auth::user();
     return view('profile', compact('user'));
 }
+public function showLoginForm()
+{
+    return view('signin');
+}
+
+
 public function login(Request $request)
 {
     try {
@@ -53,17 +60,27 @@ public function login(Request $request)
         ]);
 
         if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
             return redirect()->intended('home');
         }
 
-        return back()->withErrors([
-            'email' => 'Invalid credentials',
-        ]);
-        
+        return redirect()->route('login.show')
+            ->withInput()
+            ->with('loginError', 'These credentials do not match our records.');
+
     } catch (ValidationException $e) {
-        return back()->withErrors($e->errors())->withInput();
+        return redirect()->route('login.show')
+            ->withInput()
+            ->with('loginError', 'Please check your email and password format.');
+            
+    } catch (\Exception $e) {
+        return redirect()->route('login.show')
+            ->withInput()
+            ->with('loginError', 'An unexpected error occurred. Please try again.');
     }
 }
+
+
 
    
 
