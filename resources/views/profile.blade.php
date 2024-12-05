@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .user-profile {
             background-color: #f7f7f7;
@@ -56,34 +57,157 @@
     background-color: #d57d00; /* Darker Yellowish-Red color */
     transform: scale(1.05); /* Slight scale effect on hover */
 }
+.btn-group.gap-2 {
+    gap: 10px;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+}
+
+.management-section {
+    padding: 30px 0;
+}
+
+.management-item {
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.management-item h3 {
+    color: #333;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.management-item p {
+    color: #666;
+    margin-bottom: 15px;
+}
+
+.management-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: orange;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.management-button:hover {
+    background-color: darkorange;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-2px);
+}
+
+.button-row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.management-button.add-new {
+    background-color: white;
+    color:  #000;
+    border: 2px solid orange;
+    transition: all 0.3s ease;
+}
+
+.management-button.add-new:hover {
+    background-color: orange;
+    color: white;
+}
+
+.button-row {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.management-button.user-account {
+    background-color: white;
+    color: #000;
+    border: 2px solid orange;
+    transition: all 0.3s ease;
+}
+
+.management-button.user-account:hover {
+    background-color: orange;
+    color: white;
+}
+
+
 
     </style>
 </head>
 
 <body>
     @if (session('success'))
-    <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
+    <div id="success-message" class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
         {{ session('success') }}
     </div>
-    @endif
+    @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+    {{--  <script>
+        
+        setTimeout(function() {
+            const successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                
+                successMessage.style.transition = "opacity 1s";
+                successMessage.style.opacity = 0;
+
+               
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 1000); 
+            }
+        }, 3000); 
+    </script> --}}
+    <script>
+        setTimeout(function() {
+            const successMessage = document.getElementById('success-message');
+            if (successMessage) {
+                successMessage.style.transition = "opacity 1s ease";
+                successMessage.style.opacity = 0;
+                setTimeout(function() {
+                    successMessage.style.display = 'none';
+                }, 1000); // Wait for fade-out to complete
+            }
+        }, 3000); // Display for 3 seconds
+    </script>
+    
+@endif
+
+   
+
+
 
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
 
-    <!-- Humberger Begin -->
-    <div class="humberger__menu__overlay"></div>
-    <div class="humberger__menu__wrapper">
-        <div class="humberger__menu__logo">
-            <a href="./index.html"><img src="img/humberger/humberger-logo.png" alt=""></a>
-        </div>
-        <nav class="humberger__menu__nav mobile-menu">
-            
-        </nav>
-        <div id="mobile-menu-wrap"></div>
-    </div>
-    <!-- Humberger End -->
+
 
     <!-- Header Section Begin -->
     <header class="header">
@@ -91,10 +215,25 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-2 col-md-1 col-6 order-md-1 order-1">
-                        <div class="header__humberger">
-                            <i class="fa fa-bars humberger__open"></i>
-                        </div>
+                       
                     </div>
+
+    <!-- Header Section Begin -->
+    
+                    <div class="col-lg-8 col-md-10 order-md-2 order-3">
+                        <nav class="header__menu">
+                            <ul>
+                                <li><a href="{{url('/home')}}">Back</a></li>
+                               {{--  <li><a href="{url('/index')}}">Home</a></li>
+                                <li><a href="{{url('/about')}}">About</a></li>
+                                <li><a href="{{url('/contact')}}">Contact</a></li> --}}
+                            </ul>
+                        </nav>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
 
                     <!-- Removed the navigation section here -->
 
@@ -150,6 +289,7 @@
     <!-- Header Section End -->
 
 
+    
 
     <!-- Categories Section Begin -->
     <section class="categories categories-grid spad">
@@ -164,6 +304,81 @@
                                     
                                 </div>
                             </div>
+                            <div class="management-item">
+                                <h3>POSTS</h3>
+                                <p>Manage your blog posts from here</p>
+                                <div class="button-row">
+                                   {{--   <a href="" class="management-button">MANAGE POSTS</a> --}}
+                                    <a href="{{ route('posts.create') }}" class="management-button add-new">ADD NEW POST</a>
+                                </div>
+                            </div>
+                            <!-- Add this section where you want to display the posts -->
+<div class="container">
+    <div class="categories__post">
+        <h2 class="section-title">Your Recipe Posts</h2>
+        
+        @if($posts->isEmpty())
+            <div class="alert alert-info">
+                <p>You haven't created any recipes yet.</p>
+            </div>
+        @else
+            <div class="row">
+                @foreach($posts as $post)
+                <div class="col-lg-6 col-md-6">
+                    <div class="categories__post__item">
+                        @if($post->header_pic)
+                        <div class="categories__post__item__pic set-bg" 
+                             data-setbg="{{ asset('storage/' . $post->header_pic) }}">
+                            <div class="post__meta">
+                                <h4>{{ $post->created_at->format('d') }}</h4>
+                                <span>{{ $post->created_at->format('M') }}</span>
+                            </div>
+                        </div>
+                        @endif
+                        
+                        <div class="categories__post__item__text">
+                            <ul class="post__label--large">
+                                @foreach(explode(',', $post->categories) as $category)
+                                <li>{{ trim($category) }}</li>
+                                @endforeach
+                            </ul>
+                            
+                            <h3><a href="#">{{ $post->title }}</a></h3>
+                            
+                            <ul class="post__widget">
+                                <li><i class="fa fa-clock-o"></i> {{ $post->read_time }} min read</li>
+                                <li><i class="fa fa-cutlery"></i> Serves {{ $post->serves }}</li>
+                                <li><i class="fa fa-hourglass-half"></i> Prep {{ $post->prep_time }}min</li>
+                            </ul>
+                            
+                            <p>{{ Str::limit($post->description, 150) }}</p>
+                            
+                            <div class="post__meta">
+                                <div class="btn-group gap-2">
+                                    <a href="{{ route('posts.edit', ['id' => $post->p_id]) }}" class="btn btn-warning btn-sm">
+                                        <i class="fa fa-edit"></i> Edit
+                                    </a>
+                                    
+                                    
+        <form action="{{ route('posts.destroy', ['id' => $post->p_id]) }}" method="POST" style="display: inline;">
+            @csrf
+            @method('DELETE')
+            <button type="submit" class="btn btn-danger btn-sm">
+                <i class="fa fa-trash"></i> Delete
+            </button>
+        </form>
+                                </div>
+                            </div>
+                     
+                                {{-- xbxbxbxbbbbb --}}
+                        </div>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        @endif
+    </div>
+</div>
                             <div class="row">
                                 <div class="col-lg-6 col-md-6 col-sm-6">
                                     <div class="categories__post__item">
@@ -467,6 +682,7 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
     
   

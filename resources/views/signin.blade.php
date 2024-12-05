@@ -53,7 +53,9 @@
                 </ul>
                 <div class="tab-content">
                     <!-- Sign Up Tab -->
-                    <div class="tab-pane active" id="tabs-1" role="tabpanel">
+               {{--       <div class="tab-pane active" id="tabs-1" role="tabpanel"> --}}
+                        <div class="tab-pane {{ !session('loginError') ? 'active' : '' }}" id="tabs-1" role="tabpanel">
+
                         <div class="signin__form__text">
 <!-- Registration Form -->
 <form method="POST" action="{{ route('register') }}" id="registerForm" autocomplete="off">
@@ -119,7 +121,9 @@
                     </div>
 
                     <!-- Sign In Tab -->
-                 <div class="tab-pane" id="tabs-2" role="tabpanel">
+              {{--    <div class="tab-pane" id="tabs-2" role="tabpanel"> --}} 
+                    <div class="tab-pane {{ session('loginError') ? 'active' : '' }}" id="tabs-2" role="tabpanel">
+
                         <div class="signin__form__text">
                             
                             <!-- Sign In Form -->
@@ -946,6 +950,26 @@
         });
         </script>
         
+            
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                // Show signin tab if there are login errors
+                @if(session('loginError'))
+                    document.querySelector('[data-toggle="tab"][href="#tabs-2"]').click();
+                @endif
+            
+                // Clear forms when switching tabs
+                document.querySelectorAll('.nav-link').forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        document.getElementById('registerForm').reset();
+                        document.getElementById('loginForm').reset();
+                        // Clear error messages
+                        document.querySelectorAll('.invalid-feedback').forEach(el => el.style.display = 'none');
+                        document.querySelectorAll('.is-invalid').forEach(el => el.classList.remove('is-invalid'));
+                    });
+                });
+            });
+            </script>
 </body>
 
 </html>
