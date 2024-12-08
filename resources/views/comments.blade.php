@@ -86,11 +86,19 @@ body {
     border-left: 5px solid #bd2130;
     box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
 }
+.description-section::before {
+    content: '🍽️';
+    display: block;
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 10px;
+}
 .description-section {
     background: #f8f9fa;
     padding: 20px;
     border-radius: 15px;
     margin: 15px 0;
+   
 }
 
 
@@ -130,8 +138,8 @@ body {
 
 
 .meta-item:hover {
-    background: #fff;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    background:  orangered;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
 }
 
 /* Comments Section */

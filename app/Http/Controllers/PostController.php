@@ -91,6 +91,7 @@ class PostController extends Controller
     return view('admin.list-posts', compact('posts'));
 }
 
+
     public function show($id)
     {
         // Retrieve the post using the provided ID
