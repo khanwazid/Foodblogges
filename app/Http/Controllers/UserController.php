@@ -56,7 +56,7 @@ public function showLoginForm()
     return view('signin');
 }
 
-
+/*
 public function login(Request $request)
 {
     try {
@@ -67,12 +67,14 @@ public function login(Request $request)
 
     if (Auth::attempt($credentials)) {
         $user = Auth::user();
+
+       
         
-        if ($user->role === 'admin') {
-            return redirect()->route('admin.dashboard');
+       if ($user->role === 'admin') {
+            return redirect()->route('home');
         }
         
-        return redirect()->route('home');
+        return redirect()->route('firstpage');
     }
 
  return redirect()->route('login.show')
@@ -89,7 +91,44 @@ public function login(Request $request)
             ->withInput()
             ->with('loginError', 'An unexpected error occurred. Please try again.');
     }
+}*/
+public function login(Request $request)
+{
+    try {
+        // Validate user credentials
+        $credentials = $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        // Attempt authentication
+        if (Auth::attempt($credentials)) {
+            $user = Auth::user();
+
+            // Redirect based on user role
+            return $user->role === 'admin'
+                ? redirect()->route('home')->with('success', 'Welcome back, Admin!') // Redirect admin to home
+                : redirect()->route('firstpage')->with('success', 'Welcome back!'); // Redirect regular user
+        }
+
+        // Failed authentication
+        return redirect()->route('login.show')
+            ->withInput()
+            ->with('loginError', 'These credentials do not match our records.');
+
+    } catch (ValidationException $e) {
+        // Handle validation errors
+        return redirect()->route('login.show')
+            ->withInput()
+            ->with('loginError', 'Invalid input. Please check your email and password format.');
+    } catch (\Throwable $e) {
+        // Handle any unexpected errors
+        return redirect()->route('login.show')
+            ->withInput()
+            ->with('loginError', 'An unexpected error occurred. Please try again later.');
+    }
 }
+
    
 
     public function logout()
@@ -119,7 +158,7 @@ public function login(Request $request)
             ]);
     
             session()->flash('success', 'Account data updated successfully.');
-            return redirect()->route('home');
+            return redirect()->route('admin.dashboard');
     
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors())->withInput();
@@ -149,7 +188,7 @@ public function login(Request $request)
         $user->password = Hash::make($request->new_password);
         $user->save();
 
-        return redirect()->route('home')->with('success', 'Password changed successfully!');
+        return redirect()->route('admin.dashboard')->with('success', 'Password changed successfully!');
     }
     /*public function changePassword(Request $request)
 {
@@ -233,16 +272,16 @@ public function login(Request $request)
     
     return redirect()->route('profile')->with('error', 'Unauthorized action');
 }
-public function index()
+/*public function index()
 {
   //  $users = User::all(); // Get all users
      // Getting all users excluding the admins
      $users = User::where('role', '!=', 'admin')->paginate(4);
     return view('list-profile', compact('users'));
-}
+}*/
 
 
-public function updates(Request $request, $id)
+/*public function updates(Request $request, $id)
 {
     $request->validate([
         'full_name' => 'required|string|max:255',
@@ -265,7 +304,7 @@ public function updates(Request $request, $id)
 
     return redirect()->route('users.index', ['id' => $user->id])->with('success', 'Profile updated successfully!');
 }
-
+*/
 public function delete($id)
 {
     // Find the user by ID
@@ -288,7 +327,7 @@ public function delete($id)
 }
 
 
-public function edits($id)
+/*public function edits($id)
 {
     // Find the user by ID, throwing a 404 error if not found
     $user = User::findOrFail($id);
@@ -300,7 +339,7 @@ public function edits($id)
 
     // Proceed to show the edit form with the user data
     return view('edit-profile', compact('user'));
-}
+}*/
 public function search(Request $request)
 {
     $query = User::query();
@@ -325,5 +364,58 @@ public function search(Request $request)
     return view('list-profile', compact('users'));
 }
 
+public function updateProfiles(Request $request)
+{
+   
+    $user = Auth::user();
+
+
+    try {
+        $validated = $request->validate([
+            'full_name' => 'required|string|max:255',
+            'username' => 'required|string|unique:users,username,' . $user->id . '|max:255',
+            'email' => 'required|string|email|unique:users,email,' . $user->id . '|max:255',
+        ]);
+
+        // Update the user's data
+        $user->update([
+            'full_name' => $validated['full_name'],
+            'username' => $validated['username'],
+            'email' => $validated['email'],
+        ]);
+
+        session()->flash('success', 'Account data updated successfully.');
+        return redirect()->route('firstpage');
+
+    } catch (ValidationException $e) {
+        return back()->withErrors($e->errors())->withInput();
+    } catch (Exception $e) {
+        return back()->with('error', 'An unexpected error occurred. Please try again.');
+    }
+}
+public function changePasswords(Request $request)
+{
+    // Validate the password input
+    $validator = Validator::make($request->all(), [
+        'current_password' => 'required|string',
+        'new_password' => 'required|string|min:8|confirmed', // Ensure password is at least 8 characters and matches confirmation
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()->withErrors($validator)->withInput();
+    }
+
+    // Check if current password matches
+    if (!Hash::check($request->current_password, Auth::user()->password)) {
+        return redirect()->back()->with('error', 'Current password is incorrect');
+    }
+
+    // Update the password
+    $user = Auth::user();
+    $user->password = Hash::make($request->new_password);
+    $user->save();
+
+    return redirect()->back()->with('success', 'Password changed successfully!');
+}
 
 }

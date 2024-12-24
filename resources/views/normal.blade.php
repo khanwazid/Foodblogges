@@ -1,3 +1,5 @@
+
+
 <!DOCTYPE html>
 <html lang="zxx">
 
@@ -7,7 +9,6 @@
     <meta name="keywords" content="Foodeiblog, unica, creative, html">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Foodeiblog | Template</title>
 
     <!-- Google Font -->
@@ -24,15 +25,23 @@
     <style>
         .custom-account-link {
     color: black; /* Make the link text black by default */
-    font-style: italic;
+    
     text-decoration: none;
     position: relative;
 }
-
-.custom-account-link:hover {
-    color: orange; /* Change the color to orange on hover */
+.header__btn h5 {
+    color: #000000;
+    text-transform: uppercase;
 }
 
+.custom-account-link {
+    color: #f4952f; 
+}
+
+.custom-account-link:hover {
+    color: black; /* Change the color to orange on hover */
+}
+/*
 .custom-account-link::after {
     content: '';
     display: block;
@@ -42,14 +51,18 @@
     position: absolute;
     bottom: -8px;
     left: -10px;
-    transition: all 0.3s ease; /* Add transition for smooth hover effect */
-}
+    transition: all 0.3s ease; /* Add transition for smooth hover effect 
+}*/
 
 /* Welcome text styling */
-.header__btn h5 {
-    color: black;
-    text-transform: uppercase; /* Set the welcome text to orange */
+/*.header__btn h5 {
+    color: #000000;
 }
+.custom-account-link {
+    color: #FF8C00;
+    display: inline-block;
+}
+*/
 
 .profile-form {
     width: 200%;
@@ -72,7 +85,7 @@
 
 .breadcrumb__text h2:after {
     
-    color: #FFA500;
+    color: #f4952f;
     margin-left: 5px;
 }
 .breadcrumb__text .home-text {
@@ -80,7 +93,7 @@
 }
 
 .breadcrumb__text .account-text {
-    color: #FFA500;
+    color: #f4952f;
 }
 .modal-header {
     border-bottom: none;
@@ -93,21 +106,22 @@
     text-align: center;
     font-size: 24px;
 }
-
+/*
 .button-group {
     display: flex;
     gap: 10px;
     justify-content: center;
     padding: 20px 0;
-}
-
+}*/
+/*
 .site-btn {
     width: 150px;
     padding: 10px 20px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
-}
+}*/
+
 
 /*.cancel-btn {
     background-color: #6c757d;
@@ -119,32 +133,55 @@
 }
 
 
+.button-group {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
 
-        .button-group {
-            display: flex;
-            justify-content: flex-end;
-            gap: 10px;
-        }
-        
+.site-btn {
+    background-color: #f4952f;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 150px;
+    font-weight: 600;
+}
 
-        .change-password-button {
-            border: 2px solid orange;
-            background-color: transparent;
-            color: black;
-            padding: 8px 16px;
-            cursor: pointer;
-            border-radius: 4px;
-            transition: background-color 0.3s, color 0.3s;
-        }
+.site-btn:hover {
+    background-color: #E67317;
+}
 
-        .change-password-button:hover {
-            background-color: orange;
-            color: white;
-        }
+.modal {
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.change-password-button {
+    border: 2px solid #f4952f;
+    background-color: transparent;
+    color: black;
+    padding: 8px 16px;
+    cursor: pointer;
+    font-size: 16px;
+    width: 150px;
+    border-radius: 4px;
+    transition: background-color 0.3s, color 0.3s;
+    font-weight: 600;
+}
+
+.change-password-button:hover {
+    background-color: #F9801A;
+    color: white;
+}
+
+
 
         .logout-button {
     display: inline-block;
-    background-color: orange;
+    background-color: #f4952f;
     color: white;
     padding: 8px 16px;
     border-radius: 0px;
@@ -167,8 +204,9 @@
     padding: 20px;
 }
 
+
 #changePasswordModal .modal-header {
-    background-color: #f8f9fa;
+    background-color: #fff;
     border-bottom: 2px solid #ddd;
     color: #333;
     padding: 15px;
@@ -198,33 +236,33 @@
 }
 
 #changePasswordModal .modal-footer {
-    border-top: 2px solid #ddd;
     padding-top: 10px;
     padding-bottom: 10px;
+    border-top: none; /* Removed the line above buttons */
 }
 
-/* Styling for Cancel and Save buttons */
 #changePasswordModal .btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-    color: #fff;
+    background-color: white;
+    color: black;
     font-weight: 600;
     padding: 8px 16px;
     border-radius: 4px;
+    border: 2px solid #F9801A;
 }
 
+
 #changePasswordModal .btn-secondary:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
+    background-color: #F9801A;
+    color: white;
 }
 
 #changePasswordModal .btn-orange {
-    background-color: darkorange; 
+    background-color: #F9801A; 
     color: white;
     font-weight: 600;
     padding: 8px 16px;
     border-radius: 4px;
-    border: 2px solid darkorange;
+    border: 2px solid #F9801A;
 }
 
 #changePasswordModal .btn-orange:hover {
@@ -232,10 +270,10 @@
     border-color: darkorange;
 }
 
-
 #changePasswordModal .modal-dialog {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+
 
 
 .form-group {
@@ -254,28 +292,6 @@
     display: block;
     margin-bottom: 8px;
 }
-/* Add this to your existing style section */
-
-/* Add this to your existing style section */
-/*select.form-control:focus {
-    border-color: orange !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 165, 0, 0.25) !important;
-}
-
-select.form-control option:hover,
-select.form-control option:checked {
-    background-color: orange !important;
-    color: white !important;
-}
-
-select.form-control:active,
-select.form-control:hover {
-    border-color: orange;
-}
-
-*/
-/* Add this to your existing style section */
-
 
 input::placeholder {
     font-size: 14px;
@@ -285,7 +301,7 @@ input {
     font-size: 14px;
 }
 .btn-orange {
-    background-color: darkorange;
+    background-color: #f4952f;
     color: white;
     border: none;
 }
@@ -293,7 +309,7 @@ input {
 .btn-secondary {
     background-color: white;
     color: black;
-    border: 2px solid darkorange;
+    border: 2px solid orange;
 }
 
     </style>
@@ -304,8 +320,10 @@ input {
     <div id="success-message" class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
         {{ session('success') }}
     </div>
-    @if ($errors->any())
-    <div class="alert alert-danger">
+@endif
+
+@if ($errors->any())
+    <div id="error-message" class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin: 10px 0;">
         <ul>
             @foreach ($errors->all() as $error)
                 <li>{{ $error }}</li>
@@ -313,20 +331,27 @@ input {
         </ul>
     </div>
 @endif
+
 <script>
-    setTimeout(function() {
-        const successMessage = document.getElementById('success-message');
-        if (successMessage) {
-            successMessage.style.transition = "opacity 1s ease";
-            successMessage.style.opacity = 0;
-            setTimeout(function() {
-                successMessage.style.display = 'none';
-            }, 1000); // Wait for fade-out to complete
-        }
-    }, 3000); // Display for 3 seconds
+    // Function to fade out an element
+    function fadeOutMessage(elementId) {
+        setTimeout(function() {
+            const message = document.getElementById(elementId);
+            if (message) {
+                message.style.transition = "opacity 1s ease";
+                message.style.opacity = 0; // Gradually fades out
+                setTimeout(function() {
+                    message.style.display = 'none'; // Remove from display after fade-out
+                }, 1000); // Wait for 1 second for the fade-out effect
+            }
+        }, 3000); // Display for 3 seconds before starting fade-out
+    }
+
+    // Apply fade-out to success and error messages
+    fadeOutMessage('success-message');
+    fadeOutMessage('error-message');
 </script>
 
-@endif
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -353,10 +378,20 @@ input {
                                     <li><a href="{{url('/admin/dashboard')}}">Admin Dashboard</a></li>
                                 @else
                                     <!-- Link for regular users -->
-                                    <li><a href="{{url('/profile')}}">Profile</a></li>
-                                    <li><a href="{{url('/posts')}}">View All post</a></li>
-                                    <li><a href="{{url('/posts/create')}}">Create Posts</a></li>
+                                   {{--   <li><a href="{{url('/profile')}}">Profile</a></li>
+                                    <li><a href="{{url('/posts')}}">View All post</a></li>  
+                                      <li><a href="{{url('/posts/create')}}">Create Posts</a></li>
+                                    --}}
+                                   
+
+                                  
                                     
+                                    <li><a href="{{ route('show.posts', $post->p_id ?? 0) }}">View Post</a></li>
+                                    
+
+
+                                    
+                                  
                                 @endif
                             @endif
                             
@@ -397,11 +432,26 @@ input {
                             <a href="{{ url('/signin') }}" class="primary-btn">Subscribe</a>
                         @endif
                     </div> --}} 
+                  {{--   <div class="header__btn">
+                        @if(Auth::check())
+                            <h5 class="font-weight-bold">Welcome {{ Auth::user()->username }}</h5>
+                             @if (!auth()->user()->isAdmin())
+                                <a href="{{ route('profile') }}" class="custom-account-link">Manage Ur post</a>
+                            @endif
+                        @else
+                            <a href="{{ url('/signin') }}" class="primary-btn">Subscribe</a>
+                        @endif
+                    </div> --}} 
                     <div class="header__btn">
                         @if(Auth::check())
                             <h5 class="font-weight-bold"> {{ Auth::user()->username }}</h5>
-                             @if (!auth()->user()->isAdmin())
-                                <a href="{{ route('profile') }}" class="custom-account-link">Manage Ur post</a>
+                            
+                            <!-- If the user is an admin, show the link to /index -->
+                            @if (auth()->user()->isAdmin())
+                                <a href="{{ url('/admin/dashboard') }}" class="custom-account-link">My Account</a>
+                            @else
+                                <!-- If the user is not an admin, show the "Manage Your Post" link -->
+                                <a href="{{ route('firstpage') }}" class="custom-account-link">My Account</a>
                             @endif
                         @else
                             <a href="{{ url('/signin') }}" class="primary-btn">Subscribe</a>
@@ -412,10 +462,7 @@ input {
                 <!-- Logo Section -->
                 <div class="col-lg-6 col-md-6">
                     <div class="header__logo">
-                        <a href="#">
-                            <img src="{{ asset('img/logo.png') }}" alt="Logo">
-                        </a>
-                        
+                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
                     </div>
                 </div>
                 <!-- Social Section -->
@@ -442,175 +489,81 @@ input {
                            {{--   <h2>Home:My Account</h2> --}}
                             <h2><span class="home-text">Home</span>:<span class="account-text">My Account</span></h2>
                         
-                          {{--  @if(Auth::check())
+                            @if(Auth::check())
                             <!-- Logout Form -->
                             <form action="{{ route('logout') }}" method="POST" class="logout-form">
                                 @csrf
                                 <button type="submit" class="logout-button">LOGOUT</button>
-                                <a href="{{ url('/home') }}" class="logout-button">Back</a>
                             </form>
-                        @endif --}} 
-                        <a href="{{ url('/admin/dashboard') }}" class="logout-button">Back</a>
+                        @endif
                             <div class="breadcrumb__option">
                                 <a href="#">Home</a>
                                 <span>My Account</span>
                             </div>
                         </div>
-                      <div class="row">
-    <div class="col-lg-6 col-md-6">
-        <div class="contact__form">
-            <div class="contact__form__title">
-                <h2>POST DATA</h2>
-                <p>You Can Create Your Post From Here</p>
-            </div>
-            <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data" class="profile-form">
-                @csrf
-
-                <div class="form-group">
-                    <label for="title">Title</label>
-                    <input type="text" 
-                           name="title" 
-                           id="title"
-                           class="form-control @error('title') is-invalid @enderror" 
-                           placeholder="Title*" 
-                           value="{{ old('title') }}"
-                           required>
-                    @error('title')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-
+                      
+                    </div>
                 </div>
-
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea name="description" 
-                              id="description"
-                              class="form-control @error('description') is-invalid @enderror" 
-                              placeholder="Description*" 
-                              required>{{ old('description') }}</textarea>
-                    @error('description')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="form-group">
-                    <label for="categories">Categories</label>
-                    <select name="categories" 
-                            id="categories"
-                            class="form-control @error('categories') is-invalid @enderror" 
-                            required>
-                        <option value="">Select Category*</option>
-                        <option value="breakfast" {{ old('categories') == 'breakfast' ? 'selected' : '' }}>Breakfast</option>
-                        <option value="lunch" {{ old('categories') == 'lunch' ? 'selected' : '' }}>Lunch</option>
-                        <option value="dinner" {{ old('categories') == 'dinner' ? 'selected' : '' }}>Dinner</option>
-                    </select>
-                    @error('categories')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
                 <div class="row">
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="read_time">Read Time (min)</label>
-                            <input type="number" 
-                                   name="read_time" 
-                                   id="read_time"
-                                   class="form-control @error('read_time') is-invalid @enderror" 
-                                   placeholder="Read Time (min)*" 
-                                   value="{{ old('read_time') }}"
-                                   required>
-                                   @error('read_time')
-                                   <div class="invalid-feedback">{{ $message }}</div>
-                               @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="cook_time">Cook Time (min)</label>
-                            <input type="number" 
-                                   name="cook_time" 
-                                   id="cook_time"
-                                   class="form-control @error('cook_time') is-invalid @enderror" 
-                                   placeholder="Cook Time (min)*" 
-                                   value="{{ old('cook_time') }}"
-                                   required>
-                                   @error('cook_time')
-                                   <div class="invalid-feedback">{{ $message }}</div>
-                               @enderror
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="prep_time">Prep Time (min)</label>
-                            <input type="number" 
-                                   name="prep_time" 
-                                   id="prep_time"
-                                   class="form-control @error('prep_time') is-invalid @enderror" 
-                                   placeholder="Prep Time (min)*" 
-                                   value="{{ old('prep_time') }}"
-                                   required>
-                                   @error('prep_time')
-                                   <div class="invalid-feedback">{{ $message }}</div>
-                               @enderror
-                   
-                        </div>
-                    </div>
-                    <div class="col-md-3">
-                        <div class="form-group">
-                            <label for="serves">Serves</label>
-                            <input type="number" 
-                                   name="serves" 
-                                   id="serves"
-                                   class="form-control @error('serves') is-invalid @enderror" 
-                                   placeholder="Serves*" 
-                                   value="{{ old('serves') }}"
-                                   required>
-                                   @error('serves')
-                                   <div class="invalid-feedback">{{ $message }}</div>
-                               @enderror
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-group mb-3">
-                    <label for="header_pic">Header Image</label>
-                    <input type="file" 
-                           name="header_pic" 
-                           id="header_pic"
-                           class="form-control @error('header_pic') is-invalid @enderror"
-                           accept="image/*">
-                    @error('header_pic')
-                        <small class="text-danger">{{ $message }}</small>
-                    @enderror
-                    
-                    <!-- Preview for the uploaded file -->
-                    @if(session('header_pic_path'))
-                        <div class="mt-2">
-                            <p>Uploaded Image Preview:</p>
-                            <img src="{{ asset('storage/' . session('header_pic_path')) }}" 
-                                 alt="Uploaded Image" 
-                                 class="img-thumbnail"
-                                 style="max-width: 100%; height: auto;">
-                        </div>
-                    @endif
-                    <img id="imagePreview" class="img-thumbnail mt-2" style="display: none;" />
-                </div>
-                
-
-                <div class="button-group">
-                    <button type="submit" class="site-btn">SUBMIT</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-                    </div>
-                </div>
-                
-                       
-                
+                    <div class="col-lg-6 col-md-6">
+                        <div class="contact__form">
+                            <div class="contact__form__title">
+                                <h2>Account Data</h2>
+                                <p>You Can Edit Your Account Data From Here</p>
+                            </div>
+                            <form action="{{ route('profile.update') }}" method="POST" class="profile-form">
+                                @csrf
+                                @method('PUT')
+                            
+                                <div class="form-group">
+                                   {{--   <label for="full_name">Full Name</label> --}} 
+                                    <input type="text" 
+                                           name="full_name" 
+                                           id="full_name"
+                                           class="form-control @error('full_name') is-invalid @enderror" 
+                                           placeholder="Full Name*" 
+                                           {{--  value="{{ old('full_name') }}"> --}}
+                                          value="{{ old('full_name', auth()->user()->full_name) }}"> 
+                                    @error('full_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                               
+                            
+                                <div class="form-group">
+                                {{--      <label for="username">Username</label> --}} 
+                                    <input type="text" 
+                                           name="username" 
+                                           id="username"
+                                           class="form-control @error('username') is-invalid @enderror" 
+                                           placeholder="User Name*" 
+                                          {{-- value="{{ old('username') }}">--}}  
+                                         value="{{ old('username', auth()->user()->username) }}">  
+                                    @error('username')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            
+                                <div class="form-group">
+                                   {{--   <label for="email">Email Address</label> --}}
+                                    <input type="email" 
+                                           name="email" 
+                                           id="email"
+                                           class="form-control @error('email') is-invalid @enderror" 
+                                           placeholder="Email Address*" 
+                                           value="{{ old('email', auth()->user()->email) }}"> 
+                                      {{-- value="{{ old('email') }}"> --}}
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            
+                                <div class="button-group">
+                                    <button type="submit" class="site-btn">SUBMIT</button>
+                                    <button type="button" class="change-password-button">CHANGE PASSWORD</button>
+                                </div>
+                            </form>
+                            
                                     
                             {{--  --     
                             <form action="{{ route('profile.update') }}" method="POST">
@@ -640,7 +593,7 @@ input {
             <div class="footer__instagram">
                 <div class="footer__instagram__avatar">
                     <div class="footer__instagram__avatar--pic">
-                        <img src="{{ asset('img/footer/instagram-avatar.jpg') }}" alt="">
+                        <img src="img/footer/instagram-avatar.jpg" alt="">
                     </div>
                     <div class="footer__instagram__avatar--text">
                         <h5>@ foodieblog</h5>
@@ -649,22 +602,22 @@ input {
                 </div>
                 <div class="row">
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="{{ asset('img/footer/ip-1.jpg') }}"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-1.jpg"></div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="{{ asset('img/footer/ip-2.jpg') }}"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-2.jpg"></div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="{{ asset('img/footer/ip-3.jpg') }}"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-3.jpg"></div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="{{ asset('img/footer/ip-4.jpg') }}"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-4.jpg"></div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="{{ asset('img/footer/ip-5.jpg') }}"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-5.jpg"></div>
                     </div>
                     <div class="col-lg-2 col-md-2 col-sm-4 col-6">
-                        <div class="footer__instagram__item set-bg" data-setbg="{{ asset('img/footer/ip-6.jpg') }}"></div>
+                        <div class="footer__instagram__item set-bg" data-setbg="img/footer/ip-6.jpg"></div>
                     </div>
                 </div>
             </div>
@@ -674,7 +627,7 @@ input {
                 <div class="col-lg-12">
                     <div class="footer__text">
                         <div class="footer__logo">
-                            <a href="#"><img src="{{ asset('img/logo.png') }}" alt="Logo"></a>
+                            <a href="#"><img src="img/logo.png" alt=""></a>
                         </div>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                             ut<br /> labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus
@@ -709,42 +662,111 @@ input {
     </div>
     <!-- Search End -->
     <!-- Change Password Modal -->
-  
-    <script>
-        document.getElementById('header_pic').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // Create preview container if it doesn't exist
-                    let previewContainer = document.getElementById('image-preview-container');
-                    if (!previewContainer) {
-                        previewContainer = document.createElement('div');
-                        previewContainer.id = 'image-preview-container';
-                        previewContainer.className = 'mt-3';
-                        event.target.parentElement.appendChild(previewContainer);
-                    }
-                    
-                    // Update preview container content
-                    previewContainer.innerHTML = `
-                        <h6 class="mb-2">Image Preview:</h6>
-                        <img src="${e.target.result}" alt="Preview" style="max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    `;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        </script>
+   
+<div id="changePasswordModal" class="modal" tabindex="-1" role="dialog" >
+    <div class="password">
+        <div class="signin__warp">
+            <div class="signin__content">
+                <div class="signin__logo">
+                    <a href="#"><img src="img/siign-in-logo.png" alt=""></a>
+                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt labore dolore magna aliqua viverra.</p>
+             
+                <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">CHANGE PASSWORD</h5>
+            </div>
+   
+           
+            <div class="modal-body">
+                <form id="changePasswordForm" action="{{ route('change.password') }}" method="POST">
+                    @csrf
+                    <div class="form-group">
+                     
+                        <input type="password" name="current_password" class="form-control" id="current_password"  placeholder="Current Password*"  required>
+                    </div>
+                   
+                    <div class="form-group">
+                       
+                        <input type="password" name="new_password" class="form-control" id="new_password" placeholder="New Password*"  required>
+                    </div>
+                    <div class="form-group">
+                        
+                        <input type="password" name="new_password_confirmation" class="form-control" id="new_password_confirmation"   placeholder="Confirm New Password*"  required>
+                    </div>
+                    <div class="modal-footer">
+                        
+                        <button type="submit" class="btn btn-orange">SAVE CHANGES </button>
+                        <button type="button" class="btn-secondary close-modal">CANCEL</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
+<!-- Modal Trigger -->
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('changePasswordModal');
+    
+    // Show modal
+    document.querySelector('.change-password-button').addEventListener('click', function() {
+        modal.style.display = 'block';
+        modal.classList.add('show');
+        document.body.classList.add('modal-open');
+    });
+
+    // Close modal when clicking outside
+    document.addEventListener('click', function(event) {
+        if (event.target.closest('.modal-content') === null && event.target.closest('.change-password-button') === null) {
+            modal.style.display = 'none';
+            modal.classList.remove('show');
+            document.body.classList.remove('modal-open');
+            const modalBackdrop = document.querySelector('.modal-backdrop');
+            if (modalBackdrop) {
+                modalBackdrop.remove();
+            }
+        }
+    });
+
+     // Close modal function
+     function closeModal() {
+            modal.style.display = 'none';
+            modal.classList.remove('show');
+            document.body.classList.remove('modal-open');
+        }
+
+        // Close modal on cancel button click
+        document.querySelectorAll('.close-modal').forEach(button => {
+            button.addEventListener('click', closeModal);
+        });
+    // Close with ESC key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.classList.contains('show')) {
+            modal.style.display = 'none';
+            modal.classList.remove('show');
+            document.body.classList.remove('modal-open');
+            const modalBackdrop = document.querySelector('.modal-backdrop');
+            if (modalBackdrop) {
+                modalBackdrop.remove();
+            }
+        }
+    });
+});
+
+</script>
 
 
 
     <!-- Js Plugins -->
-    <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
-<script src="{{ asset('js/bootstrap.min.js') }}"></script>
-<script src="{{ asset('js/jquery.slicknav.js') }}"></script>
-<script src="{{ asset('js/owl.carousel.min.js') }}"></script>
-<script src="{{ asset('js/main.js') }}"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.slicknav.js"></script>
+    <script src="js/owl.carousel.min.js"></script>
+    <script src="js/main.js"></script>
     <!-- Add these before closing </body> tag -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>

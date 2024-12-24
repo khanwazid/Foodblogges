@@ -14,13 +14,23 @@ class AdminMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next)
+   public function handle(Request $request, Closure $next)
     {
         if (auth()->check() && auth()->user()->role === 'admin') {
             return $next($request);
         }
         
-        return redirect()->route('home');
+        return redirect()->route('firstpage');
         
     }
+
+
+  /*  public function handle(Request $request, Closure $next)
+{
+    if (auth()->check()) {
+        return redirect()->route('firstpage');
+    }
+    return $next($request);
+}*/
+
 }

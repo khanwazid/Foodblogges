@@ -8,6 +8,12 @@ use App\Models\Post;
 
 class CommentController extends Controller
 {
+    public function index()
+{
+    $posts = Post::with('comments.user')->latest()->get();
+    return view('allcomments', compact('posts'));
+}
+
 /*
 
     public function store(Request $request, $postId)
@@ -39,13 +45,65 @@ class CommentController extends Controller
         $comments = $post->comments()->with('user')->latest()->get();
         return view('comments', compact('post', 'comments'));
     }*/
-    public function show()
+    /*public function show()
 {
     // Fetch all posts, along with their associated comments and users (for displaying usernames)
     $posts = Post::with('comments.user')->latest()->paginate(2);
 
     return view('comments', compact('posts')); // Pass the posts to the view
+}*/
+
+
+
+
+
+
+/*
+public function show($id)
+{
+    $post = Post::with('comments.user')
+        ->where('p_id', $id)
+        ->where('user_id', auth()->id())
+        ->first();
+    
+    if (!$post) {
+        abort(404, 'Post not found or you do not have permission to view this post.');
+    }
+    
+    return view('comments', compact('post'));
+}*/
+/*
+public function show($id)
+{
+    $post = Post::find($id);
+    return view('comments', compact('post'));
+}*/
+/*
+public function show()
+{
+    $post = Post::where('user_id', auth()->id())->first();
+    
+    return view('comments', [
+        'post' => $post,
+        'message' => $post ? null : 'You have no post yet.',
+    ]);
+}*/
+public function show()
+{
+    //$posts = Post::where('user_id', auth()->id())->paginate(1);
+    $posts = Post::latest()->paginate(1);
+
+    return view('comments', [
+        'posts' => $posts,
+       'message' => $posts->isEmpty() ? 'No posts available.' : null,
+    ]);
 }
+
+
+
+
+
+
     public function store(Request $request, $postId)
 {
     // Validate the incoming request
@@ -64,8 +122,11 @@ class CommentController extends Controller
     ]);
 
     // Redirect back to the post page with a success message
-    return redirect()->route('show.posts', $post->p_id)
-                     ->with('success', 'Comment added successfully!');
+    /*return redirect()->route('posts.index', $post->p_id)
+                     ->with('success', 'Comment added successfully!');*/
+                  return redirect()->back()->with('success', 'Comment added successfully!');
+                    // return redirect()->back()->withFragment('comments')->with('success', 'Comment added successfully!');
+
 
 }
 /*public function edit(Comment $comment)

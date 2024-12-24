@@ -22,7 +22,7 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
     <style>
         .custom-account-link {
-            color: orange;
+            color:  #f4952f;
             font-style: italic;
             text-decoration: none;
             position: relative;
@@ -33,7 +33,7 @@
             display: block;
             width: 180%;
             height: 4px;
-            background-color: yellow;
+            background-color: #f4952f;
             position: absolute;
             bottom: -8px;
             left: -10;
@@ -45,9 +45,18 @@
             margin-bottom: 15px;
         }
 
+       /* .breadcrumb__text h2 {
+            color: orange; 
+        }*/
         .breadcrumb__text h2 {
-            color: orange; /* Make "My Account" text orange */
-        }
+    color: #000000;
+}
+
+.breadcrumb__text h2::after {
+    content: 'My Account';
+    color:  #f4952f;
+    margin-left: 5px;
+}
         .button-group {
             display: flex;
             justify-content: flex-end;
@@ -55,9 +64,9 @@
         }
 
         .change-password-button {
-            border: 2px solid orange;
+            border: 2px solid #f4952f;
             background-color: transparent;
-            color: orange;
+            color:#F9801A;
             padding: 8px 16px;
             cursor: pointer;
             border-radius: 4px;
@@ -82,7 +91,7 @@
 }
 
 .admin-name {
-    color: orange;
+    color: black;
     font-weight: 700;
     font-size: 18px;
     margin: 0;
@@ -92,19 +101,22 @@
 
         .logout-button {
     display: inline-block;
-    background-color: orange;
+    background-color: #f4952f; 
     color: white;
+     border: none;
     padding: 8px 16px;
     border-radius: 4px;
     text-decoration: none;
     margin-bottom: 10px;
     float: right; /* Aligns the button to the right */
+    cursor: pointer;
     margin-top: -30px; /* Adjust this value as needed */
 }
 
 .logout-button:hover {
-    background-color: darkorange;
+    background-color: #F9801A;
 }
+
 .management-section {
     padding: 30px 0;
 }
@@ -131,7 +143,7 @@
 .management-button {
     display: inline-block;
     padding: 12px 25px;
-    background-color: orange;
+    background-color: #f4952f;
     color: white;
     border-radius: 5px;
     text-decoration: none;
@@ -139,7 +151,7 @@
 }
 
 .management-button:hover {
-    background-color: darkorange;
+    background-color: #F9801A;
     color: white;
     text-decoration: none;
     transform: translateY(-2px);
@@ -154,12 +166,12 @@
 .management-button.add-new {
     background-color: white;
     color:  #000;
-    border: 2px solid orange;
+    border: 2px solid #f4952f;
     transition: all 0.3s ease;
 }
 
 .management-button.add-new:hover {
-    background-color: orange;
+    background-color: #F9801A;
     color: white;
 }
 
@@ -172,7 +184,7 @@
 .management-button.user-account {
     background-color: white;
     color: #000;
-    border: 2px solid orange;
+    border: 2px solid #f4952f;
     transition: all 0.3s ease;
 }
 
@@ -189,10 +201,40 @@
 
 <body>
     @if (session('success'))
-    <div class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
+    <div id="success-message" class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
         {{ session('success') }}
     </div>
-    @endif
+@endif
+
+@if ($errors->any())
+    <div id="error-message" class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin: 10px 0;">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<script>
+    // Function to fade out an element
+    function fadeOutMessage(elementId) {
+        setTimeout(function() {
+            const message = document.getElementById(elementId);
+            if (message) {
+                message.style.transition = "opacity 1s ease";
+                message.style.opacity = 0; // Gradually fades out
+                setTimeout(function() {
+                    message.style.display = 'none'; // Remove from display after fade-out
+                }, 1000); // Wait for 1 second for the fade-out effect
+            }
+        }, 3000); // Display for 3 seconds before starting fade-out
+    }
+
+    // Apply fade-out to success and error messages
+    fadeOutMessage('success-message');
+    fadeOutMessage('error-message');
+</script>
 
     <!-- Page Preloder -->
     <div id="preloder">
@@ -245,7 +287,7 @@
                     <div class="header__btn">
                         @if(Auth::check())
                         <div class="welcome-admin">
-                            <span class="welcome-text">Welcome</span>
+                           
                             <h5 class="admin-name">{{ Auth::user()->username }}</h5>
                         </div>
                         @else
@@ -280,12 +322,12 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__text">
-                            <h2>Home:My Account</h2>
+                            <h2>Home:</h2>
                             @if(Auth::check())
                             <!-- Logout Form -->
                             <form action="{{ route('logout') }}" method="POST" class="logout-form">
                                 @csrf
-                                <button type="submit" class="logout-button">Logout</button>
+                                <button type="submit" class="logout-button">LOGOUT</button>
                             </form>
                         @endif
                             <div class="breadcrumb__option">
@@ -303,8 +345,8 @@
                             <h3>ACCOUNT</h3>
                             <p>Manage your account from here</p>
                             <div class="button-row">
-                                <a href="{{ route('home') }}" class="management-button">MANAGE ACCOUNT</a>
-                                <a href="{{ route('users.index') }}" class="management-button user-account">MANAGE USERS ACCOUNT</a>
+                                <a href="{{ route('admin.profile') }}" class="management-button">MANAGE ACCOUNT</a>
+                               {{--  <a href="{{ route('users.index') }}" class="management-button user-account">MANAGE USERS ACCOUNT</a> --}} 
                             </div>
                         </div>
                 

@@ -12,6 +12,7 @@ class Post extends Model
     use HasFactory;
     protected $primaryKey = 'p_id';
     public $incrementing = true;
+    protected $keyType = 'int';
     protected $fillable = [
         'title',
         'description',

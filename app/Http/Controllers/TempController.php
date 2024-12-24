@@ -18,5 +18,11 @@ class TempController extends Controller
     public function home(){
         return view('index');
     }
+    public function adminProfile(){
+        return view('adminprofile');
+    }
+    public function normal(){
+        return view('normal');
+    }
     
 }

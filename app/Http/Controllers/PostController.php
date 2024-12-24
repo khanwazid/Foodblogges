@@ -91,7 +91,6 @@ class PostController extends Controller
     return view('admin.list-posts', compact('posts'));
 }
 
-
     public function show($id)
     {
         // Retrieve the post using the provided ID
@@ -262,28 +261,48 @@ public function update(Request $request, $id)
             return redirect()->route('list.post')->with('success', 'Post deleted successfully.');
         }
 
-        public function creates()
+        /*public function creates()
     {
         // Getting all users excluding the admins
         $users = User::where('role', '!=', 'admin')->get();
         
         return view('admin.post-create', compact('users'));
+    }*/
+    public function creates()
+{
+    if (auth()->user()->role === 'admin') {
+        $users = User::where('role', '!=', 'admin')->get();
+        return view('admin.post-create', compact('users'));
     }
+    return redirect()->route('login.show')->with('error', 'Unauthorized access');
+}
+   /* public function creates()
+{
+    // Check if the authenticated user is an admin
+    if (!auth()->check() || auth()->user()->role !== 'admin') {
+        // If the user is not an admin, redirect them to the home page or another page
+        return redirect()->route('login.show')->with('error', 'You do not have permission to create a post.');
+    }
+
+    // If the user is an admin, proceed to the post creation page
+    return view('admin.post-create');
+}*/
     public function stores(Request $request)
     {
+        $request->merge(['user_id' => auth()->id()]);
         // Validate the request data
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'header_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'categories' => 'nullable|string',
+            'categories' => 'required|string',
             'prep_time' => 'required|integer',
             'cook_time' => 'required|integer',
-            'read_time' => 'nullable|integer',
+            'read_time' => 'required|integer',
             'serves' => 'required|integer',
         ]);
-
+      
         // If an image is uploaded, store it
        //  if ($request->hasFile('header_pic')) {
            // $path = $request->file('header_pic')->store('public/images');
@@ -307,7 +326,7 @@ public function update(Request $request, $id)
 
 
 
-        return redirect()->route('list.post')->with('success', 'Recipe created successfully.');
+        return redirect()->route('admin.dashboard')->with('success', 'Recipe created successfully.');
     }
     }
 

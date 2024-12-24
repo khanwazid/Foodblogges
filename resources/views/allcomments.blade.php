@@ -23,108 +23,8 @@
     
     
     <style>
-         .logout-button {
-    display: inline-block;
-    background-color: #f4952f;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 0px;
-    text-decoration: none;
-    margin-bottom: 10px;
-    float: right;
-    margin-top: -30px;
-    border: none;  /* This removes the border */
-    cursor: pointer; /* This adds a pointer cursor on hover */
-}
-
-
-.logout-button:hover {
-    background-color: darkorange;
-}
 
 /* Main Styles */
-.pagination {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-.btn-primary.orange-save {
-    background-color: #f4952f;
-    border-color: #f4952f;
-    color: white;
-}
-
-.btn-primary.orange-save:hover {
-    background-color: #e07f1f;
-    border-color: #e07f1f;
-}
-
-.btn-secondary.black-close {
-    background-color: white;
-    border: 2px solid #f4952f;
-    color: black;
-    transition: all 0.3s ease;
-}
-
-.btn-secondary.black-close:hover {
-    background-color: #f4952f;
-    border-color: #f4952f;
-    color: white;
-}
-
-
-.pagination .btn {
-    padding: 10px 15px;
-    font-size: 16px;
-    background-color: #f4952f !important;
-    color: white !important;
-    border: none !important;
-    transition: background-color 0.3s ease;
-    outline: none !important;
-    box-shadow: none !important;
-    -webkit-tap-highlight-color: transparent; /* Remove highlight on touch devices */
-    -webkit-user-select: none;
-    user-select: none;
-    text-decoration: none !important;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-}
-
-.pagination .btn:hover,
-.pagination .btn:focus,
-.pagination .btn:active,
-.pagination .btn:visited,
-.pagination .btn:focus-visible,
-.pagination .btn:focus-within,
-.pagination .btn:-moz-focus-inner {
-    background-color: #e65c00 !important; /* Dark orange */
-    color: white !important;
-    outline: none !important; /* Remove focus outline */
-    box-shadow: none !important; /* Remove focus shadow */
-    border: none !important;
-    text-decoration: none !important;
-}
-
-.pagination .btn:focus {
-    outline: none !important; /* Ensure no blue outline */
-    box-shadow: none !important; /* Ensure no shadow */
-}
-
-.pagination .btn:active {
-    background-color: #cc5200 !important; /* Slightly darker orange for active click */
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-.pagination .btn.disabled {
-    background-color: #ffb380 !important;
-    cursor: not-allowed;
-    outline: none !important;
-    box-shadow: none !important;
-}
-
-
-
 .post-content {
     background: #fff;
     border-radius: 20px;
@@ -328,8 +228,8 @@ body {
                     <div class="col-lg-8 col-md-10 order-md-2 order-3">
                         <nav class="header__menu">
                             <ul>
-                                {{--   <li><a href="{{url('/normal')}}">Home</a></li>
-                       href="{{url('/index')}}">Home</a></li>
+                                <li><a href="{{url('/home')}}">Home</a></li>
+                        {{--  href="{{url('/index')}}">Home</a></li>
                                 <li><a href="{{url('/about')}}">About</a></li>
                                 <li><a href="{{url('/contact')}}">Contact</a></li> --}}
                             </ul>
@@ -354,168 +254,161 @@ body {
         {{ session('error') }}
     </div>
 @endif
+
 <div class="container">
-    <a href="{{ url('/normal') }}" class="logout-button">BACK</a>
-    
-<!-- Single Post Section Begin -->
-<section class="single-post spad">
-    @foreach ($posts as $post)
-    <div class="single-post__hero set-bg" data-setbg="{{ asset('storage/'.$post->header_pic) }}"></div>
-    <div class="container">
-        <div class="row d-flex justify-content-center">
-            <div class="col-lg-8">
-                <!-- Post Title Section -->
-                <div class="single-post__title">
-                    <div class="single-post__title__meta">
-                        <h2>{{ $post->created_at->format('d') }}</h2>
-                        <span>{{ $post->created_at->format('M') }}</span>
-                    </div>
-                    <div class="single-post__title__text">
-                        <ul class="label">
-                            <li>{{ $post->categories }}</li>
-                        </ul>
-                        <h4>{{ $post->title }}</h4>
-                        <ul class="widget">
-                            <li>by {{ $post->user->username }}</li>
-                            <li>{{ $post->read_time }} min read</li>
-                            <li>{{ $post->comments->count() }} Comments</li>
-                        </ul>
-                    </div>
+                @foreach($posts as  $post)
+               <div class="post-content">
+        
+                <img src="{{ asset('storage/'.$post->header_pic) }}" class="post-image" alt="{{ $post->title }}">
+                
+                
+                <div class="description-section">
+                    <h3 style="color: #ff6600;">Title</h3>
+                    <h4>{{ $post->title }}</h4>
+                </div>
+                <div class="description-section">
+                    <h3 style="color: #ff6600;">Author</h3>
+                    <h4><strong>By:</strong> {{ $post->user->username }}</h4>
                 </div>
 
-                <!-- Recipe Details Section -->
-                <div class="single-post__recipe__details">
-                    <div class="single-post__recipe__details__option">
-                        <ul>
-                            <li>
-                                <h5><i class="fa fa-user-o"></i> SERVES</h5>
-                                <span>{{ $post->serves }} people</span>
-                            </li>
-                            <li>
-                                <h5><i class="fa fa-clock-o"></i> PREP TIME</h5>
-                                <span>{{ $post->prep_time }} mins</span>
-                            </li>
-                            <li>
-                                <h5><i class="fa fa-clock-o"></i> COOK TIME</h5>
-                                <span>{{ $post->cook_time }} mins</span>
-                            </li>
-                        </ul>
+               
+                
+                <div class="recipe-meta">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="meta-item">
+                                <i class="fas fa-clock meta-icon"></i>
+                                <h6>Prep Time</h6>
+                                <p>{{ $post->prep_time }} mins</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="meta-item">
+                                <i class="fas fa-fire meta-icon"></i>
+                                <h6>Cook Time</h6>
+                                <p>{{ $post->cook_time }} mins</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="meta-item">
+                                <i class="fas fa-users meta-icon"></i>
+                                <h6>Serves</h6>
+                                <p>{{ $post->serves }} people</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="meta-item">
+                                <i class="fas fa-book-open meta-icon"></i>
+                                <h6>Read Time</h6>
+                                <p>{{ $post->read_time }} mins</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+                <div class="description-section">
+                    <h4 style="color: #ff6600;">Categories</h4>
+                    <p>{{ $post->categories }}</p>
+                </div>
 
-                <!-- Description Section -->
-                <div class="single-post__desc">
+              
+
+                <div class="description-section">
+                    <h4 style="color: #ff6600;">Description</h4>
                     <p>{{ $post->description }}</p>
                 </div>
-
-                <!-- Comments Section -->
-                <div class="single-post__comment">
-                    <div class="widget__title">
-                        <h4>{{ $post->comments->count() }} Comments</h4>
-                    </div>
-                    
-                    @foreach($post->comments as $comment)
-                    <div class="single-post__comment__item">
-                        <div class="single-post__comment__item__text">
-                            <h5>{{ $comment->user->username }}</h5>
-                            <span>{{ $comment->created_at->format('d M Y') }}</span>
-                            <p>{{ $comment->content }}</p>
-                            
-                            @if(auth()->check() && auth()->id() === $comment->user_id)
-                            <ul>
-                              {{--    <li>
-                                    <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $comment->id }}">
-                                        <i class="fa fa-edit"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <form action="{{ route('comments.destroy', $comment) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn-link">
-                                            <i class="fa fa-trash"></i>
-                                        </button>
-                                    </form>   --}}
-                                </li>
-                            </ul>
-                            @endif
-                        </div>
-                    </div>
-                    
-    <!-- Edit Modal - Place it here inside the foreach loop -->
-    <div class="modal fade" id="editModal{{ $comment->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $comment->id }}" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel{{ $comment->id }}">Edit Comment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form action="{{ route('comments.update', $comment) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <textarea class="form-control" name="content" rows="3" required>{{ $comment->content }}</textarea>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
+                    <!-- Comments Section -->
+                    <div class="comments-section mt-4">
+                        <h5>Comments</h5>
                         
-                        <button type="submit" class="btn btn-primary orange-save">Save changes</button>
-<button type="button" class="btn btn-secondary black-close" data-bs-dismiss="modal">Close</button>
-
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-                    @endforeach
-                </div>
-
-                <!-- Comment Form -->
-                @auth
-                                <div class="single-post__leave__comment">
-                                    <div class="widget__title">
-                                        <h4>Leave a comment</h4>
+                        <div class="comments-list">
+                            @foreach($post->comments as $comment)
+                                <div class="comment-item mb-4 p-3">
+                                    <div class="d-flex justify-content-between">
+                                        <h6 style="color: #ff6600;">{{ $comment->user->username }}</h6>
+                                        <small class="text-muted">{{ $comment->created_at->diffForHumans() }}</small>
                                     </div>
-                                    <form action="{{ route('comments.store', ['postId' => $post->p_id]) }}" method="POST">
-                                        @csrf
-                                        <textarea name="content" placeholder="Share your thoughts..."></textarea>
-                                        <button type="submit" class="site-btn">Submit</button>
-                                    </form>
+                                    <p class="mt-2">{{ $comment->content }}</p>
+                                    
+                                    @if(auth()->check() && auth()->id() === $comment->user_id)
+            <div class="comment-actions">
+                <button type="button" class="btn btn-edit" data-bs-toggle="modal" data-bs-target="#editModal{{ $comment->id }}">
+                    <i class="fa fa-edit"></i> Edit
+                </button>
+                
+                <form action="{{ route('comments.destroy', $comment) }}" method="POST" class="d-inline">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-delete">
+                        <i class="fa fa-trash"></i> Delete
+                    </button>
+                </form>
+                                        </div>
+        
+                                        <!-- Edit Modal -->
+                                        <div class="modal fade" id="editModal{{ $comment->id }}" tabindex="-1">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title">Edit Comment</h5>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                    </div>
+                                                    <form action="{{ route('comments.update', $comment) }}" method="POST">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        <div class="modal-body">
+                                                            <textarea class="form-control" name="content" rows="3">{{ $comment->content }}</textarea>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @endif
+                                </div>
+                            @endforeach
+                        </div>
+        
+                        @auth
+                           {{--   <form action="{{ route('comments.store', ['postId' => $post->p_id]) }}" method="POST" class="mb-5">
+                                @csrf
+                                <div class="form-group">
+                                    <textarea class="form-control" name="content" rows="3" placeholder="Share your thoughts..."></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-3">Post Comment</button>
+                            </form> --}}
+
+                            <div class="single-post__leave__comment">
+                                <div class="widget__title">
+                                    <h4>Leave a comment</h4>
                                 </div>
                                 
-                            @else
-                                <p class="text-center mb-4">
-                                    <a href="{{ route('login') }}" style="color: #ff6600;">Login</a> to leave a comment
-                                </p>
-                            @endauth
-                        </div>
+                                    <form action="{{ route('comments.store', ['postId' => $post->p_id]) }}" method="POST" class="mb-5">
+                                        @csrf
+                                   {{--  <div class="input-list">
+                                        <input type="text" placeholder="Name">
+                                        <input type="text" placeholder="Email">
+                                        <input type="text" placeholder="Website">
+                                    </div>  --}}
+                                    <textarea name="content"  placeholder="Share your thoughts..."></textarea>
+                                    <button type="submit" class="site-btn">Submit</button>
+                                </form>
+                            </div>
+                            
+                        @else
+                            <p class="text-center mb-4">
+                                <a href="{{ route('login') }}" style="color: #ff6600;">Login</a> to leave a comment
+                            </p>
+                        @endauth
                     </div>
                 </div>
             @endforeach
-            <div class="pagination">
-                @if ($posts->onFirstPage())
-                    <span class="btn btn-secondary disabled">Previous</span>
-                @else
-                    <a href="{{ $posts->previousPageUrl() }}" class="btn btn-primary">PREVIOUS</a>
-                @endif
-    
-                @if ($posts->hasMorePages())
-                    <a href="{{ $posts->nextPageUrl() }}" class="btn btn-primary">NEXT</a>
-                @else
-                    <span class="btn btn-secondary disabled">Next</span>
-                @endif
-            </div>
-</section>
-<!-- Single Post Section End -->
-                             
-         
            {{--   <div class="d-flex justify-content-end">
                 {{ $posts->links() }}
             </div> --}}
         </div>
-
-        
        
         <!-- Footer Section Begin -->
     <footer class="footer">

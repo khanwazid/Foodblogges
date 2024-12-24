@@ -25,12 +25,12 @@ class AdminController extends Controller
      public function shown()
      {
          //$comments = Comment::with(['user', 'post'])->latest()->paginate(10);
-         $posts = Post::with('comments.user')->latest()->paginate(2);
+         $posts = Post::with('comments.user')->latest()->paginate(1);
          return view('admin.comment-management', compact('posts'));
      }
  
 
-     public function update(Request $request, Comment $comment)
+     /*public function update(Request $request, Comment $comment)
      {
          $validated = $request->validate([
              'content' => 'required|min:3|max:1000'
@@ -45,4 +45,32 @@ class AdminController extends Controller
          $comment->delete();
          return redirect()->back()->with('success', 'Comment deleted successfully');
      }
+*/
+
+public function update(Request $request, Comment $comment)
+{
+    // Only admin can edit any comment
+    if (auth()->user()->role === 'admin') {
+        $validated = $request->validate([
+            'content' => 'required|min:3|max:1000'
+        ]);
+
+        $comment->update($validated);
+        return redirect()->back()->with('success', 'Comment updated successfully');
+    }
+    
+    abort(403);
+}
+
+public function destroy(Comment $comment)
+{
+    // Only admin can delete any comment
+    if (auth()->user()->role === 'admin') {
+        $comment->delete();
+        return redirect()->back()->with('success', 'Comment deleted successfully');
+    }
+    
+    abort(403);
+}
+
 }

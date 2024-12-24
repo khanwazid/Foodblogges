@@ -51,7 +51,7 @@ Route::get('/admin', function () {
 });
 
 
-Route::get('/index', [TempController::class, 'home']);
+//Route::get('/index', [TempController::class, 'home']);
 Route::get('/about', [TempController::class, 'about']);
 Route::get('/contact', [TempController::class, 'contact']);
 //Route::get('/posts/{id}', [PostController::class, 'show'])->name('posts.show');
@@ -67,26 +67,37 @@ Route::get('/typograohy', function () {
 Route::get('/management', function () {
     return view('management');
 });
+/*Route::get('/normal', function () {
+    return view('normal');
+});*/
 
 
 Route::middleware('auth')->group(function () {
-    Route::post('change-password', [UserController::class, 'changePassword'])->name('change.password');
+    Route::get('/index', [TempController::class, 'home'])->name('firstpage');
+    Route::get('/normal', [TempController::class, 'normal'])->name('normal');
+    Route::post('change-password', [UserController::class, 'changePasswords'])->name('change.password');
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
    // Route::get('/posts/profile', [PostController::class, 'showProfile'])->name('post.profile');
    Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-   Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profile.update');
+   Route::put('/profile/update', [UserController::class, 'updateProfiles'])->name('profile.update');
 
  Route::get('/posts/{id}/edit', [UserController::class, 'edit'])->name('posts.edit');
 Route::put('/posts/{id}', [UserController::class, 'update'])->name('posts.update');
 Route::delete('/posts/{id}', [UserController::class, 'destroy'])->name('posts.destroy');
 Route::get('/home',[TempController::class, 'index'])->name('home');
 
+//Route::get('/posts', [CommentController::class, 'show'])->name('show.posts');
+//Route::get('/post/{id}', [CommentController::class, 'show'])->name('show.posts');
+//Route::get('/posts/{id}', [CommentController::class, 'show'])->name('show.posts');
+Route::get('/posts', [CommentController::class, 'index'])->name('posts.index');
+Route::get('/posts/{p_id}', [CommentController::class, 'show'])->name('show.posts');
+
 
 //Route::post('/posts/{{post:p_id}}/comments', [CommentController::class, 'store'])->name('comments.store');
 //Route::get('/posts/{post:p_id}', [CommentController::class, 'show'])->name('show.posts'); // View post and comments and changed the route name posts.show to show.post
 
-Route::get('/posts', [CommentController::class, 'show'])->name('show.posts');
+//Route::get('/posts', [CommentController::class, 'show'])->name('show.posts');
 Route::post('/posts/{postId}/comments', [CommentController::class, 'store'])->name('comments.store');
 //Route::get('/posts/{post:p_id}', [CommentController::class, 'show'])->name('show.posts');
 
@@ -97,13 +108,16 @@ Route::post('/posts/{postId}/comments', [CommentController::class, 'store'])->na
     Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy');
 
 });
+
+
+
 Route::middleware(['auth', 'admin'])->group(function () {
   
-  
+    Route::get('/adminprofile',[TempController::class, 'adminProfile'])->name('admin.profile');
     Route::get('/admin/comments', [AdminController::class, 'shown'])->name('admin.comments.index');
     Route::put('/admin/comments/{comment}', [AdminController::class, 'update'])->name('admin.comments.update');
     Route::delete('/admin/comments/{comment}', [AdminController::class, 'destroy'])->name('admin.comments.destroy');
-Route::get('/users', [UserController::class, 'index'])->name('users.index');
+//Route::get('/users', [UserController::class, 'index'])->name('users.index');
 Route::put('/profile/{id}/update', [UserController::class, 'updates'])->name('profiles.update');
 Route::get('/profile/{id}/edit', [UserController::class, 'edits'])->name('profile.edit');
 Route::delete('/users/{user}', [UserController::class, 'delete'])->name('users.destroy');
