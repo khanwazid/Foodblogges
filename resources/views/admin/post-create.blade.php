@@ -15,6 +15,8 @@
     <link href="https://fonts.googleapis.com/css?family=Unna:400,700&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/elegant-icons.css') }}" type="text/css">
@@ -22,6 +24,172 @@
     <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
     <style>
+    /* Select2 Container Width */
+.select2-container {
+    width: 100% !important;
+}
+
+/* Select2 Multiple Selection Styling */
+.select2-container--default .select2-selection--multiple {
+    border: 2px solid #ced4da !important;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    padding: 4px 8px !important;
+    min-height: 40px !important;
+    background-color: #f9f9f9 !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+/* Focus State Styling */
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #f4952f !important;
+    box-shadow: 0 0 5px rgba(244, 149, 47, 0.5) !important;
+    outline: none !important;
+}
+
+/* Search Inline Styling */
+.select2-container--default .select2-selection--multiple .select2-search--inline {
+    width: auto !important;
+    flex-grow: 1 !important;
+}
+
+.select2-container--default .select2-search--inline .select2-search__field {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-top: 0 !important;
+    padding: 8px !important;
+    font-size: 14px !important;
+    min-height: 30px !important;
+}
+
+.select2-container--default.select2-container--focus .select2-search--inline .select2-search__field {
+    width: 100% !important;
+}
+
+/* Selected Choices Styling */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #f4952f !important;
+    border: 1px solid #f4952f !important;
+    color: white !important;
+    border-radius: 4px !important;
+    padding: 2px 8px !important;
+    margin: 2px !important;
+}
+
+/* Remove Choice Button Styling */
+.select2-container--default .select2-selection__choice__remove {
+    color: white !important;
+    margin-right: 5px !important;
+    border-right: 1px solid rgba(255,255,255,0.3) !important;
+    padding-right: 5px !important;
+}
+
+.select2-container--default .select2-selection__choice__remove:hover {
+    background-color: #f4952f !important;
+    color: white !important;
+}.select2-container--default .select2-results__option:hover {
+    background-color: #ffcc00 !important;
+    color: black !important;
+}/* Hover effect for dropdown options */
+.select2-results__option:hover {
+    background-color: #ffcc00 !important;
+    color: black !important;
+}
+
+/* Alternate hover style for more specificity */
+.select2-container--default .select2-results__option:hover {
+    background-color: #ffcc00 !important;
+    color: black !important;
+}
+
+/* Ensure the hover effect works even when an option is already selected */
+.select2-container--default .select2-results__option:hover,
+.select2-container--default .select2-results__option[aria-selected=true]:hover {
+    background-color: #ffcc00 !important;
+    color: black !important;
+}
+
+
+/* Dropdown Styling */
+.select2-dropdown {
+    border: 2px solid #f4952f !important;
+    border-radius: 4px !important;
+    margin-top: 5px !important;
+}
+
+/* Results Options Styling */
+.select2-results__option {
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #ffcc00 !important;
+    color: black !important;
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #fff3e6 !important;
+    color: #f4952f !important;
+}
+
+        /* Custom styling for file input placeholder */
+.image-placeholder {
+    display: block;
+    width: 100%;
+    padding: 30px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f8f9fa;
+    color: #888;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.image-placeholder:hover {
+    background-color: #f1f1f1;
+    border-color: #ff6600;
+}
+
+/* Optional icon for image upload */
+.upload-icon {
+    font-size: 40px;
+    color: #ffa500;
+    display: block;
+    margin: 10px 0;
+}
+
+.image-placeholder p {
+    margin: 0;
+}
+
+/* Image preview styling */
+#imagePreview {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin-top: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+}
+
+/* For handling the file input click trigger from placeholder */
+.image-placeholder {
+    position: relative;
+}
+
+.image-placeholder input {
+    display: none;  /* Hide the actual file input */
+}
+
+      
+
+
+
         .custom-account-link {
     color: black; /* Make the link text black by default */
     font-style: italic;
@@ -72,7 +240,7 @@
 
 .breadcrumb__text h2:after {
     
-    color: #FFA500;
+    color: #f4952f;
     margin-left: 5px;
 }
 .breadcrumb__text .home-text {
@@ -232,7 +400,11 @@
     border-color: darkorange;
 }
 
-
+.logout-button:before {
+    content: '←';
+    font-size: 18px;
+    margin-right: 5px;
+}
 #changePasswordModal .modal-dialog {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
@@ -254,27 +426,6 @@
     display: block;
     margin-bottom: 8px;
 }
-/* Add this to your existing style section */
-
-/* Add this to your existing style section */
-/*select.form-control:focus {
-    border-color: orange !important;
-    box-shadow: 0 0 0 0.2rem rgba(255, 165, 0, 0.25) !important;
-}
-
-select.form-control option:hover,
-select.form-control option:checked {
-    background-color: orange !important;
-    color: white !important;
-}
-
-select.form-control:active,
-select.form-control:hover {
-    border-color: orange;
-}
-
-*/
-/* Add this to your existing style section */
 
 
 input::placeholder {
@@ -450,7 +601,7 @@ input {
                                 <a href="{{ url('/home') }}" class="logout-button">Back</a>
                             </form>
                         @endif --}} 
-                        <a href="{{ url('/admin/dashboard') }}" class="logout-button">Back</a>
+                        <a href="{{ url('/admin/dashboard') }}" class="logout-button">BACK</a>
                             <div class="breadcrumb__option">
                                 <a href="#">Home</a>
                                 <span>My Account</span>
@@ -467,7 +618,7 @@ input {
                 @csrf
 
                 <div class="form-group">
-                    <label for="title">Title</label>
+                   
                     <input type="text" 
                            name="title" 
                            id="title"
@@ -482,7 +633,7 @@ input {
                 </div>
 
                 <div class="form-group">
-                    <label for="description">Description</label>
+                    
                     <textarea name="description" 
                               id="description"
                               class="form-control @error('description') is-invalid @enderror" 
@@ -493,26 +644,54 @@ input {
                     @enderror
                 </div>
 
-                <div class="form-group">
-                    <label for="categories">Categories</label>
-                    <select name="categories" 
+               {{-- <div class="form-group">
+                    
+                      <select name="categories[]"  
                             id="categories"
                             class="form-control @error('categories') is-invalid @enderror" 
-                            required>
-                        <option value="">Select Category*</option>
+                           multiple required>
+                       <option value="">Select Category*</option>
                         <option value="breakfast" {{ old('categories') == 'breakfast' ? 'selected' : '' }}>Breakfast</option>
                         <option value="lunch" {{ old('categories') == 'lunch' ? 'selected' : '' }}>Lunch</option>
                         <option value="dinner" {{ old('categories') == 'dinner' ? 'selected' : '' }}>Dinner</option>
+                        <option value="breakfast" {{ in_array('breakfast', $post->categories ?? []) ? 'selected' : '' }}>Breakfast</option>
+                        <option value="lunch" {{ in_array('lunch', $post->categories ?? []) ? 'selected' : '' }}>Lunch</option>
+                        <option value="dinner" {{ in_array('dinner', $post->categories ?? []) ? 'selected' : '' }}>Dinner</option>
+                        <option value="desserts" {{ in_array('desserts', $post->categories ?? []) ? 'selected' : '' }}>Desserts</option>
+                        <option value="appetizers" {{ in_array('appetizers', $post->categories ?? []) ? 'selected' : '' }}>Appetizers</option>
+                        <option value="beverages" {{ in_array('beverages', $post->categories ?? []) ? 'selected' : '' }}>Beverages</option>
+                        <option value="snacks" {{ in_array('snacks', $post->categories ?? []) ? 'selected' : '' }}>Snacks</option>
+                    </select>
+                   
+                    @error('categories')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div> --}}
+                <div class="form-group">
+                    <select name="categories[]" 
+                            id="categories" 
+                            class="form-control select2 @error('categories') is-invalid @enderror" 
+                            multiple>
+                            <option value="">Select Category*</option>
+                        <option value="breakfast">Breakfast</option>
+                        <option value="lunch">Lunch</option>
+                        <option value="dinner">Dinner</option>
+                        <option value="desserts">Desserts</option>
+                        <option value="appetizers">Appetizers</option>
+                        <option value="beverages">Beverages</option>
+                        <option value="snacks">Snacks</option>
                     </select>
                     @error('categories')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
+                
+                
 
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="read_time">Read Time (min)</label>
+                            
                             <input type="number" 
                                    name="read_time" 
                                    id="read_time"
@@ -527,7 +706,7 @@ input {
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="cook_time">Cook Time (min)</label>
+                           
                             <input type="number" 
                                    name="cook_time" 
                                    id="cook_time"
@@ -542,7 +721,7 @@ input {
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="prep_time">Prep Time (min)</label>
+                            
                             <input type="number" 
                                    name="prep_time" 
                                    id="prep_time"
@@ -558,7 +737,7 @@ input {
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="serves">Serves</label>
+                            
                             <input type="number" 
                                    name="serves" 
                                    id="serves"
@@ -574,12 +753,21 @@ input {
                 </div>
 
                 <div class="form-group mb-3">
-                    <label for="header_pic">Header Image</label>
+                  
                     <input type="file" 
                            name="header_pic" 
                            id="header_pic"
                            class="form-control @error('header_pic') is-invalid @enderror"
-                           accept="image/*">
+                           accept="image/*"
+                           style="display: none;">
+    
+                           <!-- Custom placeholder for image upload -->
+                           <div class="image-placeholder" id="imagePlaceholder">
+                               <p>Click to Upload Header Image</p>
+                               <span class="upload-icon">📸🍕</span> 
+                           </div>
+                           
+                           
                     @error('header_pic')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -709,8 +897,54 @@ input {
     </div>
     <!-- Search End -->
     <!-- Change Password Modal -->
-  
     <script>
+        document.getElementById("imagePlaceholder").addEventListener("click", function() {
+    document.getElementById("header_pic").click();
+});
+
+document.getElementById("header_pic").addEventListener("change", function(e) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        // Show preview
+        document.getElementById("imagePreview").style.display = "block";
+        document.getElementById("imagePreview").src = event.target.result;
+        
+        // Keep the placeholder visible but update its content
+        const placeholder = document.getElementById("imagePlaceholder");
+        placeholder.style.display = "block"; // Keep it visible
+        placeholder.innerHTML = `
+            <p>Click to Change Image</p>
+            <span class="upload-icon">🔄</span>
+        `;
+        
+        // Add a preview below the placeholder
+        const previewContainer = document.getElementById("imagePreview");
+        previewContainer.style.marginTop = "15px";
+    };
+    
+    if (e.target.files[0]) {
+        reader.readAsDataURL(e.target.files[0]);
+    }
+});
+
+    </script>
+    {{--  <script>
+        document.getElementById("imagePlaceholder").addEventListener("click", function() {
+    document.getElementById("header_pic").click();  // Trigger the file input click
+});
+
+document.getElementById("header_pic").addEventListener("change", function(e) {
+    var reader = new FileReader();
+    reader.onload = function(event) {
+        document.getElementById("imagePreview").style.display = "block";
+        document.getElementById("imagePreview").src = event.target.result;
+        document.getElementById("imagePlaceholder").style.display = "none";  // Hide placeholder
+    };
+    reader.readAsDataURL(e.target.files[0]);
+});
+    </script>--}}
+  
+    {{--  <script>
         document.getElementById('header_pic').addEventListener('change', function(event) {
             const file = event.target.files[0];
             if (file) {
@@ -734,7 +968,45 @@ input {
                 reader.readAsDataURL(file);
             }
         });
-        </script>
+        </script> --}}
+
+        <script>
+        // Make sure jQuery and Select2 are loaded first
+document.addEventListener('DOMContentLoaded', function() {
+    if (jQuery && jQuery.fn.select2) {
+        $('#categories').select2({
+            placeholder: 'Select Categories (Max 5)*',
+            allowClear: true,
+            maximumSelectionLength: 3,
+            width: '100%',
+            multiple: true,
+            closeOnSelect: false
+        });
+
+        // Force limit to 3 selections
+        $('#categories').on('select2:select', function(e) {
+            var element = $(this);
+            var selected = element.val();
+            
+            if (selected && selected.length > 5) {
+                selected = selected.slice(0, 5);
+                element.val(selected).trigger('change');
+                
+                // Show message
+                var warningDiv = $('<div class="alert alert-warning mt-2">Maximum 5 categories allowed</div>');
+                element.after(warningDiv);
+                setTimeout(function() {
+                    warningDiv.fadeOut('slow', function() {
+                        $(this).remove();
+                    });
+                }, 2000);
+            }
+        });
+    }
+});
+
+            </script>
+            
 
 
 
@@ -748,6 +1020,11 @@ input {
     <!-- Add these before closing </body> tag -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+
+
 
 </body>
 

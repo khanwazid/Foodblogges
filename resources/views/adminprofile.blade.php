@@ -149,6 +149,11 @@
 .logout-button:hover {
     background-color: darkorange;
 }
+.logout-button:before {
+    content: '←';
+    font-size: 18px;
+    margin-right: 5px;
+}
 /* Custom Styles for Change Password Modal */
 #changePasswordModal {
     position: fixed;

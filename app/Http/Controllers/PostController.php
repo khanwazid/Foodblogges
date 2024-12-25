@@ -205,13 +205,15 @@ class PostController extends Controller
 
     return redirect()->route('list.post')->with('success', 'Recipe updated successfully!');
 }*/
-public function update(Request $request, $id)
+/*public function update(Request $request, $id)
 {
     // Validate the input data
     $validated = $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'required|string',
-        'categories' => 'required|string',
+       // 'categories' => 'required|string',
+        'categories' => 'required|array|min:1',  // Ensure categories is an array and not empty
+        'categories.*' => 'string|in:breakfast,lunch,dinner,desserts,appetizers,beverages,snacks',
         'read_time' => 'required|integer|min:1',
         'cook_time' => 'required|integer|min:1',
         'prep_time' => 'required|integer|min:1',
@@ -228,11 +230,11 @@ public function update(Request $request, $id)
       /*  if ($post->header_pic) {
             Storage::delete('public/' . $post->header_pic);
         }  */
-        if ($post->header_pic && Storage::exists('public/' . $post->header_pic)) {
+        /*if ($post->header_pic && Storage::exists('public/' . $post->header_pic)) {
             Storage::delete('public/' . $post->header_pic);
         }
         // Generate custom name and store new image
-        $imageName = Str::random(32) . '.' . $request->file('header_pic')->getClientOriginalExtension();
+        /*$imageName = Str::random(32) . '.' . $request->file('header_pic')->getClientOriginalExtension();
         $request->file('header_pic')->storeAs('public/images', $imageName);
         $validated['header_pic'] = 'images/' . $imageName;
     }
@@ -241,7 +243,40 @@ public function update(Request $request, $id)
     $post->update($validated);
 
     return redirect()->route('list.post')->with('success', 'Recipe updated successfully.');
+}*/public function update(Request $request, $id)
+{
+    $validated = $request->validate([
+        'title' => 'required|string|max:255',
+        'description' => 'required|string',
+        'categories' => 'required|array|min:1|max:3',
+        'categories.*' => 'string|in:breakfast,lunch,dinner,desserts,appetizers,beverages,snacks',
+        'read_time' => 'required|integer|min:1',
+        'cook_time' => 'required|integer|min:1',
+        'prep_time' => 'required|integer|min:1',
+        'serves' => 'required|integer|min:1',
+        'header_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+    ]);
+
+    $post = Post::where('p_id', $id)->firstOrFail();
+
+    // Handle image upload
+    if ($request->hasFile('header_pic')) {
+        if ($post->header_pic && Storage::exists('public/' . $post->header_pic)) {
+            Storage::delete('public/' . $post->header_pic);
+        }
+        $imageName = Str::random(32) . '.' . $request->file('header_pic')->getClientOriginalExtension();
+        $request->file('header_pic')->storeAs('public/images', $imageName);
+        $validated['header_pic'] = 'images/' . $imageName;
+    }
+
+    // Convert categories array to JSON before saving
+    $validated['categories'] = json_encode($request->categories);
+
+    $post->update($validated);
+
+    return redirect()->route('list.post')->with('success', 'Recipe updated successfully.');
 }
+
 
 
         public function destroy($id)
@@ -296,7 +331,9 @@ public function update(Request $request, $id)
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'header_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'categories' => 'required|string',
+            //'categories' => 'required|string',
+        'categories' => 'required|array|min:1',  // Ensure categories is an array and not empty
+        'categories.*' => 'string|in:breakfast,lunch,dinner,desserts,appetizers,beverages,snacks',  // Validate individual categories
             'prep_time' => 'required|integer',
             'cook_time' => 'required|integer',
             'read_time' => 'required|integer',
@@ -323,7 +360,7 @@ public function update(Request $request, $id)
 
         // Create the post
         Post::create($validated);
-
+       
 
 
         return redirect()->route('admin.dashboard')->with('success', 'Recipe created successfully.');

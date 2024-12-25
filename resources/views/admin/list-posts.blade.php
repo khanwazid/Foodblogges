@@ -23,6 +23,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+        .badge-primary {
+    background-color: #f4952f;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin-right: 5px;
+    font-weight: normal;
+}
+
         /* Enhanced Pagination Styling */
 .pagination {
     display: flex;
@@ -81,9 +90,41 @@
             bottom: -8px;
             left: -10;
         }
+  
+        .back-button-wrapper {
+    position: relative;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
 
-       
-        .form-control {
+.logout-button {
+    position: absolute;
+    right: 0; /* Positions the button at the far right */
+    top: 0;
+    display: inline-block;
+    background-color: orange;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;  /* This removes the border */
+    cursor: pointer; 
+
+}
+
+.logout-button:hover {
+    background-color: darkorange;
+}
+  
+
+.logout-button:before {
+    content: '←';
+    font-size: 18px;
+    margin-right: 5px;
+}
+
+
+     .form-control {
             width: 80%; /* Set the input fields to 80% width */
             margin-bottom: 15px;
         }
@@ -505,8 +546,14 @@
                                 <button type="submit" class="logout-button">Logout</button>
                             </form>
                         @endif --}}
+                        <div class="back-button-wrapper">
+                            <a href="{{ url('/admin/dashboard') }}" class="logout-button">BACK</a>
+                        </div>
+                        
                             <div class="breadcrumb__option">
+                               
                                 <a href="#">Home</a>
+                              
                                 <span>My Account</span>
                             </div>
                         </div>
@@ -561,7 +608,18 @@
                                                             <td>{{ $post->cook_time }} min</td>
                                                             <td>{{ $post->prep_time }} min</td>
                                                             <td>{{ $post->serves }}</td>
-                                                            <td>{{ $post->categories }}</td>
+                                                           {{--   <td>{{ $post->categories }}</td> --}}
+                                                           <td>
+                                                            @php
+                                                                $categories = is_string($post->categories) ? json_decode($post->categories, true) : $post->categories;
+                                                            @endphp
+                                                            
+                                                            @if(is_array($categories))
+                                                                {{ implode(', ', array_map('ucfirst', $categories)) }}
+                                                            @endif
+                                                        </td>
+                                                        
+                                                        
                                                             <td>
                                                                 @if($post->header_pic)
                                                                     <img src="{{ asset('storage/' . $post->header_pic) }}" 
@@ -572,11 +630,11 @@
                                                                 @endif
                                                             </td>
                                                             <td>
-                                                                <div class="action-buttons">
-                                                                    <a href="{{ route('posts.show', $post->p_id) }}" 
+                                                               <div class="action-buttons">
+                                                                   {{--   <a href="{{ route('posts.show', $post->p_id) }}" 
                                                                        class="btn-edit">
                                                                        <i class="fa fa-eye"></i> View
-                                                                    </a>
+                                                                    </a> --}}
                                                                     <a href="{{ route('admin.post', $post->p_id) }}" 
                                                                        class="btn-edit">
                                                                        <i class="fa fa-edit"></i> Edit

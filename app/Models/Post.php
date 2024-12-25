@@ -13,6 +13,10 @@ class Post extends Model
     protected $primaryKey = 'p_id';
     public $incrementing = true;
     protected $keyType = 'int';
+    protected $casts = [
+        'categories' => 'array'
+    ];
+    
     protected $fillable = [
         'title',
         'description',

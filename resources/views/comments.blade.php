@@ -37,9 +37,14 @@
     cursor: pointer; /* This adds a pointer cursor on hover */
 }
 
-
+.logout-button:before {
+    content: '←';
+    font-size: 18px;
+    margin-right: 5px;
+}
 .logout-button:hover {
     background-color: darkorange;
+    transform: translateX(-3px);
 }
 
 /* Main Styles */
@@ -305,6 +310,39 @@ body {
         }
        /* Full-width footer */
 
+       .modal-header {
+    border-bottom: 1px solid #ddd;
+    justify-content: center;
+    padding: 20px 20px 15px;
+}
+
+.modal-title {
+    font-weight: bold;
+    text-align: center;
+    width: 100%;
+    color: #333;
+    font-size: 1.25rem;
+}
+
+.modal-footer {
+    border-top: none;
+    display: flex;
+    justify-content: flex-end;  /* Aligns buttons to the right */
+    gap: 15px;
+    padding: 20px;
+}
+
+.modal-content {
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.form-control {
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin: 10px 0;
+}
 
     </style>
 </head>
@@ -340,7 +378,9 @@ body {
                 </div>
             </div>
         </div>
+        <a href="{{ url('/normal') }}" class="logout-button">BACK</a>
     <div class="container mt-5">
+      
         @if(session('success'))
     <div class="alert alert-success" role="alert">
         <i class="fas fa-check-circle me-2"></i>
@@ -355,7 +395,7 @@ body {
     </div>
 @endif
 <div class="container">
-    <a href="{{ url('/normal') }}" class="logout-button">BACK</a>
+    
     
 <!-- Single Post Section Begin -->
 <section class="single-post spad">
@@ -372,7 +412,19 @@ body {
                     </div>
                     <div class="single-post__title__text">
                         <ul class="label">
-                            <li>{{ $post->categories }}</li>
+                      {{--       <li>{{ $post->categories }}</li>  --}}
+                            <li>
+                                @php
+                                    $categories = is_string($post->categories) ? json_decode($post->categories, true) : $post->categories;
+                                @endphp
+                                
+                                @if(is_array($categories))
+                                    {{ implode(', ', $categories) }}
+                                @else
+                                    {{ $categories }}
+                                @endif
+                            </li>
+                            
                         </ul>
                         <h4>{{ $post->title }}</h4>
                         <ul class="widget">
@@ -405,6 +457,7 @@ body {
 
                 <!-- Description Section -->
                 <div class="single-post__desc">
+                    <h5><i class="fa fa-file-text-o"></i> DESCRIPTION</h5>
                     <p>{{ $post->description }}</p>
                 </div>
 
@@ -423,7 +476,7 @@ body {
                             
                             @if(auth()->check() && auth()->id() === $comment->user_id)
                             <ul>
-                              {{--    <li>
+                              <li>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $comment->id }}">
                                         <i class="fa fa-edit"></i>
                                     </a>
@@ -435,7 +488,7 @@ body {
                                         <button type="submit" class="btn-link">
                                             <i class="fa fa-trash"></i>
                                         </button>
-                                    </form>   --}}
+                                    </form>   
                                 </li>
                             </ul>
                             @endif
@@ -444,24 +497,33 @@ body {
                     
     <!-- Edit Modal - Place it here inside the foreach loop -->
     <div class="modal fade" id="editModal{{ $comment->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $comment->id }}" aria-hidden="true">
+       <div class="modal-dialog modal-dialog-centered">
+            <div class="password">
+                <div class="signin__warp">
+                    <div class="signin__content">
+                        <div class="signin__logo">
+                            <a href="#"><img src="{{ asset('img/siign-in-logo.png') }}" alt="Sign In Logo"></a>
+                        </div>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt labore dolore magna aliqua viverra.</p>
+                        
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="editModalLabel{{ $comment->id }}">Edit Comment</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h5 class="modal-title" id="editModalLabel{{ $comment->id }}">EDIT COMMENT</h5>
+                    
                 </div>
                 <form action="{{ route('comments.update', $comment) }}" method="POST">
                     @csrf
                     @method('PUT')
                     <div class="modal-body">
                         <div class="form-group">
-                            <textarea class="form-control" name="content" rows="3" required>{{ $comment->content }}</textarea>
+                            <textarea class="form-control" placeholder="Edit Comment*" name="content" rows="3" required>{{ $comment->content }}</textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
                         
-                        <button type="submit" class="btn btn-primary orange-save">Save changes</button>
-<button type="button" class="btn btn-secondary black-close" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary orange-save">SAVE CHANGES</button>
+<button type="button" class="btn btn-secondary black-close" data-bs-dismiss="modal">CLOSE</button>
 
                     </div>
                 </form>

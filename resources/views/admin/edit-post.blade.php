@@ -10,11 +10,24 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Foodeiblog | Template</title>
 
+    <!-- Include jQuery (required by Select2) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Include Select2 JS -->
+<script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+
+
     <!-- Google Font -->
     <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:300,400,600,700,800,900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Unna:400,700&display=swap" rel="stylesheet">
 
     <!-- Css Styles -->
+
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+   
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/elegant-icons.css') }}" type="text/css">
@@ -22,6 +35,129 @@
     <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
     <style>
+
+
+        /* Select2 Custom Styling */
+/* Select2 Custom Styling for Categories */
+.select2-container--default .select2-selection--multiple {
+    border: 2px solid #ced4da !important;
+    border-radius: 4px !important;
+    font-size: 14px !important;
+    padding: 4px 8px !important;
+    min-height: 40px !important;
+    background-color: #f9f9f9 !important;
+}
+
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #f4952f !important;
+    box-shadow: 0 0 5px rgba(244, 149, 47, 0.5) !important;
+    outline: none !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #f4952f !important;
+    border: 1px solid #f4952f !important;
+    color: white !important;
+    border-radius: 4px !important;
+    padding: 2px 8px !important;
+    margin: 2px !important;
+}
+
+.select2-container--default .select2-selection__choice__remove {
+    color: white !important;
+    margin-right: 5px !important;
+    border-right: 1px solid rgba(255,255,255,0.3) !important;
+    padding-right: 5px !important;
+}
+
+.select2-container--default .select2-selection__choice__remove:hover {
+    background-color: #dc3545 !important;
+    color: white !important;
+}
+
+.select2-container--default .select2-search--inline .select2-search__field {
+    margin-top: 0 !important;
+    padding: 8px !important;
+    font-size: 14px !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #ffcc00 !important;
+    color: black !important;
+}
+
+.select2-dropdown {
+    border: 2px solid #f4952f !important;
+    border-radius: 4px !important;
+    margin-top: 5px !important;
+}
+
+.select2-results__option {
+    padding: 8px 12px !important;
+    font-size: 14px !important;
+}
+
+.select2-container--default .select2-results__option[aria-selected=true] {
+    background-color: #fff3e6 !important;
+    color: #f4952f !important;
+}
+
+
+
+
+
+        /* Custom styling for file input placeholder */
+.image-placeholder {
+    display: block;
+    width: 100%;
+    padding: 30px;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    text-align: center;
+    background-color: #f8f9fa;
+    color: #888;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.image-placeholder:hover {
+    background-color: #f1f1f1;
+    border-color: #ff6600;
+}
+
+/* Optional icon for image upload */
+.upload-icon {
+    font-size: 40px;
+    color: #ffa500;
+    display: block;
+    margin: 10px 0;
+}
+
+.image-placeholder p {
+    margin: 0;
+}
+
+/* Image preview styling */
+#imagePreview {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    margin-top: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+}
+
+/* For handling the file input click trigger from placeholder */
+.image-placeholder {
+    position: relative;
+}
+
+.image-placeholder input {
+    display: none;  /* Hide the actual file input */
+}
+
         .custom-account-link {
     color: black; /* Make the link text black by default */
     font-style: italic;
@@ -47,7 +183,7 @@
 
 /* Welcome text styling */
 .header__btn h5 {
-    color: orange; /* Set the welcome text to orange */
+    color: #f4952f; /* Set the welcome text to orange */
 }
 
 .profile-form {
@@ -65,13 +201,17 @@
     box-sizing: border-box;
     margin-bottom: 15px;
         }
+        .header__btn h5 {
+    color: black;
+    text-transform: uppercase; /* Set the welcome text to orange */
+}
         .breadcrumb__text h2 {
     color: #000000;
 }
 
 .breadcrumb__text h2:after {
     
-    color: #FFA500;
+    color: #f4952f;
     margin-left: 5px;
 }
 .breadcrumb__text .home-text {
@@ -79,7 +219,7 @@
 }
 
 .breadcrumb__text .account-text {
-    color: #FFA500;
+    color: #f4952f;
 }
 .modal-header {
     border-bottom: none;
@@ -127,7 +267,7 @@
         
 
         .change-password-button {
-            border: 2px solid orange;
+            border: 2px solid #f4952f;
             background-color: transparent;
             color: black;
             padding: 8px 16px;
@@ -143,7 +283,7 @@
 
         .logout-button {
     display: inline-block;
-    background-color: orange;
+    background-color: #f4952f;
     color: white;
     padding: 8px 16px;
     border-radius: 0px;
@@ -218,7 +358,7 @@
 }
 
 #changePasswordModal .btn-orange {
-    background-color: orange; 
+    background-color: #f4952f; 
     color: white;
     font-weight: 600;
     padding: 8px 16px;
@@ -274,7 +414,11 @@ select.form-control:hover {
 
 */
 /* Add this to your existing style section */
-
+.logout-button:before {
+    content: '←';
+    font-size: 18px;
+    margin-right: 5px;
+}
 
 input::placeholder {
     font-size: 14px;
@@ -284,7 +428,7 @@ input {
     font-size: 14px;
 }
 .btn-orange {
-    background-color: orange;
+    background-color: #f4952f;
     color: white;
     border: none;
 }
@@ -398,7 +542,7 @@ input {
                     </div> --}} 
                     <div class="header__btn">
                         @if(Auth::check())
-                            <h5 class="font-weight-bold">Welcome {{ Auth::user()->username }}</h5>
+                            <h5 class="font-weight-bold"> {{ Auth::user()->username }}</h5>
                              @if (!auth()->user()->isAdmin())
                                 <a href="{{ route('profile') }}" class="custom-account-link">Manage Ur post</a>
                             @endif
@@ -449,7 +593,7 @@ input {
                                 <a href="{{ url('/home') }}" class="logout-button">Back</a>
                             </form>
                         @endif --}} 
-                        <a href="{{ url('/admin/dashboard') }}" class="logout-button">BACK</a>
+                        <a href="{{ url('/list/post') }}" class="logout-button">BACK</a>
                             <div class="breadcrumb__option">
                                 <a href="#">Home</a>
                                 <span>My Account</span>
@@ -504,7 +648,7 @@ input {
                     @enderror
                 </div>
             
-                <div class="form-group">
+          {{--       <div class="form-group">
                     <select name="categories" 
                             id="categories"
                             class="form-control @error('categories') is-invalid @enderror" 
@@ -517,7 +661,58 @@ input {
                     @error('categories')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
-                </div>
+                </div>--}} 
+               <!-- Replace your existing categories form group with this -->
+               <script>
+jQuery(document).ready(function($) {
+    $('#categories').select2(); // Initialize Select2 on the 'categories' select element
+});
+</script>
+
+<!-- Select2 CSS -->
+<link href="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/css/select2.min.css" rel="stylesheet" />
+
+               <div class="form-group">
+                <label for="categories" class="form-label">Categories</label>
+                <select name="categories[]" 
+                        id="categories" 
+                        class="form-control select2-multiple @error('categories') is-invalid @enderror"
+                        multiple>
+                    @php
+                    $categoryOptions = [
+                        'breakfast' => 'Breakfast',
+                        'lunch' => 'Lunch', 
+                        'dinner' => 'Dinner',
+                        'desserts' => 'Desserts',
+                        'appetizers' => 'Appetizers',
+                        'beverages' => 'Beverages',
+                        'snacks' => 'Snacks'
+                    ];
+                    $selectedCategories = is_string($post->categories) ? 
+                        json_decode($post->categories, true) : 
+                        $post->categories;
+                    @endphp
+            
+                    @foreach($categoryOptions as $value => $label)
+                        <option value="{{ $value }}" 
+                            {{ is_array($selectedCategories) && in_array($value, $selectedCategories) ? 'selected' : '' }}>
+                            {{ $label }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('categories')
+                    <div class="invalid-feedback">{{ $message }}</div>
+                @enderror
+            </div>
+            <script>
+                $(document).ready(function() {
+                    $('#categories').select2(); // Initialize Select2 on the 'categories' select element
+                });
+                </script>
+            
+
+                
+                
             
                 <div class="row">
                     <div class="col-md-3">
@@ -584,7 +779,14 @@ input {
                            id="header_pic"
                            class="form-control @error('header_pic') is-invalid @enderror"
                            accept="image/*"
-                           placeholder="Header Image">
+                           style="display: none;">
+    
+                           <!-- Custom placeholder for image upload -->
+                           <div class="image-placeholder" id="imagePlaceholder">
+                               <p>Click to Upload Header Image</p>
+                               <span class="upload-icon">📸🍕 </span> 
+                              {{--   <span class="upload-icon">📷</span> --}}
+                           </div>
                     @error('header_pic')
                         <small class="text-danger">{{ $message }}</small>
                     @enderror
@@ -737,58 +939,139 @@ input {
                 reader.readAsDataURL(file);
             }
         });
-        </script>--}} 
+        </script>
         <script>
-            document.getElementById('header_pic').addEventListener('change', function(event) {
-    const file = event.target.files[0];
+     document.addEventListener('DOMContentLoaded', function() {
+    const headerPicInput = document.getElementById('header_pic');
+    const imagePlaceholder = document.getElementById('imagePlaceholder');
+    const imagePreview = document.getElementById('imagePreview');
     const currentImage = document.querySelector('.mt-2 img');
-    
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            if (currentImage) {
-                currentImage.style.transition = 'opacity 0.3s ease';
-                currentImage.style.opacity = '0';
+
+    // Trigger file input when clicking on placeholder
+    imagePlaceholder.addEventListener('click', function() {
+        headerPicInput.click();
+    });
+
+    // Handle file selection
+    headerPicInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                // Fade out current image if it exists
+                if (currentImage) {
+                    currentImage.style.transition = 'opacity 0.3s ease';
+                    currentImage.style.opacity = '0';
+                    setTimeout(() => {
+                        currentImage.style.display = 'none';
+                    }, 300);
+                }
+
+                // Show and update preview
+                imagePreview.style.display = 'block';
+                imagePreview.src = e.target.result;
+                imagePreview.style.opacity = '0';
+                imagePreview.style.transition = 'opacity 0.3s ease';
+                
+                // Hide placeholder
+                imagePlaceholder.style.display = 'none';
+
+                // Fade in preview
                 setTimeout(() => {
-                    currentImage.style.display = 'none';
-                }, 300);
-            }
+                    imagePreview.style.opacity = '1';
+                }, 50);
+            };
 
-            let previewContainer = document.getElementById('image-preview-container');
-            if (!previewContainer) {
-                previewContainer = document.createElement('div');
-                previewContainer.id = 'image-preview-container';
-                previewContainer.className = 'mt-3';
-                event.target.parentElement.appendChild(previewContainer);
-            }
-
-            previewContainer.innerHTML = `
-                <h6 class="mb-2">Image Preview:</h6>
-                <img src="${e.target.result}" 
-                     alt="Preview" 
-                     style="max-width: 300px; 
-                            max-height: 200px; 
-                            object-fit: cover; 
-                            border-radius: 8px; 
-                            box-shadow: 0 2px 4px rgba(0,0,0,0.1); 
-                            opacity: 0; 
-                            transition: opacity 0.3s ease;">
-            `;
-
-            setTimeout(() => {
-                previewContainer.querySelector('img').style.opacity = '1';
-            }, 50);
-        };
-        reader.readAsDataURL(file);
-    }
+            reader.readAsDataURL(file);
+        }
+    });
 });
 
+
+        </script>--}} 
+        <script>
+     document.addEventListener('DOMContentLoaded', function() {
+    const headerPicInput = document.getElementById('header_pic');
+    const imagePlaceholder = document.getElementById('imagePlaceholder');
+    const imagePreview = document.getElementById('imagePreview');
+    const currentImage = document.querySelector('.mt-2 img');
+
+    // Trigger file input when clicking on placeholder
+    imagePlaceholder.addEventListener('click', function() {
+        headerPicInput.click();
+    });
+
+    // Handle file selection
+    headerPicInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+
+        if (file) {
+            const reader = new FileReader();
+
+            reader.onload = function(e) {
+                // Hide the current/old image
+                if (currentImage) {
+                    currentImage.parentElement.style.display = 'none';
+                }
+
+                // Update preview
+                imagePreview.style.display = 'block';
+                imagePreview.src = e.target.result;
+                
+                // Update placeholder text
+                imagePlaceholder.innerHTML = `
+                    <p>Click to Change Image</p>
+                    <span class="upload-icon">🔄</span>
+                `;
+                imagePlaceholder.style.padding = '15px';
+                imagePlaceholder.style.marginBottom = '10px';
+                
+                // Show both placeholder and new preview
+                imagePlaceholder.style.display = 'block';
+                imagePreview.style.marginTop = '15px';
+            };
+
+            reader.readAsDataURL(file);
+        }
+    });
+});
+
+
         </script>
+        
+       
+            
+
+    
+            <script>
+                                <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+               
+<script>
+    $(document).ready(function() {
+    $('#categories').select2({
+        theme: 'default',
+        width: '100%',
+        placeholder: 'Select Categories (Max 5)',
+        maximumSelectionLength: 3,
+        closeOnSelect: false,
+        allowClear: true
+    });
+});
+
+</script>
+
+                </script>
+               
+
+                <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
+   
 
 
 
 
-    <!-- Js Plugins -->
+
     <script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('js/jquery.slicknav.js') }}"></script>

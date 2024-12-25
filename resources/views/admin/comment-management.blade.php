@@ -24,19 +24,28 @@
     
     <style>
         .logout-button {
+    
+
     display: inline-block;
-    background-color:  #f4952f; 
+    background-color: #f4952f;
     color: white;
     padding: 8px 16px;
-    border-radius: 4px;
+    border-radius: 0px;
     text-decoration: none;
     margin-bottom: 10px;
-    float: right; /* Aligns the button to the right */
-    margin-top: -30px; /* Adjust this value as needed */
+    float: right;
+    margin-top: -30px;
+    border: none;  /* This removes the border */
+    cursor: pointer;
 }
-
+.logout-button:before {
+    content: '←';
+    font-size: 18px;
+    margin-right: 5px;
+}
 .logout-button:hover {
     background-color:  #F9801A;
+    transform: translateX(-3px);
 }
 .modal-dialog {
     max-width: 500px;
@@ -390,29 +399,14 @@ body {
     </div>
 
     <!-- Header Section Begin -->
-    <header class="header">
-        <div class="header__top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-2 col-md-1 col-6 order-md-1 order-1">
-                        
-                    </div>
-                    <div class="col-lg-8 col-md-10 order-md-2 order-3">
-                        <nav class="header__menu">
-                            <ul>
-                                <li><a href="{{url('admin/dashboard')}}">ADMIN DASHBOARD</a></li>
-                        {{--  href="{{url('/index')}}">Home</a></li>
-                                <li><a href="{{url('/about')}}">About</a></li>
-                                <li><a href="{{url('/contact')}}">Contact</a></li> --}}
-                            </ul>
-                        </nav>
-                    </div>
-                    
-                    </div>
+   
                 </div>
             </div>
+            <a href="{{ url('/admin/dashboard') }}" class="logout-button">BACK</a>
         </div>
+        
     <div class="container mt-5">
+        
         @if(session('success'))
     <div class="alert alert-success" role="alert">
         <i class="fas fa-check-circle me-2"></i>
@@ -427,7 +421,7 @@ body {
     </div>
 @endif
 <div class="container">
-    <a href="{{ url('/admin/dashboard') }}" class="logout-button">BACK</a>
+    
 <!-- Single Post Section Begin -->
 <section class="single-post spad">
     @foreach ($posts as $post)
@@ -476,7 +470,7 @@ body {
 
                 <!-- Description Section improved this section -->
                 <div class="single-post__desc">
-                    <h5><i class="fa fa-clock-o"></i> DESCRIPTION</h5>
+                    <h5><i class="fa fa-file-text-o"></i> DESCRIPTION</h5>
                     <p>{{ $post->description }}</p>
                 </div>
 
