@@ -89,27 +89,9 @@
     background-color: #f4952f !important;
     color: white !important;
 }.select2-container--default .select2-results__option:hover {
-    background-color: #ffcc00 !important;
-    color: black !important;
-}/* Hover effect for dropdown options */
-.select2-results__option:hover {
-    background-color: #ffcc00 !important;
+    background-color: #f4952f !important;
     color: black !important;
 }
-
-/* Alternate hover style for more specificity */
-.select2-container--default .select2-results__option:hover {
-    background-color: #ffcc00 !important;
-    color: black !important;
-}
-
-/* Ensure the hover effect works even when an option is already selected */
-.select2-container--default .select2-results__option:hover,
-.select2-container--default .select2-results__option[aria-selected=true]:hover {
-    background-color: #ffcc00 !important;
-    color: black !important;
-}
-
 
 /* Dropdown Styling */
 .select2-dropdown {
@@ -125,7 +107,7 @@
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #ffcc00 !important;
+    background-color: #f4952f !important;
     color: black !important;
 }
 
@@ -977,7 +959,7 @@ document.addEventListener('DOMContentLoaded', function() {
         $('#categories').select2({
             placeholder: 'Select Categories (Max 5)*',
             allowClear: true,
-            maximumSelectionLength: 3,
+            maximumSelectionLength: 5,
             width: '100%',
             multiple: true,
             closeOnSelect: false

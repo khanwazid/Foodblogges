@@ -248,7 +248,7 @@ class PostController extends Controller
     $validated = $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'required|string',
-        'categories' => 'required|array|min:1|max:3',
+        'categories' => 'required|array|min:1|max:5',
         'categories.*' => 'string|in:breakfast,lunch,dinner,desserts,appetizers,beverages,snacks',
         'read_time' => 'required|integer|min:1',
         'cook_time' => 'required|integer|min:1',

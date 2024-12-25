@@ -36,6 +36,28 @@
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
     <style>
 
+/* Add or modify these styles */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #f4952f !important;
+    color: white !important;
+}
+
+.select2-container--default .select2-results__option:hover {
+    background-color: #f4952f !important;
+    color: white !important;
+}
+
+/* For when an option is both hovered and highlighted */
+.select2-container--default .select2-results__option--highlighted[aria-selected]:hover {
+    background-color: #f4952f !important;
+    color: white !important;
+}
+
+/* For when an option is being actively hovered */
+.select2-container--default .select2-results__option[aria-selected]:hover {
+    background-color: #f4952f !important;
+    color: white !important;
+}
 
         /* Select2 Custom Styling */
 /* Select2 Custom Styling for Categories */
@@ -51,6 +73,7 @@
 .select2-container--default.select2-container--focus .select2-selection--multiple {
     border-color: #f4952f !important;
     box-shadow: 0 0 5px rgba(244, 149, 47, 0.5) !important;
+  
     outline: none !important;
 }
 
@@ -71,7 +94,8 @@
 }
 
 .select2-container--default .select2-selection__choice__remove:hover {
-    background-color: #dc3545 !important;
+    background-color: #f4952f !important;
+    
     color: white !important;
 }
 
@@ -82,7 +106,7 @@
 }
 
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #ffcc00 !important;
+    background-color: #f4952f; !important;
     color: black !important;
 }
 
@@ -625,6 +649,7 @@ input {
                 </div>
             
                 <div class="form-group">
+                    <label for="categories" class="form-label">Title</label>
                     <input type="text" 
                            name="title" 
                            id="title"
@@ -638,6 +663,7 @@ input {
                 </div>
             
                 <div class="form-group">
+                    <label for="categories" class="form-label">Description</label>
                     <textarea name="description" 
                               id="description"
                               class="form-control @error('description') is-invalid @enderror" 
@@ -717,6 +743,7 @@ jQuery(document).ready(function($) {
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
+                            <label for="categories" class="form-label">Read Time</label>
                             <input type="number" 
                                    name="read_time" 
                                    id="read_time"
@@ -731,6 +758,7 @@ jQuery(document).ready(function($) {
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
+                            <label for="categories" class="form-label">Cook Time</label>
                             <input type="number" 
                                    name="cook_time" 
                                    id="cook_time"
@@ -745,6 +773,7 @@ jQuery(document).ready(function($) {
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
+                            <label for="categories" class="form-label">Prep Time </label>
                             <input type="number" 
                                    name="prep_time" 
                                    id="prep_time"
@@ -759,6 +788,7 @@ jQuery(document).ready(function($) {
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
+                            <label for="categories" class="form-label">Serves</label>
                             <input type="number" 
                                    name="serves" 
                                    id="serves"
@@ -1054,11 +1084,37 @@ jQuery(document).ready(function($) {
         theme: 'default',
         width: '100%',
         placeholder: 'Select Categories (Max 5)',
-        maximumSelectionLength: 3,
+        maximumSelectionLength: 5,
         closeOnSelect: false,
-        allowClear: true
+        allowClear: true,
+        language: {
+            maximumSelected: function(args) {
+                var message = $('<div class="select2-error" style="color: #dc3545; padding: 5px; margin-top: 5px;">You can only select a maximum of ' + args.maximum + ' categories</div>');
+                $('.select2-error').remove();
+                $('#categories').parent().append(message);
+                setTimeout(function() {
+                    message.fadeOut(function() {
+                        $(this).remove();
+                    });
+                }, 3000);
+                return 'You can only select ' + args.maximum + ' categories';
+            }
+        }
+    }).on('select2:selecting', function(e) {
+        if ($(this).val() && $(this).val().length >= 5) {
+            e.preventDefault();
+            var errorMessage = $('<div class="select2-error" style="color: #dc3545; padding: 5px; margin-top: 5px;">Maximum 5 categories allowed</div>');
+            $('.select2-error').remove();
+            $(this).parent().append(errorMessage);
+            setTimeout(function() {
+                errorMessage.fadeOut(function() {
+                    $(this).remove();
+                });
+            }, 3000);
+        }
     });
 });
+
 
 </script>
 
