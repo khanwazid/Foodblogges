@@ -656,7 +656,11 @@ input {
                            class="form-control @error('title') is-invalid @enderror" 
                            placeholder="Title*" 
                            value="{{ old('title', $post->title) }}"
-                           required>
+                           required 
+                           minlength="3"
+                           maxlength="255"
+                           pattern="[A-Za-z0-9\s\-_]+"
+                           title="Title must be between 3-255 characters and can contain letters, numbers, spaces, hyphens and underscores">
                     @error('title')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -668,7 +672,10 @@ input {
                               id="description"
                               class="form-control @error('description') is-invalid @enderror" 
                               placeholder="Description*" 
-                              required>{{ $post->description }}</textarea>
+                              required
+                              minlength="10"
+                              maxlength="5000"
+                              title="Description must be between 10-5000 characters">{{ $post->description }}</textarea>
                     @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
@@ -703,7 +710,10 @@ jQuery(document).ready(function($) {
                 <select name="categories[]" 
                         id="categories" 
                         class="form-control select2-multiple @error('categories') is-invalid @enderror"
-                        multiple>
+                        multiple
+                        required
+                        title="Please select between 1 and 5 categories">
+                       
                     @php
                     $categoryOptions = [
                         'breakfast' => 'Breakfast',
@@ -750,7 +760,10 @@ jQuery(document).ready(function($) {
                                    class="form-control @error('read_time') is-invalid @enderror" 
                                    placeholder="Read Time (min)*" 
                                    value="{{ old('read_time', $post->read_time) }}"
-                                   required>
+                                   required
+                                   min="1"
+                                   max="1440"
+                                   title="Read time must be between 1 and 1440 minutes">
                             @error('read_time')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -765,7 +778,10 @@ jQuery(document).ready(function($) {
                                    class="form-control @error('cook_time') is-invalid @enderror" 
                                    placeholder="Cook Time (min)*" 
                                    value="{{ old('cook_time', $post->cook_time) }}" 
-                                   required>
+                                   required
+                                   min="1"
+                                   max="1440"
+                                   title="Cook time must be between 1 and 1440 minutes">
                             @error('cook_time')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -780,7 +796,10 @@ jQuery(document).ready(function($) {
                                    class="form-control @error('prep_time') is-invalid @enderror" 
                                    placeholder="Prep Time (min)*" 
                                    value="{{ old('prep_time', $post->prep_time) }}"
-                                   required>
+                                   required
+                                   min="1"
+                                    max="1440"
+                                    title="Prep time must be between 1 and 1440 minutes">
                             @error('prep_time')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -795,7 +814,10 @@ jQuery(document).ready(function($) {
                                    class="form-control @error('serves') is-invalid @enderror" 
                                    placeholder="Serves*" 
                                    value="{{ old('serves', $post->serves) }}" 
-                                   required>
+                                   required
+                                   min="1"
+                                   max="100"
+                                   title="Serves must be between 1 and 100 people">
                             @error('serves')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
@@ -1075,56 +1097,46 @@ jQuery(document).ready(function($) {
             
 
     
-            <script>
+           
                                 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
                
-<script>
-    $(document).ready(function() {
-    $('#categories').select2({
-        theme: 'default',
-        width: '100%',
-        placeholder: 'Select Categories (Max 5)',
-        maximumSelectionLength: 5,
-        closeOnSelect: false,
-        allowClear: true,
-        language: {
-            maximumSelected: function(args) {
-                var message = $('<div class="select2-error" style="color: #dc3545; padding: 5px; margin-top: 5px;">You can only select a maximum of ' + args.maximum + ' categories</div>');
-                $('.select2-error').remove();
-                $('#categories').parent().append(message);
-                setTimeout(function() {
-                    message.fadeOut(function() {
-                        $(this).remove();
-                    });
-                }, 3000);
-                return 'You can only select ' + args.maximum + ' categories';
-            }
-        }
-    }).on('select2:selecting', function(e) {
-        if ($(this).val() && $(this).val().length >= 5) {
-            e.preventDefault();
-            var errorMessage = $('<div class="select2-error" style="color: #dc3545; padding: 5px; margin-top: 5px;">Maximum 5 categories allowed</div>');
-            $('.select2-error').remove();
-            $(this).parent().append(errorMessage);
-            setTimeout(function() {
-                errorMessage.fadeOut(function() {
-                    $(this).remove();
-                });
-            }, 3000);
-        }
-    });
-});
-
-
-</script>
-
-                </script>
+                               
+                
                
 
                 <script src="https://cdn.jsdelivr.net/npm/select2@4.0.13/dist/js/select2.min.js"></script>
    
 
 
+                <script>
+                    $(document).ready(function() {
+                        $('#categories').select2({
+                            maximumSelectionLength: 5,
+                            language: {
+                                maximumSelected: function() {
+                                    return "You can only select up to 5 categories";
+                                }
+                            }
+                        });
+                    
+                        // Form validation
+                        $('form').on('submit', function(e) {
+                            const selectedCategories = $('#categories').val();
+                            
+                            if (!selectedCategories || selectedCategories.length === 0) {
+                                e.preventDefault();
+                                alert('Please select at least one category');
+                                return false;
+                            }
+                            
+                            if (selectedCategories && selectedCategories.length > 5) {
+                                e.preventDefault();
+                                alert('You cannot select more than 5 categories');
+                                return false;
+                            }
+                        });
+                    });
+                    </script>
 
 
 

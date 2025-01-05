@@ -77,7 +77,7 @@
         <input type="text" 
                class="form-control @error('username') is-invalid @enderror" 
                name="username" 
-               placeholder="User Name*" 
+               placeholder="User Name" 
                value="{{ old('username') }}" 
                autocomplete="off">
         @error('username')

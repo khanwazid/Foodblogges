@@ -248,7 +248,7 @@
                 <div class="row">
                     <div class="col-lg-2 col-md-1 col-6 order-md-1 order-1">
                         <div class="header__humberger">
-                            <i class="fa fa-bars humberger__open"></i>
+                            
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-10 order-md-2 order-3">
@@ -262,7 +262,7 @@
                     </div>
                     <div class="col-lg-2 col-md-1 col-6 order-md-3 order-2">
                         <div class="header__search">
-                            <i class="fa fa-search search-switch"></i>
+                           
                         </div>
                     </div>
                 </div>
@@ -366,6 +366,12 @@
                             <h3>COMMENTS</h3>
                             <p>Manage your comments from here</p>
                             <a href="{{ route('admin.comments.index') }}" class="management-button">MANAGE COMMENTS</a>
+                        </div>
+
+                        <div class="management-item">
+                            <h3>CONTACTS</h3>
+                            <p>Take a look at contacts </p>
+                            <a href="{{ route('admin.contacts') }}" class="management-button">CONTACTS</a>
                         </div>
                     </div>
                 </div>

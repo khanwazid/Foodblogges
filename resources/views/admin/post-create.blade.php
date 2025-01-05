@@ -23,51 +23,99 @@
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
-    <style>
-    /* Select2 Container Width */
-.select2-container {
-    width: 100% !important;
+  
+  
+  <style>
+
+
+        /* Make placeholder text fully visible */
+.select2-container--default .select2-selection--multiple .select2-selection__placeholder {
+    color: #999;
+    display: block;
+    width: 100%;
+    white-space: nowrap;
+    overflow: visible;
+    font-size: 14px;
 }
 
-/* Select2 Multiple Selection Styling */
-.select2-container--default .select2-selection--multiple {
-    border: 2px solid #ced4da !important;
+/* Style for selected items with x on left */
+.select2-container--default .select2-selection--multiple .select2-selection__choice {
+    background-color: #f4952f !important;
+    border: none !important;
+    color: white !important;
     border-radius: 4px !important;
-    font-size: 14px !important;
-    padding: 4px 8px !important;
-    min-height: 40px !important;
-    background-color: #f9f9f9 !important;
+    padding: 2px 8px !important;
+    margin: 2px !important;
     display: flex !important;
     align-items: center !important;
+    flex-direction: row !important; /* Ensure proper ordering */
 }
 
-/* Focus State Styling */
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-    border-color: #f4952f !important;
-    box-shadow: 0 0 5px rgba(244, 149, 47, 0.5) !important;
-    outline: none !important;
-}
-
-/* Search Inline Styling */
-.select2-container--default .select2-selection--multiple .select2-search--inline {
-    width: auto !important;
-    flex-grow: 1 !important;
-}
-
-.select2-container--default .select2-search--inline .select2-search__field {
-    width: 100% !important;
+/* Position x button on the left */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    color: white !important;
+    margin-right: 5px !important;
+    padding-right: 5px !important;
+    border-right: 1px solid rgba(255,255,255,0.3) !important;
+    order: -1 !important; /* Forces the remove button to the start */
     margin-left: 0 !important;
-    margin-top: 0 !important;
-    padding: 8px !important;
-    font-size: 14px !important;
-    min-height: 30px !important;
+    float: left !important;
 }
 
-.select2-container--default.select2-container--focus .select2-search--inline .select2-search__field {
+/* Container styling */
+.select2-container--default .select2-selection--multiple {
+    min-height: 45px !important;
+    padding: 5px 8px !important;
+    width: 100% !important;
+    min-width: 250px !important;
+}
+
+/* Ensure dropdown width matches container */
+.select2-container {
+    width: 100% !important;
+    min-width: 250px !important;
+}
+
+ /* Ensure placeholder text is fully visible */
+.select2-container--default .select2-selection--multiple {
+    min-width: 250px !important; /* Increased minimum width */
+    padding: 8px 12px !important;
+}
+
+.select2-container--default .select2-selection--multiple .select2-selection__placeholder {
+    white-space: nowrap !important;
+    display: block !important;
+    width: auto !important;
+    overflow: visible !important;
+}
+
+/* Prevent text truncation */
+.select2-container {
+    min-width: 250px !important;
     width: 100% !important;
 }
 
-/* Selected Choices Styling */
+/* Style for the placeholder text */
+.select2-container--default .select2-selection--multiple .select2-selection__placeholder {
+    color: #999;
+    width: 100%;
+    display: inline-block;
+    white-space: nowrap;
+    overflow: visible;
+}
+
+/* Ensure the container is wide enough */
+.select2-container--default .select2-selection--multiple {
+    min-height: 40px !important;
+    width: 100% !important;
+}
+
+/* Hide the clear button */
+.select2-container--default .select2-selection--multiple .select2-selection__clear {
+    display: none !important;
+}
+
+/* Style for individual choice items to make them compact */
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     background-color: #f4952f !important;
     border: 1px solid #f4952f !important;
@@ -75,46 +123,57 @@
     border-radius: 4px !important;
     padding: 2px 8px !important;
     margin: 2px !important;
+    display: inline-flex !important; /* Change from flex to inline-flex */
+    align-items: center !important;
+    max-width: fit-content !important; /* Ensure it adjusts to the content size */
 }
 
-/* Remove Choice Button Styling */
-.select2-container--default .select2-selection__choice__remove {
+/* Style for the remove button */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
     color: white !important;
     margin-right: 5px !important;
     border-right: 1px solid rgba(255,255,255,0.3) !important;
     padding-right: 5px !important;
+    order: 1 !important;
 }
 
-.select2-container--default .select2-selection__choice__remove:hover {
-    background-color: #f4952f !important;
+/* Hover effect for the remove button */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    background-color: rgba(255,255,255,0.2) !important;
     color: white !important;
-}.select2-container--default .select2-results__option:hover {
-    background-color: #f4952f !important;
-    color: black !important;
 }
 
-/* Dropdown Styling */
-.select2-dropdown {
-    border: 2px solid #f4952f !important;
+/* Container styling to prevent full-width selected items */
+.select2-container--default .select2-selection--multiple {
+    border: 2px solid #ced4da !important;
     border-radius: 4px !important;
-    margin-top: 5px !important;
+    padding: 4px 8px !important;
+    min-height: 40px !important;
+    background-color: #f9f9f9 !important;
+    display: flex !important; /* Ensure the choices align horizontally */
+    flex-wrap: wrap !important; /* Wrap items if they exceed the container width */
+    gap: 4px; /* Add spacing between items */
 }
 
-/* Results Options Styling */
-.select2-results__option {
-    padding: 8px 12px !important;
-    font-size: 14px !important;
+/* Focus state */
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #2fa5f4 !important;
+    box-shadow: 0 0 5px rgba(244, 149, 47, 0.5) !important;
 }
 
+/* Change the highlight color in the dropdown to orange */
 .select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #f4952f !important;
-    color: black !important;
+    background-color: #f4952f !important; /* Orange background */
+    color: white !important; /* White text for contrast */
 }
 
-.select2-container--default .select2-results__option[aria-selected=true] {
-    background-color: #fff3e6 !important;
-    color: #f4952f !important;
+/* Optional: Adjust hover color in the dropdown to match */
+.select2-container--default .select2-results__option--highlighted:hover {
+    background-color: #e88b28 !important; /* Slightly darker orange for hover effect */
+    color: white !important;
 }
+
+
 
         /* Custom styling for file input placeholder */
 .image-placeholder {
@@ -472,7 +531,7 @@ input {
                 <div class="row">
                     <div class="col-lg-2 col-md-1 col-6 order-md-1 order-1">
                         <div class="header__humberger">
-                            <i class="fa fa-bars humberger__open"></i>
+                            
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-10 order-md-2 order-3">
@@ -510,7 +569,7 @@ input {
                     </div>
                     <div class="col-lg-2 col-md-1 col-6 order-md-3 order-2">
                         <div class="header__search">
-                            <i class="fa fa-search search-switch"></i>
+                            
                         </div>
                     </div>
                 </div>
@@ -600,61 +659,42 @@ input {
                 @csrf
 
                 <div class="form-group">
-                   
-                    <input type="text" 
-                           name="title" 
+                    <input type="text"
+                           name="title"
                            id="title"
-                           class="form-control @error('title') is-invalid @enderror" 
-                           placeholder="Title*" 
+                           class="form-control @error('title') is-invalid @enderror"
+                           placeholder="Title*"
                            value="{{ old('title') }}"
-                           required>
+                           required
+                           minlength="3"
+                           maxlength="255"
+                           pattern="[A-Za-z0-9\s\-_]+"
+                           title="Title must be between 3-255 characters and can contain letters, numbers, spaces, hyphens and underscores">
                     @error('title')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
-
                 </div>
-
+            
                 <div class="form-group">
-                    
-                    <textarea name="description" 
+                    <textarea name="description"
                               id="description"
-                              class="form-control @error('description') is-invalid @enderror" 
-                              placeholder="Description*" 
-                              required>{{ old('description') }}</textarea>
+                              class="form-control @error('description') is-invalid @enderror"
+                              placeholder="Description*"
+                              required
+                              minlength="10"
+                              title="Description must be at least 10 characters long">{{ old('description') }}</textarea>
                     @error('description')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-
-               {{-- <div class="form-group">
-                    
-                      <select name="categories[]"  
-                            id="categories"
-                            class="form-control @error('categories') is-invalid @enderror" 
-                           multiple required>
-                       <option value="">Select Category*</option>
-                        <option value="breakfast" {{ old('categories') == 'breakfast' ? 'selected' : '' }}>Breakfast</option>
-                        <option value="lunch" {{ old('categories') == 'lunch' ? 'selected' : '' }}>Lunch</option>
-                        <option value="dinner" {{ old('categories') == 'dinner' ? 'selected' : '' }}>Dinner</option>
-                        <option value="breakfast" {{ in_array('breakfast', $post->categories ?? []) ? 'selected' : '' }}>Breakfast</option>
-                        <option value="lunch" {{ in_array('lunch', $post->categories ?? []) ? 'selected' : '' }}>Lunch</option>
-                        <option value="dinner" {{ in_array('dinner', $post->categories ?? []) ? 'selected' : '' }}>Dinner</option>
-                        <option value="desserts" {{ in_array('desserts', $post->categories ?? []) ? 'selected' : '' }}>Desserts</option>
-                        <option value="appetizers" {{ in_array('appetizers', $post->categories ?? []) ? 'selected' : '' }}>Appetizers</option>
-                        <option value="beverages" {{ in_array('beverages', $post->categories ?? []) ? 'selected' : '' }}>Beverages</option>
-                        <option value="snacks" {{ in_array('snacks', $post->categories ?? []) ? 'selected' : '' }}>Snacks</option>
-                    </select>
-                   
-                    @error('categories')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div> --}}
+            
                 <div class="form-group">
-                    <select name="categories[]" 
-                            id="categories" 
-                            class="form-control select2 @error('categories') is-invalid @enderror" 
-                            multiple>
-                            <option value="">Select Category*</option>
+                    <select name="categories[]"
+                            id="categories"
+                            class="form-control select2 @error('categories') is-invalid @enderror"
+                            multiple
+                            required>
+                        <option value=""> 'Select Categories ',</option>
                         <option value="breakfast">Breakfast</option>
                         <option value="lunch">Lunch</option>
                         <option value="dinner">Dinner</option>
@@ -667,69 +707,77 @@ input {
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-                
-                
-
+            
                 <div class="row">
                     <div class="col-md-3">
                         <div class="form-group">
-                            
-                            <input type="number" 
-                                   name="read_time" 
+                            <input type="number"
+                                   name="read_time"
                                    id="read_time"
-                                   class="form-control @error('read_time') is-invalid @enderror" 
-                                   placeholder="Read Time (min)*" 
+                                   class="form-control @error('read_time') is-invalid @enderror"
+                                   placeholder="Read Time (min)*"
                                    value="{{ old('read_time') }}"
-                                   required>
-                                   @error('read_time')
-                                   <div class="invalid-feedback">{{ $message }}</div>
-                               @enderror
+                                   required
+                                   min="1"
+                                   max="1440"
+                                   title="Read time must be between 1 and 1440 minutes">
+                            @error('read_time')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
+            
                     <div class="col-md-3">
                         <div class="form-group">
-                           
-                            <input type="number" 
-                                   name="cook_time" 
+                            <input type="number"
+                                   name="cook_time"
                                    id="cook_time"
-                                   class="form-control @error('cook_time') is-invalid @enderror" 
-                                   placeholder="Cook Time (min)*" 
+                                   class="form-control @error('cook_time') is-invalid @enderror"
+                                   placeholder="Cook Time (min)*"
                                    value="{{ old('cook_time') }}"
-                                   required>
-                                   @error('cook_time')
-                                   <div class="invalid-feedback">{{ $message }}</div>
-                               @enderror
+                                   required
+                                   min="1"
+                                   max="1440"
+                                   title="Cook time must be between 1 and 1440 minutes">
+                            @error('cook_time')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
+            
                     <div class="col-md-3">
                         <div class="form-group">
-                            
-                            <input type="number" 
-                                   name="prep_time" 
+                            <input type="number"
+                                   name="prep_time"
                                    id="prep_time"
-                                   class="form-control @error('prep_time') is-invalid @enderror" 
-                                   placeholder="Prep Time (min)*" 
+                                   class="form-control @error('prep_time') is-invalid @enderror"
+                                   placeholder="Prep Time (min)*"
                                    value="{{ old('prep_time') }}"
-                                   required>
-                                   @error('prep_time')
-                                   <div class="invalid-feedback">{{ $message }}</div>
-                               @enderror
-                   
+                                   required
+                                   min="1"
+                                   max="1440"
+                                   title="Prep time must be between 1 and 1440 minutes">
+                            @error('prep_time')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
+            
                     <div class="col-md-3">
                         <div class="form-group">
-                            
-                            <input type="number" 
-                                   name="serves" 
+                            <input type="number"
+                                   name="serves"
                                    id="serves"
-                                   class="form-control @error('serves') is-invalid @enderror" 
-                                   placeholder="Serves*" 
+                                   class="form-control @error('serves') is-invalid @enderror"
+                                   placeholder="Serves*"
                                    value="{{ old('serves') }}"
-                                   required>
-                                   @error('serves')
-                                   <div class="invalid-feedback">{{ $message }}</div>
-                               @enderror
+                                   required
+                                   min="1"
+                                   max="100"
+                                   title="Serves must be between 1 and 100 people">
+                            @error('serves')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                 </div>
@@ -953,42 +1001,35 @@ document.getElementById("header_pic").addEventListener("change", function(e) {
         </script> --}}
 
         <script>
-        // Make sure jQuery and Select2 are loaded first
-document.addEventListener('DOMContentLoaded', function() {
-    if (jQuery && jQuery.fn.select2) {
-        $('#categories').select2({
-            placeholder: 'Select Categories (Max 5)*',
-            allowClear: true,
-            maximumSelectionLength: 5,
-            width: '100%',
-            multiple: true,
-            closeOnSelect: false
-        });
-
-        // Force limit to 3 selections
-        $('#categories').on('select2:select', function(e) {
-            var element = $(this);
-            var selected = element.val();
-            
-            if (selected && selected.length > 5) {
-                selected = selected.slice(0, 5);
-                element.val(selected).trigger('change');
-                
-                // Show message
-                var warningDiv = $('<div class="alert alert-warning mt-2">Maximum 5 categories allowed</div>');
-                element.after(warningDiv);
-                setTimeout(function() {
-                    warningDiv.fadeOut('slow', function() {
-                        $(this).remove();
-                    });
-                }, 2000);
-            }
-        });
-    }
+            document.addEventListener('DOMContentLoaded', function () {
+                if (jQuery && jQuery.fn.select2) {
+                   
+                    $('#categories').select2({
+    placeholder: 'Select  Categories',
+    allowClear: true,
+    maximumSelectionLength: 5,
+    width: '100%',
+    multiple: true,
+    closeOnSelect: false,
+    selectionCssClass: 'select2-selection--custom'
 });
 
-            </script>
-            
+        
+                    // Enforce limit without displaying a message
+                    $('#categories').on('select2:select', function (e) {
+                        var element = $(this);
+                        var selected = element.val();
+        
+                        if (selected && selected.length > 5) {
+                            // Limit selection to 5 items
+                            selected = selected.slice(0, 5);
+                            element.val(selected).trigger('change');
+                        }
+                    });
+                }
+            });
+        </script>
+        
 
 
 

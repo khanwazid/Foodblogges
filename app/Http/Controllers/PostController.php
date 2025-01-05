@@ -332,7 +332,7 @@ class PostController extends Controller
             'description' => 'required|string',
             'header_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             //'categories' => 'required|string',
-        'categories' => 'required|array|min:1',  // Ensure categories is an array and not empty
+        'categories' => 'required|array|min:1|max:5',  // Ensure categories is an array and not empty
         'categories.*' => 'string|in:breakfast,lunch,dinner,desserts,appetizers,beverages,snacks',  // Validate individual categories
             'prep_time' => 'required|integer',
             'cook_time' => 'required|integer',

@@ -6,6 +6,7 @@ use App\Http\Controllers\TempController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommentController;
+use App\Http\Controllers\ContactController;
 
 /*
 |--------------------------------------------------------------------------
@@ -73,6 +74,7 @@ Route::get('/management', function () {
 
 
 Route::middleware('auth')->group(function () {
+    Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
     Route::get('/index', [TempController::class, 'home'])->name('firstpage');
     Route::get('/normal', [TempController::class, 'normal'])->name('normal');
     Route::post('change-password', [UserController::class, 'changePasswords'])->name('change.password');
@@ -112,7 +114,9 @@ Route::post('/posts/{postId}/comments', [CommentController::class, 'store'])->na
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
+
   
+    Route::get('/admin/contacts', [ContactController::class, 'index'])->name('admin.contacts');
     Route::get('/adminprofile',[TempController::class, 'adminProfile'])->name('admin.profile');
     Route::get('/admin/comments', [AdminController::class, 'shown'])->name('admin.comments.index');
     Route::put('/admin/comments/{comment}', [AdminController::class, 'update'])->name('admin.comments.update');

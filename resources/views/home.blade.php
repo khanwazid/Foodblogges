@@ -169,7 +169,7 @@
                 <div class="row">
                     <div class="col-lg-2 col-md-1 col-6 order-md-1 order-1">
                         <div class="header__humberger">
-                            <i class="fa fa-bars humberger__open"></i>
+                            
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-10 order-md-2 order-3">
@@ -261,7 +261,7 @@
                     </div>
                     <div class="col-lg-2 col-md-1 col-6 order-md-3 order-2">
                         <div class="header__search">
-                            <i class="fa fa-search search-switch"></i>
+                           
                         </div>
                     </div>
                 </div>
@@ -731,7 +731,7 @@
                             </div>
                             <div class="col-lg-12 text-center">
                                 <div class="load__more__btn">
-                                    <a href="#">Load more</a>
+                                  
                                 </div>
                             </div>
                         </div>
@@ -746,7 +746,7 @@
                                 <h6>Hi every one! I,m <span>Lena Mollein.</span></h6>
                                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
                                     incididunt ut labore et dolore magna aliqua.</p>
-                                <a href="#" class="primary-btn">Read more</a>
+                               
                             </div>
                             <div class="sidebar__follow__item">
                                 <div class="sidebar__item__title">
@@ -834,17 +834,10 @@
                             </div>
                             <div class="sidebar__subscribe__item">
                                 <div class="sidebar__item__title">
-                                    <h6>Subscribe</h6>
+                                   
                                 </div>
-                                <p>Subscribe to our newsletter and get our newest updates right on your inbox.</p>
-                                <form action="#">
-                                    <input type="text" class="email-input" placeholder="Your email">
-                                    <label for="s-agree-check">
-                                        I agree to the terms & conditions
-                                        <input type="checkbox" id="s-agree-check">
-                                        <span class="checkmark"></span>
-                                    </label>
-                                    <button type="submit" class="site-btn">Subscribe</button>
+                                
+                                    
                                 </form>
                             </div>
                         </div>

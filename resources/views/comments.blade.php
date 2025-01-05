@@ -23,6 +23,36 @@
     
     
     <style>
+         .no-image-container {
+    background: linear-gradient(45deg, #f3f3f3, #e9e9e9);
+    height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    border-radius: 8px;
+}
+
+.no-image-content {
+    padding: 2rem;
+    color: red;
+}
+
+.no-image-content i {
+    margin-bottom: 1rem;
+    color: #999;
+}
+
+.no-image-content h3 {
+    font-size: 24px;
+    margin-bottom: 0.5rem;
+    color: red;
+}
+
+.no-image-content p {
+    font-size: 16px;
+    color: red;
+}
          .logout-button {
     display: inline-block;
     background-color: #f4952f;
@@ -400,7 +430,20 @@ body {
 <!-- Single Post Section Begin -->
 <section class="single-post spad">
     @foreach ($posts as $post)
-    <div class="single-post__hero set-bg" data-setbg="{{ asset('storage/'.$post->header_pic) }}"></div>
+    
+    <div class="single-post__hero">
+        @if($post->header_pic && Storage::exists($post->header_pic))
+            <div class="set-bg" data-setbg="{{ asset('storage/'.$post->header_pic) }}"></div>
+        @else
+            <div class="no-image-container">
+                <div class="no-image-content">
+                    <i class="fa fa-picture-o fa-4x"></i>
+                    <h3>No Recipe Image Available</h3>
+                    <p>Stay tuned for a visual treat coming soon!</p>
+                </div>
+            </div>
+        @endif
+    </div>
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-8">

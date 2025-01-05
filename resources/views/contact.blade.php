@@ -24,6 +24,43 @@
 </head>
 
 <body>
+    <body>
+        @if (session('success'))
+        <div id="success-message" class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
+            {{ session('success') }}
+        </div>
+    @endif
+    
+    @if ($errors->any())
+        <div id="error-message" class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin: 10px 0;">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+    
+    <script>
+        // Function to fade out an element
+        function fadeOutMessage(elementId) {
+            setTimeout(function() {
+                const message = document.getElementById(elementId);
+                if (message) {
+                    message.style.transition = "opacity 1s ease";
+                    message.style.opacity = 0; // Gradually fades out
+                    setTimeout(function() {
+                        message.style.display = 'none'; // Remove from display after fade-out
+                    }, 1000); // Wait for 1 second for the fade-out effect
+                }
+            }, 3000); // Display for 3 seconds before starting fade-out
+        }
+    
+        // Apply fade-out to success and error messages
+        fadeOutMessage('success-message');
+        fadeOutMessage('error-message');
+    </script>
+    
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -37,20 +74,8 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li><a href="{{url('/index')}}"">Home</a></li>
-                <li><a href="#">Recipes</a></li>
-                <li><a href="#">Dinner</a></li>
-                <li><a href="#">Desserts</a></li>
-                <li class="dropdown"><a href="#">Pages</a>
-                    <ul class="dropdown__menu">
-                        <li><a href="{{url('/home')}}">Categories Grid</a></li>
-                        <li><a href="{{url('/catgories')}}">Categories List</a></li>
-                        <li><a href="{{url('/single')}}">Single Post</a></li>
-                        <li><a href="{{url('/signin')}}">Sign In</a></li>
-                        <li><a href="{{url('/four')}}">404</a></li>
-                        <li><a href="{{url('/typography')}}">Typography</a></li>
-                    </ul>
-                </li>
+                <li><a href="{{url('/index')}}">Home</a></li>
+               
                 <li><a href="{{url('/about')}}">About</a></li>
                 <li class="active"><a href="{{url('/contact')}}">Contact</a></li>
             </ul>
@@ -97,80 +122,23 @@
                 <div class="row">
                     <div class="col-lg-2 col-md-1 col-6 order-md-1 order-1">
                         <div class="header__humberger">
-                            <i class="fa fa-bars humberger__open"></i>
+                            
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-10 order-md-2 order-3">
                         <nav class="header__menu">
                             <ul>
-                                <li><a href="./index.html">Home</a></li>
-                                <li><a href="#">Recipes</a>
-                                    <div class="header__megamenu__wrapper">
-                                        <div class="header__megamenu">
-                                            <div class="header__megamenu__item">
-                                                <div class="header__megamenu__item--pic set-bg"
-                                                    data-setbg="img/megamenu/p-1.jpg">
-                                                    <div class="label">Vegan</div>
-                                                </div>
-                                                <div class="header__megamenu__item--text">
-                                                    <h5><a href="#">How to Make a Milkshake With Any Ice Cream ...</a>
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                            <div class="header__megamenu__item">
-                                                <div class="header__megamenu__item--pic set-bg"
-                                                    data-setbg="img/megamenu/p-2.jpg">
-                                                    <div class="label">Vegan</div>
-                                                </div>
-                                                <div class="header__megamenu__item--text">
-                                                    <h5><a href="#">How to Make a Milkshake With Any Ice Cream ...</a>
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                            <div class="header__megamenu__item">
-                                                <div class="header__megamenu__item--pic set-bg"
-                                                    data-setbg="img/megamenu/p-3.jpg">
-                                                    <div class="label">Vegan</div>
-                                                </div>
-                                                <div class="header__megamenu__item--text">
-                                                    <h5><a href="#">How to Make a Milkshake With Any Ice Cream ...</a>
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                            <div class="header__megamenu__item">
-                                                <div class="header__megamenu__item--pic set-bg"
-                                                    data-setbg="img/megamenu/p-4.jpg">
-                                                    <div class="label">Vegan</div>
-                                                </div>
-                                                <div class="header__megamenu__item--text">
-                                                    <h5><a href="#">How to Make a Milkshake With Any Ice Cream ...</a>
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                            <div class="header__megamenu__item">
-                                                <div class="header__megamenu__item--pic set-bg"
-                                                    data-setbg="img/megamenu/p-5.jpg">
-                                                    <div class="label">Vegan</div>
-                                                </div>
-                                                <div class="header__megamenu__item--text">
-                                                    <h5><a href="#">How to Make a Milkshake With Any Ice Cream ...</a>
-                                                    </h5>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li><a href="#">Dinner</a></li>
-                                <li><a href="#">Desserts</a></li>
-                                <li><a href="#">Vegan</a></li>
-                                <li><a href="./about.html">About</a></li>
-                                <li><a href="./contact.html">Contact</a></li>
+                               
+                                <li><a href="{{url('/index')}}">Home</a></li>
+                                <li><a href="{{url('/about')}}">About</a></li>
+                                <li><a href="{{url('/contact')}}">Contact</a></li>
+                               
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-2 col-md-1 col-6 order-md-3 order-2">
                         <div class="header__search">
-                            <i class="fa fa-search search-switch"></i>
+                          
                         </div>
                     </div>
                 </div>
@@ -180,7 +148,7 @@
             <div class="row">
                 <div class="col-lg-3 col-md-3">
                     <div class="header__btn">
-                        <a href="./signin.html" class="primary-btn">Subscribe</a>
+                    
                     </div>
                 </div>
                 <div class="col-lg-6 col-md-6 col-md-2">
@@ -225,22 +193,29 @@
                                 height="350" style="border:0;" allowfullscreen="" aria-hidden="false"
                                 tabindex="0"></iframe>
                         </div>
+                        @auth
                         <div class="contact__widget">
-                            <ul>
-                                <li>
-                                    <i class="fa fa-map-marker"></i>
-                                    <span>John Doe, 123 Main St Chicago, IL 60626</span>
-                                </li>
-                                <li>
-                                    <i class="fa fa-mobile"></i>
-                                    <span>Phone: 258-556-189</span>
-                                </li>
-                                <li>
-                                    <i class="fa fa-envelope-o"></i>
-                                    <span>Email: info@greenorganic.com</span>
-                                </li>
-                            </ul>
+                            <div class="contact__widget">
+                                <ul>
+                                   
+                                    <li>
+                                        <i class="fa fa-user"></i>
+                                        <span>Name: {{ Auth::user()->full_name ?? 'No name provided' }}</span>
+                                    </li>
+                                    <li>
+                                        <i class="fa fa-envelope-o"></i>
+                                        <span>Email: {{ Auth::user()->email }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
                         </div>
+                    @else
+                        <div class="contact__widget">
+                            <p>Please login to view your contact information</p>
+                        </div>
+                    @endauth
+                    
                     </div>
                     <div class="col-lg-6 col-md-6">
                         <div class="contact__form">
@@ -249,13 +224,42 @@
                                 <p>My experience with Realy is absolutely positive. The themes are beautifully designed
                                     and well documented. Realy theme provides quick support.</p>
                             </div>
-                            <form action="#">
+                       {{--      <form action="#">
                                 <input type="text" placeholder="Name">
                                 <input type="text" placeholder="Email">
                                 <input type="text" placeholder="Website">
                                 <textarea placeholder="Message"></textarea>
                                 <button type="submit" class="site-btn">Submit</button>
+                            </form>  --}}
+                            <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
+                                @csrf
+                                
+                                <input type="text" name="full_name" placeholder="Name" 
+                                       value="{{ old('full_name', Auth::user()->full_name ?? '') }}" 
+                                       required minlength="2" maxlength="255" 
+                                       pattern="[A-Za-z\s]+" 
+                                       title="Name should only contain letters and spaces">
+                            
+                                <input type="email" name="email" placeholder="Email" 
+                                       value="{{ old('email', Auth::user()->email ?? '') }}" 
+                                       required maxlength="255" 
+                                       pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
+                                       title="Please enter a valid email address">
+                            
+                                <input type="text" name="website" placeholder="Website" 
+                                       value="{{ old('website') }}" 
+                                       pattern="https?://.*" 
+                                       title="Please enter a valid URL, starting with http:// or https://">
+                                
+                                <textarea name="message" placeholder="Message" 
+                                          required minlength="10" 
+                                          maxlength="1000" 
+                                          title="Message must be at least 10 characters long">{{ old('message') }}</textarea>
+                                
+                                <button type="submit" class="site-btn">Submit</button>
                             </form>
+                            
+                            
                         </div>
                     </div>
                 </div>
