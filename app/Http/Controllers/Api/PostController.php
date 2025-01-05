@@ -15,6 +15,14 @@ class PostController extends Controller
 {
     public function store(Request $request)
 {
+     // First validate the user role
+     if ($request->user()->role !== 'admin') {
+        // Add more descriptive message for non-admin users
+        return response()->json([
+            'success' => false,
+            'message' => 'Only administrators can create new posts. Please contact an administrator for assistance.',
+            'role' => $request->user()->role
+        ], 403);}
     try {
         // Validate the incoming request data
         $validatedData = $request->validate([
