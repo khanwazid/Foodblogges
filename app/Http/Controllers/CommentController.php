@@ -104,7 +104,7 @@ public function show()
 
 
 
-    public function store(Request $request, $postId)
+ /*   public function store(Request $request, $postId)
 {
     // Validate the incoming request
     $request->validate([
@@ -123,12 +123,42 @@ public function show()
 
     // Redirect back to the post page with a success message
     /*return redirect()->route('posts.index', $post->p_id)
-                     ->with('success', 'Comment added successfully!');*/
-                  return redirect()->back()->with('success', 'Comment added successfully!');
+                     ->with('success', 'Comment added successfully!');
+                  //return redirect()->back()->with('success', 'Comment added successfully!');
                     // return redirect()->back()->withFragment('comments')->with('success', 'Comment added successfully!');
 
 
+}*/
+
+public function store(Request $request, $postId)
+{
+    // Validate the incoming request
+    $request->validate([
+        'content' => 'required|string|max:500', // Content is required and should not exceed 500 characters
+    ]);
+
+    // Find the post using p_id (primary key)
+    $post = Post::where('p_id', $postId)->firstOrFail();
+
+    // Check if the post already has a comment
+    $existingComment = Comment::where('post_id', $post->p_id)->first();
+
+    if ($existingComment) {
+        // Optionally update the existing comment or show a message if only one comment is allowed
+        return redirect()->back()->with('error', 'This post already has a comment.');
+    }
+
+    // Create a new comment related to the post
+    Comment::create([
+        'content' => $request->content,      // The comment content
+        'user_id' => auth()->id(),           // The ID of the currently logged-in user
+        'post_id' => $post->p_id,            // The post ID to link the comment to
+    ]);
+
+    // Redirect back to the post page with a success message
+    return redirect()->back()->with('success', 'Comment added successfully!');
 }
+
 /*public function edit(Comment $comment)
 {
     // Check if user owns the comment
@@ -139,7 +169,7 @@ public function show()
     return view('comments.edit', compact('comment'));
 }*/
 
-public function update(Request $request, Comment $comment)
+/*public function update(Request $request, Comment $comment)
 {
     // Check if user owns the comment
     if (auth()->id() !== $comment->user_id) {
@@ -155,7 +185,36 @@ public function update(Request $request, Comment $comment)
     ]);
 
     return redirect()->back()->with('success', 'Comment updated successfully');
+}*/
+public function update(Request $request, Comment $comment)
+{
+    // Check if user owns the comment
+    if (auth()->id() !== $comment->user_id) {
+        return redirect()->back()->with('error', 'Unauthorized action');
+    }
+
+    // Check if the post already has another comment (excluding the current one being updated)
+    $existingComment = Comment::where('post_id', $comment->post_id)
+                                ->where('id', '!=', $comment->id)
+                                ->first();
+
+    if ($existingComment) {
+        return redirect()->back()->with('error', 'This post already has a comment.');
+    }
+
+    // Validate the incoming request
+    $request->validate([
+        'content' => 'required|string|max:500'
+    ]);
+
+    // Update the comment
+    $comment->update([
+        'content' => $request->content
+    ]);
+
+    return redirect()->back()->with('success', 'Comment updated successfully');
 }
+
 
 public function destroy(Comment $comment)
 {

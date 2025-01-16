@@ -212,7 +212,8 @@
                 <!-- Logo Section -->
                 <div class="col-lg-6 col-md-6">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="{{ asset('img/logo.png') }}" alt=""></a>
+                        <a><img src="img/logo.png" alt=""></a>
+
                     </div>
                 </div>
                 <!-- Social Section -->

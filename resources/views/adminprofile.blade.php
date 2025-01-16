@@ -397,7 +397,8 @@
                 <!-- Logo Section -->
                 <div class="col-lg-6 col-md-6">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        <a><img src="img/logo.png" alt=""></a>
+
                     </div>
                 </div>
                 <!-- Social Section -->
@@ -446,7 +447,7 @@
                                 <h2>Account Data</h2>
                                 <p>You Can Edit Your Account Data From Here</p>
                             </div>
-                            <form action="{{ route('profile.update') }}" method="POST" class="profile-form">
+                            <form action="{{ route('profiles.update') }}" method="POST" class="profile-form">
                                 @csrf
                                 @method('PUT')
                             
@@ -597,45 +598,91 @@
 <!-- Modal Trigger -->
 
  <!-- Change Password Modal -->
-   
- <div id="changePasswordModal" class="modal" tabindex="-1" role="dialog" >
+ <!-- Change Password Modal -->
+<!-- Change Password Modal -->
+<div id="changePasswordModal" class="modal fade {{ session('showChangePasswordModal') ? 'show d-block' : '' }}" tabindex="-1" role="dialog">
     <div class="password">
         <div class="signin__warp">
             <div class="signin__content">
-                <div class="signin__logo">
+                <div class="signin__logo text-center">
                     <a href="#"><img src="img/siign-in-logo.png" alt=""></a>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt labore dolore magna aliqua viverra.</p>
-             
+                <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt labore dolore magna aliqua viverra.</p>
+
                 <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">CHANGE PASSWORD</h5>
-            </div>
-   
-           
-            <div class="modal-body">
-                <form id="changePasswordForm" action="{{ route('change.password') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                     
-                        <input type="password" name="current_password" class="form-control" id="current_password"  placeholder="Current Password*"  required>
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h5 class="modal-title w-100 text-center">CHANGE PASSWORD</h5>
+                            
+                        </div>
+
+                        <!-- Modal Body -->
+                        <div class="modal-body">
+                            <!-- Error Message -->
+                            @if (session('error'))
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    {{ session('error') }}
+
+                                </div>
+                            @endif
+
+                            <!-- Validation Errors -->
+                            @if ($errors->any())
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <ul class="mb-0">
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                   
+                                </div>
+                            @endif
+
+                            <!-- Change Password Form -->
+                            <form id="changePasswordForm" action="{{ route('admin.passwordss') }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <input type="password" 
+                                           name="current_password" 
+                                           class="form-control" 
+                                           id="current_password" 
+                                           placeholder="Current Password*"  
+                                           value="{{ old('current_password') }}" 
+                                           minlength="8" 
+                                           required>
+                                    <div class="invalid-feedback" style="color: red; font-size: 12px; margin-top: 5px;"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" 
+                                           name="new_password" 
+                                           class="form-control" 
+                                           id="new_password" 
+                                           placeholder="New Password*"  
+                                           value="{{ old('new_password') }}" 
+                                           minlength="8" 
+                                           required>
+                                    <div class="invalid-feedback" style="color: red; font-size: 12px; margin-top: 5px;"></div>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" 
+                                           name="new_password_confirmation" 
+                                           class="form-control" 
+                                           id="new_password_confirmation" 
+                                           placeholder="Confirm New Password*"  
+                                           value="{{ old('new_password_confirmation') }}" 
+                                           minlength="8" 
+                                           required>
+                                    <div class="invalid-feedback" style="color: red; font-size: 12px; margin-top: 5px;"></div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-orange">SAVE CHANGES</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                   
-                    <div class="form-group">
-                       
-                        <input type="password" name="new_password" class="form-control" id="new_password" placeholder="New Password*"  required>
-                    </div>
-                    <div class="form-group">
-                        
-                        <input type="password" name="new_password_confirmation" class="form-control" id="new_password_confirmation"   placeholder="Confirm New Password*"  required>
-                    </div>
-                    <div class="modal-footer">
-                        
-                        <button type="submit" class="btn btn-orange">SAVE CHANGES </button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -644,7 +691,9 @@
 <script>
    document.addEventListener('DOMContentLoaded', function() {
     const modal = document.getElementById('changePasswordModal');
-    
+    if ({{ session('showChangePasswordModal') ? 'true' : 'false' }}) {
+        $('#changePasswordModal').modal('show');
+    }
     // Show modal
     document.querySelector('.change-password-button').addEventListener('click', function() {
         modal.style.display = 'block';

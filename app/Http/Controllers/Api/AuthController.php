@@ -88,7 +88,7 @@ class AuthController extends Controller
                 ], 401);
             }
 
-            $user->load('posts');
+            //$user->load('posts');
 
            
             // Generate token
@@ -101,7 +101,7 @@ class AuthController extends Controller
                 'message' => 'Login successful',
                 'user' => new UserResource($user),
                 //'data' => new UserResource($user),
-                'posts' => PostResource::collection($user->posts), 
+                //'posts' => PostResource::collection($user->posts), 
                 'token' => $token,
             ], 200);
 

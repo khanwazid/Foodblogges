@@ -15,7 +15,7 @@ use Illuminate\Validation\ValidationException;
 
 class ContactController extends Controller
 {
-    public function store(Request $request)
+   /* public function store(Request $request)
     {
         $validated = $request->validate([
             'full_name' => 'required|string|max:255',
@@ -33,7 +33,34 @@ class ContactController extends Controller
         ]);
 
         return redirect()->back()->with('success', 'Your message has been sent successfully !');
-    }
+    }*/
+    public function store(Request $request)
+{
+    $validated = $request->validate([
+        'full_name' => 'required|string|max:255',
+        'email' => 'required|email|max:255',
+        'website' => 'nullable|url|max:255',
+        'message' => 'required|string|min:10'
+    ], [
+        'full_name.required' => 'Please enter your name',
+        'email.required' => 'Please enter your email address',
+        'email.email' => 'Please enter a valid email address',
+        'website.url' => 'Please enter a valid website URL',
+        'message.required' => 'Please enter your message',
+        'message.min' => 'Your message must be at least 10 characters'
+    ]);
+
+    $contact = Contact::create([
+        'user_id' => Auth::id(),
+        'full_name' => $validated['full_name'],
+        'email' => $validated['email'],
+        'website' => $validated['website'],
+        'message' => $validated['message']
+    ]);
+
+    return redirect()->back()->with('success', 'Your message has been sent successfully !');
+}
+
     public function index(Request $request)
     {
         $query = Contact::query();

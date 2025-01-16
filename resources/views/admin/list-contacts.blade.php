@@ -23,6 +23,27 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+
+.message-preview {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.read-more {
+    color: orange;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.read-more:hover {
+    text-decoration: underline;
+}
+
+.modal-body {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
         .badge-primary {
     background-color: #f4952f;
     color: white;
@@ -598,7 +619,21 @@
                                                             <td>{{ $contact->full_name }}</td>
                                                             <td>{{ $contact->email }}</td>
                                                             <td>{{ $contact->website ?? 'N/A' }}</td>
-                                                            <td>{{ Str::limit($contact->message, 100) }}</td>
+                                             {{--              <td>{{ Str::limit($contact->message, 100) }}</td>  
+
+                                             <td>
+                                                <span title="{{ $contact->message }}">{{ Str::limit($contact->message, 200) }}</span>
+                                            </td>--}} 
+                                            <td>
+                                                <span title="{{ $contact->message }}" style="white-space: pre-line; display: block; max-width: 300px;">
+                                                    {{ Str::limit($contact->message, 200) }}
+                                                </span>
+                                            </td>
+                                            
+                                            
+                                           
+                                            
+                                                            
                                                         </tr>
                                                     @endforeach
                                                 </tbody>

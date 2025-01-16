@@ -23,6 +23,44 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
+
+.description-cell {
+    white-space: pre-line;
+    max-width: 200px;
+    padding: 10px;
+    line-height: 1.4;
+    vertical-align: top;
+}
+
+.no-image-text {
+    color: #dc3545;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.description-cell {
+    white-space: pre-line;
+    max-width: 200px;
+    padding: 10px;
+    line-height: 1.4;
+    vertical-align: top;
+}
+
+.no-image-text {
+    color: #dc3545;
+    font-weight: 500;
+    font-style: italic;
+}
+
+.table-image {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+
+
         .badge-primary {
     background-color: #f4952f;
     color: white;
@@ -603,7 +641,13 @@
                                                             <td>{{ $post->p_id }}</td>
                                                             <td>{{ $post->user->username }}</td>
                                                             <td>{{ Str::limit($post->title, 30) }}</td>
-                                                            <td>{{ Str::limit($post->description, 50) }}</td>
+                                                       {{--      <td>{{ Str::limit($post->description, 50) }}</td>  --}}
+                                                            <td class="description-cell">
+                                                                {{ $post->description }}
+                                                            </td>
+                                                            
+                                                            
+                                                            
                                                             <td>{{ $post->read_time }} min</td>
                                                             <td>{{ $post->cook_time }} min</td>
                                                             <td>{{ $post->prep_time }} min</td>
@@ -620,13 +664,23 @@
                                                         </td>
                                                         
                                                         
-                                                            <td>
+                                                        {{--    <td>
                                                                 @if($post->header_pic)
                                                                     <img src="{{ asset('storage/' . $post->header_pic) }}" 
                                                                          alt="{{ $post->title }}" 
                                                                          class="table-image">
                                                                 @else
                                                                     <span class="no-image">No Image</span>
+                                                                @endif
+                                                            </td>--}}
+
+                                                            <td>
+                                                                @if($post->header_pic)
+                                                                    <img src="{{ asset('storage/' . $post->header_pic) }}" 
+                                                                         alt="{{ $post->title }}" 
+                                                                         class="table-image">
+                                                                @else
+                                                                    <span class="no-image-text">No Image</span>
                                                                 @endif
                                                             </td>
                                                             <td>

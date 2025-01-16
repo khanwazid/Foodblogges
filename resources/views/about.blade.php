@@ -21,6 +21,92 @@
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+
+
+    <style>
+      
+.header__btn h5 {
+    color: #000000;
+    text-transform: uppercase;
+}
+
+.custom-account-link {
+    color: #f4952f; 
+}
+
+.custom-account-link:hover {
+    color: black; /* Change the color to orange on hover */
+}
+.header__btn {
+    text-align: left;
+    padding: 15px 0;
+}
+
+.header__btn h5 {
+    margin-bottom: 1px;
+    color: #333;
+    font-size: 16px;
+}
+
+.custom-account-link {
+    display: inline-block;
+    font-size: 16px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.custom-account-link:hover {
+    color: #e67e22 !important;
+    text-decoration: none;
+}
+
+.primary-btn {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: #f4952f;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.primary-btn:hover {
+    background-color: #e67e22;
+    color: white;
+    text-decoration: none;
+}
+
+.font-weight-bold {
+    font-weight: 600;
+    margin: 0;
+    font-size: 16px;
+}
+
+
+           .logout-button {
+    display: inline-block;
+    background-color: #f4952f;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 0px;
+    text-decoration: none;
+    margin-bottom: 10px;
+    float: right;
+    margin-top: -30px;
+    border: none;  /* This removes the border */
+    cursor: pointer; /* This adds a pointer cursor on hover */
+}
+
+.logout-button:before {
+    content: '←';
+    font-size: 18px;
+    margin-right: 5px;
+}
+.logout-button:hover {
+    background-color: darkorange;
+    transform: translateX(-3px);
+}
+    </style>
 </head>
 
 <body>
@@ -37,7 +123,7 @@
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li><a href="{{url('/index')}}">Home</a></li>
+               
                
                 <li><a href="{{url('/about')}}">About</a></li>
                 <li><a href="{{url('/contact')}}">Contact</a></li>
@@ -91,8 +177,8 @@
                     <div class="col-lg-8 col-md-10 order-md-2 order-3">
                         <nav class="header__menu">
                             <ul>
-                                <li><a href="{{url('/index')}}">Home</a></li>
                                 
+                                   <li><a href="{{ route('show.posts', $post->p_id ?? 0) }}">View Post</a></li>
                                 <li class="active"><a href="{{url('/about')}}">About</a></li>
                                 <li><a href="{{url('/contact')}}">Contact</a></li>
                             </ul>
@@ -106,19 +192,29 @@
                 </div>
             </div>
         </div>
+        
         <div class="container">
             <div class="row">
-                <div class="col-lg-3 col-md col-md-2-3">
+                <div class="col-lg-3 col-md-3">
                     <div class="header__btn">
-                       
+                        @if(Auth::check())
+                            <h5 class="font-weight-bold"> {{ Auth::user()->username }}</h5>
+                            @if (auth()->user()->isAdmin())
+                                <a href="{{ url('/admin/dashboard') }}" class="custom-account-link">My Account</a>
+                            @else
+                                <a class="custom-account-link" style="color: #f4952f;">My Account</a>
+                            @endif
+                        @else
+                            <a href="{{ url('/signin') }}" class="primary-btn">Subscribe</a>
+                        @endif
                     </div>
                 </div>
-                <div class="col-lg-6 col-md col-md-2-6">
+                <div class="col-lg-6 col-md-6">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
+                        <a><img src="img/logo.png" alt=""></a>
                     </div>
                 </div>
-                <div class="col-lg-3 col-md col-md-2-3">
+                <div class="col-lg-3 col-md-3">
                     <div class="header__social">
                         <a href="#"><i class="fa fa-facebook"></i></a>
                         <a href="#"><i class="fa fa-twitter"></i></a>
@@ -130,8 +226,11 @@
             </div>
         </div>
     </header>
+   
+                
+            </div>
     <!-- Header Section End -->
-
+   
     <!-- About Section Begin -->
     <section class="about spad">
         <div class="container">
@@ -140,13 +239,20 @@
                     <div class="col-lg-12">
                         <div class="breadcrumb__text">
                             <h2>About me</h2>
+                           
+                            <a href="{{ url('/normal') }}" class="logout-button">BACK</a>
                             <div class="breadcrumb__option">
                                 <a href="#">Home</a>
                                 <span>About</span>
+                                
                             </div>
                         </div>
                     </div>
                 </div>
+                 
+                            
+                            
+                        </div>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="about__pic__item__large">

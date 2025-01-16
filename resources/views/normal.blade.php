@@ -388,6 +388,11 @@ input {
                                     
                                     <li><a href="{{ route('show.posts', $post->p_id ?? 0) }}">View Post</a></li>
                                     
+                                       
+                                        
+                                        <li><a href="{{url('/about')}}">About</a></li>
+                                        <li><a href="{{url('/contact')}}">Contact</a></li>
+                                    
 
 
                                     
@@ -451,7 +456,10 @@ input {
                                 <a href="{{ url('/admin/dashboard') }}" class="custom-account-link">My Account</a>
                             @else
                                 <!-- If the user is not an admin, show the "Manage Your Post" link -->
-                                <a href="{{ route('firstpage') }}" class="custom-account-link">My Account</a>
+                                
+                               
+                                <a class="custom-account-link" style="color: #f4952f;">My Account</a>
+
                             @endif
                         @else
                             <a href="{{ url('/signin') }}" class="primary-btn">Subscribe</a>
@@ -511,7 +519,7 @@ input {
                                 <h2>Account Data</h2>
                                 <p>You Can Edit Your Account Data From Here</p>
                             </div>
-                            <form action="{{ route('profile.update') }}" method="POST" class="profile-form">
+                            <form action="{{ route('normal.update') }}" method="POST" class="profile-form">
                                 @csrf
                                 @method('PUT')
                             
@@ -661,103 +669,138 @@ input {
         </div>
     </div>
     <!-- Search End -->
-    <!-- Change Password Modal -->
-   
-<div id="changePasswordModal" class="modal" tabindex="-1" role="dialog" >
+ <!-- Change Password Modal --><div id="changePasswordModal" class="modal fade {{ session('showChangePasswordModal') ? 'show d-block' : '' }}" tabindex="-1" role="dialog">
     <div class="password">
         <div class="signin__warp">
             <div class="signin__content">
-                <div class="signin__logo">
+                <div class="signin__logo text-center">
                     <a href="#"><img src="img/siign-in-logo.png" alt=""></a>
                 </div>
-                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt labore dolore magna aliqua viverra.</p>
-             
+                <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt labore dolore magna aliqua viverra.</p>
+
                 <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">CHANGE PASSWORD</h5>
-            </div>
-   
-           
-            <div class="modal-body">
-                <form id="changePasswordForm" action="{{ route('change.password') }}" method="POST">
-                    @csrf
-                    <div class="form-group">
-                     
-                        <input type="password" name="current_password" class="form-control" id="current_password"  placeholder="Current Password*"  required>
+                    <div class="modal-content">
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+                            <h5 class="modal-title w-100 text-center">CHANGE PASSWORD</h5>
+                        </div>
+
+                        <!-- Modal Body -->
+                        <div class="modal-body">
+                            <!-- Error Message -->
+                            <div id="modal-error-messages" style="display: none;">
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <ul id="modal-errors-list" class="mb-0"></ul>
+                                </div>
+                            </div>
+
+                            <!-- Change Password Form -->
+                            <form id="changePasswordForm" action="{{ route('change.passwordss') }}" method="POST">
+                                @csrf
+                                <div class="form-group">
+                                    <input type="password" 
+                                           name="current_password" 
+                                           class="form-control" 
+                                           id="current_password" 
+                                           placeholder="Current Password*"  
+                                           value="{{ old('current_password') }}" 
+                                           minlength="8" 
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" 
+                                           name="new_password" 
+                                           class="form-control" 
+                                           id="new_password" 
+                                           placeholder="New Password*"  
+                                           value="{{ old('new_password') }}" 
+                                           minlength="8" 
+                                           required>
+                                </div>
+                                <div class="form-group">
+                                    <input type="password" 
+                                           name="new_password_confirmation" 
+                                           class="form-control" 
+                                           id="new_password_confirmation" 
+                                           placeholder="Confirm New Password*"  
+                                           value="{{ old('new_password_confirmation') }}" 
+                                           minlength="8" 
+                                           required>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-orange">SAVE CHANGES</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                   
-                    <div class="form-group">
-                       
-                        <input type="password" name="new_password" class="form-control" id="new_password" placeholder="New Password*"  required>
-                    </div>
-                    <div class="form-group">
-                        
-                        <input type="password" name="new_password_confirmation" class="form-control" id="new_password_confirmation"   placeholder="Confirm New Password*"  required>
-                    </div>
-                    <div class="modal-footer">
-                        
-                        <button type="submit" class="btn btn-orange">SAVE CHANGES </button>
-                        <button type="button" class="btn-secondary close-modal">CANCEL</button>
-                    </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal Trigger -->
 
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
+ document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('changePasswordModal');
-    
-    // Show modal
-    document.querySelector('.change-password-button').addEventListener('click', function() {
+    const errorContainer = document.getElementById('modal-error-messages');
+    const errorList = document.getElementById('modal-errors-list');
+
+    // Check if errors exist in session and display them
+    const errors = @json($errors->all());
+    if (errors.length > 0) {
+        errorList.innerHTML = '';
+        errors.forEach(error => {
+            const li = document.createElement('li');
+            li.textContent = error;
+            errorList.appendChild(li);
+        });
+        errorContainer.style.display = 'block';
+        $('#changePasswordModal').modal('show');
+    }
+
+    // Check if modal should be shown based on session data
+    if ({{ session('showChangePasswordModal') ? 'true' : 'false' }}) {
+        $('#changePasswordModal').modal('show');
+    }
+
+    // Show modal on button click
+    document.querySelector('.change-password-button').addEventListener('click', function () {
         modal.style.display = 'block';
         modal.classList.add('show');
         document.body.classList.add('modal-open');
     });
 
+    // Close modal function
+    function closeModal() {
+        modal.style.display = 'none';
+        modal.classList.remove('show');
+        document.body.classList.remove('modal-open');
+    }
+
+    // Cancel button click handler
+    document.querySelector('.btn-secondary').addEventListener('click', closeModal);
+
     // Close modal when clicking outside
-    document.addEventListener('click', function(event) {
-        if (event.target.closest('.modal-content') === null && event.target.closest('.change-password-button') === null) {
-            modal.style.display = 'none';
-            modal.classList.remove('show');
-            document.body.classList.remove('modal-open');
-            const modalBackdrop = document.querySelector('.modal-backdrop');
-            if (modalBackdrop) {
-                modalBackdrop.remove();
-            }
+    document.addEventListener('click', function (event) {
+        if (event.target.closest('.modal-content') === null && 
+            event.target.closest('.change-password-button') === null) {
+            closeModal();
         }
     });
 
-     // Close modal function
-     function closeModal() {
-            modal.style.display = 'none';
-            modal.classList.remove('show');
-            document.body.classList.remove('modal-open');
-        }
-
-        // Close modal on cancel button click
-        document.querySelectorAll('.close-modal').forEach(button => {
-            button.addEventListener('click', closeModal);
-        });
     // Close with ESC key
-    document.addEventListener('keydown', function(event) {
+    document.addEventListener('keydown', function (event) {
         if (event.key === 'Escape' && modal.classList.contains('show')) {
-            modal.style.display = 'none';
-            modal.classList.remove('show');
-            document.body.classList.remove('modal-open');
-            const modalBackdrop = document.querySelector('.modal-backdrop');
-            if (modalBackdrop) {
-                modalBackdrop.remove();
-            }
+            closeModal();
         }
     });
 });
 
+
 </script>
+
 
 
 

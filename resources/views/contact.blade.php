@@ -21,6 +21,113 @@
 <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
 <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
+
+
+
+<style>
+    .form-group {
+    margin-bottom: 1rem;
+    position: relative;
+}
+
+.invalid-feedback {
+    color: #dc3545;
+    font-size: 14px;
+    margin-top: 5px;
+    display: block;
+}
+
+.is-invalid {
+    border-color: #dc3545;
+}
+
+.is-invalid:focus {
+    border-color: #dc3545;
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+
+        
+.header__btn h5 {
+    color: #000000;
+    text-transform: uppercase;
+}
+
+.custom-account-link {
+    color: #f4952f; 
+}
+
+.custom-account-link:hover {
+    color: black; /* Change the color to orange on hover */
+}
+.header__btn {
+    text-align: left;
+    padding: 15px 0;
+}
+
+.header__btn h5 {
+    margin-bottom: 1px;
+    color: #333;
+    font-size: 16px;
+}
+
+.custom-account-link {
+    display: inline-block;
+    font-size: 16px;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.custom-account-link:hover {
+    color: #e67e22 !important;
+    text-decoration: none;
+}
+
+.primary-btn {
+    display: inline-block;
+    padding: 8px 20px;
+    background-color: #f4952f;
+    color: white;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.primary-btn:hover {
+    background-color: #e67e22;
+    color: white;
+    text-decoration: none;
+}
+
+.font-weight-bold {
+    font-weight: 600;
+    margin: 0;
+    font-size: 16px;
+}
+
+    .logout-button {
+display: inline-block;
+background-color: #f4952f;
+color: white;
+padding: 8px 16px;
+border-radius: 0px;
+text-decoration: none;
+margin-bottom: 10px;
+float: right;
+margin-top: -30px;
+border: none;  /* This removes the border */
+cursor: pointer; /* This adds a pointer cursor on hover */
+}
+
+.logout-button:before {
+content: '←';
+font-size: 18px;
+margin-right: 5px;
+}
+.logout-button:hover {
+background-color: darkorange;
+transform: translateX(-3px);
+}
+</style>
 </head>
 
 <body>
@@ -129,7 +236,7 @@
                         <nav class="header__menu">
                             <ul>
                                
-                                <li><a href="{{url('/index')}}">Home</a></li>
+                                   <li><a href="{{ route('show.posts', $post->p_id ?? 0) }}">View Post</a></li>
                                 <li><a href="{{url('/about')}}">About</a></li>
                                 <li><a href="{{url('/contact')}}">Contact</a></li>
                                
@@ -144,29 +251,39 @@
                 </div>
             </div>
         </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__btn">
-                    
-                    </div>
+        
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-3 col-md-3">
+                <div class="header__btn">
+                    @if(Auth::check())
+                        <h5 class="font-weight-bold"> {{ Auth::user()->username }}</h5>
+                        @if (auth()->user()->isAdmin())
+                            <a href="{{ url('/admin/dashboard') }}" class="custom-account-link">My Account</a>
+                        @else
+                            <a class="custom-account-link" style="color: #f4952f;">My Account</a>
+                        @endif
+                    @else
+                        <a href="{{ url('/signin') }}" class="primary-btn">Subscribe</a>
+                    @endif
                 </div>
-                <div class="col-lg-6 col-md-6 col-md-2">
-                    <div class="header__logo">
-                        <a href="./index.html"><img src="img/logo.png" alt=""></a>
-                    </div>
+            </div>
+            <div class="col-lg-6 col-md-6">
+                <div class="header__logo">
+                    <a><img src="img/logo.png" alt=""></a>
                 </div>
-                <div class="col-lg-3 col-md-3">
-                    <div class="header__social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-envelope-o"></i></a>
-                    </div>
+            </div>
+            <div class="col-lg-3 col-md-3">
+                <div class="header__social">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-youtube-play"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                    <a href="#"><i class="fa fa-envelope-o"></i></a>
                 </div>
             </div>
         </div>
+    </div>
     </header>
     <!-- Header Section End -->
 
@@ -178,6 +295,7 @@
                     <div class="col-lg-12">
                         <div class="breadcrumb__text">
                             <h2>Contact</h2>
+                            <a href="{{ url('/normal') }}" class="logout-button">BACK</a>
                             <div class="breadcrumb__option">
                                 <a href="#">Home</a>
                                 <span>Contact</span>
@@ -198,14 +316,7 @@
                             <div class="contact__widget">
                                 <ul>
                                    
-                                    <li>
-                                        <i class="fa fa-user"></i>
-                                        <span>Name: {{ Auth::user()->full_name ?? 'No name provided' }}</span>
-                                    </li>
-                                    <li>
-                                        <i class="fa fa-envelope-o"></i>
-                                        <span>Email: {{ Auth::user()->email }}</span>
-                                    </li>
+                                  
                                 </ul>
                             </div>
                             
@@ -231,17 +342,17 @@
                                 <textarea placeholder="Message"></textarea>
                                 <button type="submit" class="site-btn">Submit</button>
                             </form>  --}}
-                            <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
+                   {{--        <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
                                 @csrf
                                 
                                 <input type="text" name="full_name" placeholder="Name" 
-                                       value="{{ old('full_name', Auth::user()->full_name ?? '') }}" 
+                                      
                                        required minlength="2" maxlength="255" 
                                        pattern="[A-Za-z\s]+" 
                                        title="Name should only contain letters and spaces">
                             
                                 <input type="email" name="email" placeholder="Email" 
-                                       value="{{ old('email', Auth::user()->email ?? '') }}" 
+                                       
                                        required maxlength="255" 
                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" 
                                        title="Please enter a valid email address">
@@ -256,6 +367,52 @@
                                           maxlength="1000" 
                                           title="Message must be at least 10 characters long">{{ old('message') }}</textarea>
                                 
+                                <button type="submit" class="site-btn">Submit</button>
+                            </form>
+                             --}}  
+                             <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
+                                @csrf
+                                
+                                <div class="form-group">
+                                    <input type="text" name="full_name" placeholder="Name" 
+                                           value="{{ old('full_name') }}"
+                                           required minlength="2" maxlength="255" 
+                                           pattern="[A-Za-z\s]+" 
+                                           class="@error('full_name') is-invalid @enderror">
+                                    @error('full_name')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            
+                                <div class="form-group">
+                                    <input type="email" name="email" placeholder="Email" 
+                                           value="{{ old('email') }}"
+                                           required maxlength="255" 
+                                           class="@error('email') is-invalid @enderror">
+                                    @error('email')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            
+                                <div class="form-group">
+                                    <input type="text" name="website" placeholder="Website" 
+                                           value="{{ old('website') }}" 
+                                           class="@error('website') is-invalid @enderror">
+                                    @error('website')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            
+                                <div class="form-group">
+                                    <textarea name="message" placeholder="Message" 
+                                              required minlength="10" 
+                                              maxlength="1000"
+                                              class="@error('message') is-invalid @enderror">{{ old('message') }}</textarea>
+                                    @error('message')
+                                        <div class="invalid-feedback">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            
                                 <button type="submit" class="site-btn">Submit</button>
                             </form>
                             

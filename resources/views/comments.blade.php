@@ -23,6 +23,47 @@
     
     
     <style>
+       
+       .post-image {
+    width: 100%;
+    height: auto;
+    min-height: 800px;
+    max-height: 1000px;
+    object-fit: contain;
+    border-radius: 8px;
+    margin: 20px 0;
+    display: block;
+}
+
+.no-image-container {
+    background: linear-gradient(45deg, #f8f9fa, #e9ecef);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.no-image-content {
+    padding: 2rem;
+    color: #f4952f;
+}
+
+.no-image-content i {
+    font-size: 64px;
+    margin-bottom: 1.5rem;
+}
+
+.no-image-content h3 {
+    font-size: 28px;
+    margin-bottom: 1rem;
+}
+
+.no-image-content p {
+    font-size: 18px;
+}
+
+
+
          .no-image-container {
     background: linear-gradient(45deg, #f3f3f3, #e9e9e9);
     height: 400px;
@@ -431,7 +472,7 @@ body {
 <section class="single-post spad">
     @foreach ($posts as $post)
     
-    <div class="single-post__hero">
+  {{--   <div class="single-post__hero">
         @if($post->header_pic && Storage::exists($post->header_pic))
             <div class="set-bg" data-setbg="{{ asset('storage/'.$post->header_pic) }}"></div>
         @else
@@ -443,7 +484,25 @@ body {
                 </div>
             </div>
         @endif
+    </div>  --}}
+    <div class="single-post__hero">
+        @if($post->header_pic)
+            <img src="{{ Storage::url($post->header_pic) }}" 
+                 alt="{{ $post->title }}" 
+                 class="img-fluid post-image">
+        @else
+            <div class="no-image-container post-image">
+                <div class="no-image-content">
+                    <i class="fa fa-picture-o fa-4x"></i>
+                    <h3>No Recipe Image Available</h3>
+                    <p>Stay tuned for a visual treat coming soon!</p>
+                </div>
+            </div>
+        @endif
     </div>
+    
+    
+    
     <div class="container">
         <div class="row d-flex justify-content-center">
             <div class="col-lg-8">
@@ -499,10 +558,16 @@ body {
                 </div>
 
                 <!-- Description Section -->
-                <div class="single-post__desc">
+               {{-- <div class="single-post__desc">
                     <h5><i class="fa fa-file-text-o"></i> DESCRIPTION</h5>
                     <p>{{ $post->description }}</p>
+                </div>  --}}
+
+                <div class="single-post__desc">
+                    <h5><i class="fa fa-file-text-o"></i> DESCRIPTION</h5>
+                    <p>{!! nl2br(e($post->description)) !!}</p>
                 </div>
+                
 
                 <!-- Comments Section -->
                 <div class="single-post__comment">

@@ -41,7 +41,9 @@ Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 Route::get('/categories', function () {
     return view('categories-list');
 });
-
+Route::get('/reguster', function () {
+    return view('register');
+});
 //Route::get('/list/post', [PostController::class, 'index'])->name('list.post');
 
 Route::get('/four', function () {
@@ -74,15 +76,26 @@ Route::get('/management', function () {
 
 
 Route::middleware('auth')->group(function () {
+
+    // Profile routes
+    Route::get('/normal', [TempController::class, 'normal'])->name('normal');
+   // Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+    Route::put('/normal/update', [UserController::class, 'updateProfiles'])->name('normal.update');
+    Route::post('/change-password', [UserController::class, 'changePasswords'])->name('change.passwordss');
+
+
+
+
+
     Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
     Route::get('/index', [TempController::class, 'home'])->name('firstpage');
-    Route::get('/normal', [TempController::class, 'normal'])->name('normal');
-    Route::post('change-password', [UserController::class, 'changePasswords'])->name('change.password');
+   // Route::get('/normal', [TempController::class, 'normal'])->name('normal');
+   // Route::post('change-password', [UserController::class, 'changePasswords'])->name('change.password');
     Route::get('/posts/create', [PostController::class, 'create'])->name('posts.create');
     Route::post('/posts', [PostController::class, 'store'])->name('posts.store');
    // Route::get('/posts/profile', [PostController::class, 'showProfile'])->name('post.profile');
-   Route::get('/profile', [UserController::class, 'profile'])->name('profile');
-   Route::put('/profile/update', [UserController::class, 'updateProfiles'])->name('profile.update');
+  // Route::get('/profile', [UserController::class, 'profile'])->name('profile');
+   //Route::put('/profile/update', [UserController::class, 'updateProfiles'])->name('profile.update');
 
  Route::get('/posts/{id}/edit', [UserController::class, 'edit'])->name('posts.edit');
 Route::put('/posts/{id}', [UserController::class, 'update'])->name('posts.update');
@@ -115,15 +128,16 @@ Route::post('/posts/{postId}/comments', [CommentController::class, 'store'])->na
 
 Route::middleware(['auth', 'admin'])->group(function () {
 
-  
+    Route::post('/change/password', [UserController::class, 'changePassword'])->name('admin.passwordss');
+
     Route::get('/admin/contacts', [ContactController::class, 'index'])->name('admin.contacts');
     Route::get('/adminprofile',[TempController::class, 'adminProfile'])->name('admin.profile');
     Route::get('/admin/comments', [AdminController::class, 'shown'])->name('admin.comments.index');
     Route::put('/admin/comments/{comment}', [AdminController::class, 'update'])->name('admin.comments.update');
     Route::delete('/admin/comments/{comment}', [AdminController::class, 'destroy'])->name('admin.comments.destroy');
 //Route::get('/users', [UserController::class, 'index'])->name('users.index');
-Route::put('/profile/{id}/update', [UserController::class, 'updates'])->name('profiles.update');
-Route::get('/profile/{id}/edit', [UserController::class, 'edits'])->name('profile.edit');
+Route::put('/profile/update', [UserController::class, 'updateProfile'])->name('profiles.update');
+Route::get('/profile/edit', [UserController::class, 'edits'])->name('profile.edit');
 Route::delete('/users/{user}', [UserController::class, 'delete'])->name('users.destroy');
     Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
 

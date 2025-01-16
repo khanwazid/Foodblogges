@@ -11,6 +11,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Validation\Rules\Password;
+
 
 
 class UserController extends Controller
@@ -44,16 +46,16 @@ class UserController extends Controller
     
 
 
-public function profile()
+/*public function profile()
 {
-    $user = Auth::user();
-    $posts = Post::where('user_id', Auth::id())->get();
+ 
+
     
-    return view('profile', compact('user', 'posts'));
-}
+    return view('normal');
+}*/
 public function showLoginForm()
 {
-    return view('signin');
+    return view('login');
 }
 
 /*
@@ -107,14 +109,18 @@ public function login(Request $request)
 
             // Redirect based on user role
             return $user->role === 'admin'
-                ? redirect()->route('home')->with('success', 'Welcome back, Admin!') // Redirect admin to home
-                : redirect()->route('firstpage')->with('success', 'Welcome back!'); // Redirect regular user
+                ? redirect()->route('admin.dashboard')->with('success', 'Welcome back, Admin!') // Redirect admin to home
+                : redirect()->route('normal')->with('success', 'Welcome back!'); // Redirect regular user
         }
 
         // Failed authentication
-        return redirect()->route('login.show')
-            ->withInput()
-            ->with('loginError', 'These credentials do not match our records.');
+      //  return redirect()->route('login.show')
+        //   ->withInput()
+         //   ->with('loginError', 'These credentials do not match our records.');
+
+            return back()->withErrors([
+        'email' => 'The provided credentials do not match our records.',
+    ])->withInput();
 
     } catch (ValidationException $e) {
         // Handle validation errors
@@ -167,6 +173,36 @@ public function login(Request $request)
         }
     }
     public function changePassword(Request $request)
+{
+    // Validate the password input
+    $validator = Validator::make($request->all(), [
+        'current_password' => 'required|string',
+        'new_password' => 'required|string|min:8|confirmed', // At least 8 characters and matches confirmation
+    ]);
+
+    if ($validator->fails()) {
+        return redirect()->back()
+            ->withErrors($validator)
+            ->with('showChangePasswordModal', true) // Indicate to reopen modal
+            ->withInput();
+    }
+
+    // Check if current password matches
+    if (!Hash::check($request->current_password, Auth::user()->password)) {
+        return redirect()->back()
+            ->with('error', 'Current password is incorrect')
+            ->with('showChangePasswordModal', true);
+    }
+
+    // Update the password
+    $user = Auth::user();
+    $user->password = Hash::make($request->new_password);
+    $user->save();
+
+    return redirect()->route('admin.dashboard')->with('success', 'Password changed successfully!');
+}
+
+   /* public function changePassword(Request $request),,,,,,,,,,,,,,,,,,,
     {
         // Validate the password input
         $validator = Validator::make($request->all(), [
@@ -189,7 +225,7 @@ public function login(Request $request)
         $user->save();
 
         return redirect()->route('admin.dashboard')->with('success', 'Password changed successfully!');
-    }
+    }*/
     /*public function changePassword(Request $request)
 {
     $user = Auth::user();
@@ -384,8 +420,9 @@ public function updateProfiles(Request $request)
             'email' => $validated['email'],
         ]);
 
-        session()->flash('success', 'Account data updated successfully.');
-        return redirect()->route('firstpage');
+        //session()->flash('success', 'Account data updated successfully.');
+     
+        return redirect()->back()->with('success', 'Account data updated successfully.');
 
     } catch (ValidationException $e) {
         return back()->withErrors($e->errors())->withInput();
@@ -393,7 +430,7 @@ public function updateProfiles(Request $request)
         return back()->with('error', 'An unexpected error occurred. Please try again.');
     }
 }
-public function changePasswords(Request $request)
+/*public function changePasswords(Request $request)
 {
     // Validate the password input
     $validator = Validator::make($request->all(), [
@@ -416,6 +453,45 @@ public function changePasswords(Request $request)
     $user->save();
 
     return redirect()->back()->with('success', 'Password changed successfully!');
+}*/
+
+/*public function changePasswords(Request $request)
+{
+    $request->validate([
+        'current_password' => 'required|min:6',
+        'new_password' => 'required|min:6|confirmed',
+        'new_password_confirmation' => 'required'
+    ]);
+
+    if (!Hash::check($request->current_password, auth()->user()->password)) {
+        return back()->with('error', 'Current password is incorrect');
+    }
+
+    auth()->user()->update([
+        'password' => Hash::make($request->new_password)
+    ]);
+
+    return back()->with('success', 'Password changed successfully!');
+}*/
+
+public function changePasswords(Request $request)
+{
+    $request->validate([
+        'current_password' => 'required',
+        'new_password' => 'required|min:8|confirmed',
+    ]);
+
+    $user = Auth::user();
+
+    // Check if the current password matches
+    if (!Hash::check($request->current_password, $user->password)) {
+        return back()->withErrors(['current_password' => 'The current password is incorrect.'])->withInput();
+    }
+
+    // Update the user's password
+    $user->update(['password' => Hash::make($request->new_password)]);
+
+    return back()->with('success', 'Your password has been changed successfully.');
 }
 
 }

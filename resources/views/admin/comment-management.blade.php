@@ -482,9 +482,17 @@ body {
                         <span>{{ $post->created_at->format('M') }}</span>
                     </div>
                     <div class="single-post__title__text">
+                   
                         <ul class="label">
-                            <li>{{ $post->categories }}</li>
+                            <li>
+                                @php
+                                    $categories = is_array($post->categories) ? $post->categories : json_decode($post->categories);
+                                    echo implode(', ', $categories);
+                                @endphp
+                            </li>
                         </ul>
+                        
+                                                
                         <h4>{{ $post->title }}</h4>
                         <ul class="widget">
                             <li>by {{ $post->user->username }}</li>
@@ -515,10 +523,17 @@ body {
                 </div>
 
                 <!-- Description Section improved this section -->
-                <div class="single-post__desc">
+               {{-- <div class="single-post__desc">
                     <h5><i class="fa fa-file-text-o"></i> DESCRIPTION</h5>
                     <p>{{ $post->description }}</p>
+                </div>  --}}
+
+
+                <div class="single-post__desc">
+                    <h5><i class="fa fa-file-text-o"></i> DESCRIPTION</h5>
+                    <p>{!! nl2br(e($post->description)) !!}</p>
                 </div>
+                
 
                 <!-- Comments Section -->
                 <div class="single-post__comment">
