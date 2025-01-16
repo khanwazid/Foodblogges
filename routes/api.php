@@ -20,14 +20,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
-Route::post('/logout', [AuthController::class, 'logout']);
+Route::post('/login', [AuthController::class, 'login'])->name('auth.login');
+Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
 Route::middleware('auth:sanctum')->group(function () {
-   // Route::post('/posts', [PostController::class, 'store']);
-   // Route::post('/logout', [AuthController::class, 'logout']);
-   // Route::put('/posts/{id}', [PostController::class, 'update']);
     Route::put('/user/profile', [AuthController::class, 'updateProfile']);
- //   Route::delete('/posts/{id}', [PostController::class, 'delete']);
     Route::get('/admin-posts', [PostController::class, 'getAdminPosts']);
     Route::post('/comments', [PostController::class, 'stores']);
     Route::put('/comments/{id}', [PostController::class, 'updateComment']);
@@ -38,7 +35,7 @@ Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::get('/admin/comments', [PostController::class, 'index']);
     Route::get('contacts', [PostController::class, 'indexContact']);
     Route::get('contacts/{id}', [PostController::class, 'show']);
-    Route::get('/user/posts', [PostController::class, 'getOwnPosts']);
+    Route::get('/own/posts', [PostController::class, 'getOwnPosts']);
     Route::post('/posts', [PostController::class, 'store']);
     Route::put('/posts/{id}', [PostController::class, 'update']);
     Route::delete('/posts/{id}', [PostController::class, 'delete']);
