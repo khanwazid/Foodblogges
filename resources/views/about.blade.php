@@ -179,8 +179,8 @@
                             <ul>
                                 
                                    <li><a href="{{ route('show.posts', $post->p_id ?? 0) }}">View Post</a></li>
-                                <li class="active"><a href="{{url('/about')}}">About</a></li>
-                                <li><a href="{{url('/contact')}}">Contact</a></li>
+                              
+                                <li><a href="{{url('/pagecontacts')}}">Contact</a></li>
                             </ul>
                         </nav>
                     </div>

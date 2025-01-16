@@ -46,7 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/normal/update', [UserController::class, 'updateProfiles'])->name('normal.update');
     Route::post('/change-password', [UserController::class, 'changePasswords'])->name('change.passwordss');
     Route::get('/about', [TempController::class, 'about']);
-    Route::get('/contacts', [TempController::class, 'contact']);
+    Route::get('/pagecontacts', [TempController::class, 'contact']);
     Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
     Route::get('/posts', [CommentController::class, 'index'])->name('posts.index');
     Route::get('/posts/{p_id}', [CommentController::class, 'show'])->name('show.posts');

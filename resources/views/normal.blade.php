@@ -391,7 +391,7 @@ input {
                                        
                                         
                                         <li><a href="{{url('/about')}}">About</a></li>
-                                        <li><a href="{{url('/contact')}}">Contact</a></li>
+                                        <li><a href="{{url('/pagecontacts')}}">Contact</a></li>
                                     
 
 

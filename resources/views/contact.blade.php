@@ -238,7 +238,7 @@ transform: translateX(-3px);
                                
                                    <li><a href="{{ route('show.posts', $post->p_id ?? 0) }}">View Post</a></li>
                                 <li><a href="{{url('/about')}}">About</a></li>
-                                <li><a href="{{url('/contact')}}">Contact</a></li>
+                                
                                
                             </ul>
                         </nav>
@@ -247,7 +247,7 @@ transform: translateX(-3px);
                         <div class="header__search">
                           
                         </div>
-                    </div>
+                  
                 </div>
             </div>
         </div>
