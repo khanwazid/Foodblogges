@@ -135,7 +135,7 @@ public function update(Request $request, $id)
         ], 500);
     }
 }
-public function getUserPosts(Request $request)
+public function getOwnPosts(Request $request)
 {
     try {
         // Get the posts of the logged-in user
