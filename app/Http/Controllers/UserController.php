@@ -37,7 +37,7 @@ class UserController extends Controller
             Auth::login($user);
             session()->flash('success', 'Registration successful! Welcome .');
             
-            return redirect()->route('firstpage');
+            return redirect()->route('normal');
             
         } catch (ValidationException $e) {
             return back()->withErrors($e->errors())->withInput();

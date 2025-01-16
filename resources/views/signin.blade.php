@@ -181,7 +181,7 @@
                                 
                           {{-- a href="{{url('/about')}}">About</a></li>
                                 <li><a href="{{url('/contact')}}">Contact</a></li>  --}}
-                                <li><a href="{{url('/reguster')}}">Register</a></li>
+                                <li><a href="{{url('/signup')}}">Register</a></li>
                                 <li><a href="{{url('/login')}}">Login</a></li>
                             </ul>
                         </nav>
@@ -229,7 +229,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="breadcrumb__text">
-                            <h2>Please Login or Register To View the Post</h2>
+                            <h2>Please  Register or Login  To View the Post</h2>
                            
                             <div class="login-prompt">
                                 <h2>🌟 Unlock a World of Delicious Recipes!</h2>

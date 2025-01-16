@@ -580,7 +580,8 @@ body {
                         <div class="single-post__comment__item__text">
                             <h5>{{ $comment->user->username }}</h5>
                             <span>{{ $comment->created_at->format('d M Y') }}</span>
-                            <p>{{ $comment->content }}</p>
+                            <p>{!! nl2br(e($comment->content)) !!}</p>
+                           
                             
                             @if(auth()->check() && auth()->id() === $comment->user_id)
                             <ul>
