@@ -655,7 +655,7 @@ body {
                             @if(auth()->check() && auth()->user()->role === 'admin')
 
                             
-                            <ul>
+                          {{--   <ul>
                                 <li>
                                     <a href="#" data-bs-toggle="modal" data-bs-target="#editModal{{ $comment->id }}">
                                         <i class="fa fa-edit"></i>
@@ -670,11 +670,11 @@ body {
                                         </button>
                                     </form>
                                 </li>
-                            </ul>
+                            </ul> --}}
                             @endif
                         </div>
                     </div>
-                    
+            {{--        
     <!-- Edit Modal - Place it here inside the foreach loop -->
     <div class="modal fade" id="editModal{{ $comment->id }}" tabindex="-1" aria-labelledby="editModalLabel{{ $comment->id }}" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
@@ -711,6 +711,7 @@ body {
             </div>
         </div>
     </div>
+     --}} 
     
     </div>
     
