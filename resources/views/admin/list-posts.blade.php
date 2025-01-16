@@ -23,13 +23,31 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
-
-.description-cell {
-    white-space: pre-line;
+        
+        .description-cell {
     max-width: 200px;
+    position: relative;
+}
+
+.description-content {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    white-space: pre-line;
+    line-height: 0.8;
+}
+
+.description-content:hover {
+    display: block;
+    position: absolute;
+    background: white;
+    z-index: 1000;
     padding: 10px;
-    line-height: 1.4;
-    vertical-align: top;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    white-space: pre-line;
 }
 
 .no-image-text {
@@ -38,13 +56,7 @@
     font-style: italic;
 }
 
-.description-cell {
-    white-space: pre-line;
-    max-width: 200px;
-    padding: 10px;
-    line-height: 1.4;
-    vertical-align: top;
-}
+
 
 .no-image-text {
     color: #dc3545;
@@ -641,10 +653,16 @@
                                                             <td>{{ $post->p_id }}</td>
                                                             <td>{{ $post->user->username }}</td>
                                                             <td>{{ Str::limit($post->title, 30) }}</td>
-                                                       {{--      <td>{{ Str::limit($post->description, 50) }}</td>  --}}
+                                                       {{--      <td>{{ Str::limit($post->description, 50) }}</td>  
                                                             <td class="description-cell">
                                                                 {{ $post->description }}
+                                                            </td> --}}
+                                                            <td class="description-cell">
+                                                                <div class="description-content">
+                                                                    {!! nl2br(e($post->description)) !!}
+                                                                </div>
                                                             </td>
+                                                            
                                                             
                                                             
                                                             

@@ -76,6 +76,9 @@ Route::get('admin/{id}/edit', [PostController::class, 'edit'])->name('admin.post
 
 
 Route::put('admin/{id}', [PostController::class, 'update'])->name('admin.update');
+Route::delete('/admin/comments/{comment}', [AdminController::class, 'destroy'])->name('admin.comments.destroy');
+
+Route::put('/admin/comments/{comment}', [AdminController::class, 'update'])->name('admin.comments.update');
 //Route::put('posts/{p_id}', [PostController::class, 'update'])->name('post.update');
 
 Route::get('/list/post', [PostController::class, 'index'])->name('list.post');
