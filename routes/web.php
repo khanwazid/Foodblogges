@@ -22,8 +22,8 @@ use App\Http\Controllers\ContactController;
 
 
 Route::get('/', function () {
-    return view('signin');
-})->name('signin');
+    return view('welcome');
+})->name('welcome');
 Route::get('/login', [UserController::class, 'showLoginForm'])->name('login.show');
 Route::post('/login', [UserController::class, 'login'])->name('login');
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');

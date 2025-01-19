@@ -595,17 +595,15 @@
     <!-- Search End -->
      
 
-<!-- Modal Trigger -->
 
- <!-- Change Password Modal -->
- <!-- Change Password Modal -->
 <!-- Change Password Modal -->
+
 <div id="changePasswordModal" class="modal fade {{ session('showChangePasswordModal') ? 'show d-block' : '' }}" tabindex="-1" role="dialog">
     <div class="password">
         <div class="signin__warp">
             <div class="signin__content">
                 <div class="signin__logo text-center">
-                    <a href="#"><img src="img/siign-in-logo.png" alt=""></a>
+                    <a><img src="img/siign-in-logo.png" alt=""></a>
                 </div>
                 <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt labore dolore magna aliqua viverra.</p>
 

@@ -500,7 +500,7 @@
                     <div class="col-lg-8 col-md-10 order-md-2 order-3">
                         <nav class="header__menu">
                             <ul>
-                                <li><a href="{{url('/admin/dashboard')}}">Admin page</a></li>
+                                <li><a href="{{url('/admin/dashboard')}}">Admin Dashboard</a></li>
                                {{--  <li><a href="{url('/index')}}">Home</a></li>
                                 <li><a href="{{url('/about')}}">About</a></li>
                                 <li><a href="{{url('/contact')}}">Contact</a></li> --}}
@@ -532,7 +532,7 @@
                 <!-- Logo Section -->
                 <div class="col-lg-6 col-md-6">
                     <div class="header__logo">
-                        <a href="./index.html"><img src="{{ asset('img/logo.png') }}" alt=""></a>
+                        <a><img src="{{ asset('img/logo.png') }}" alt=""></a>
                     </div>
                 </div>
                 <!-- Social Section -->

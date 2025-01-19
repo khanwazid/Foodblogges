@@ -604,7 +604,7 @@ input {
                 <!-- Logo Section -->
                 <div class="col-lg-6 col-md-6">
                     <div class="header__logo">
-                        <a href="#">
+                        <a>
                             <img src="{{ asset('img/logo.png') }}" alt="Logo">
                         </a>
                         

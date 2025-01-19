@@ -249,6 +249,7 @@
                     <div class="col-lg-2 col-md-1 col-6 order-md-1 order-1">
                         <div class="header__humberger">
                             
+                            
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-10 order-md-2 order-3">
@@ -298,7 +299,9 @@
                 <!-- Logo Section -->
                 <div class="col-lg-6 col-md-6">
                     <div class="header__logo">
-                        <a><img src="img/logo.png" alt=""></a>
+                        <a>
+                            <img src="{{ asset('img/logo.png') }}" alt="Logo">
+                        </a>
 
                     </div>
                 </div>

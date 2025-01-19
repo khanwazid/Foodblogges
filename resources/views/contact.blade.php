@@ -168,6 +168,7 @@ transform: translateX(-3px);
         fadeOutMessage('error-message');
     </script>
     
+   
     <!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
@@ -177,14 +178,14 @@ transform: translateX(-3px);
     <div class="humberger__menu__overlay"></div>
     <div class="humberger__menu__wrapper">
         <div class="humberger__menu__logo">
-            <a href="./index.html"><img src="img/humberger/humberger-logo.png" alt=""></a>
+            <a href="./hoindexme.html"><img src="img/humberger/humberger-logo.png" alt=""></a>
         </div>
         <nav class="humberger__menu__nav mobile-menu">
             <ul>
-                <li><a href="{{url('/index')}}">Home</a></li>
+               
                
                 <li><a href="{{url('/about')}}">About</a></li>
-                <li class="active"><a href="{{url('/contact')}}">Contact</a></li>
+                <li><a href="{{url('/contact')}}">Contact</a></li>
             </ul>
         </nav>
         <div id="mobile-menu-wrap"></div>
@@ -216,7 +217,7 @@ transform: translateX(-3px);
                     <input type="checkbox" id="agree-check">
                     <span class="checkmark"></span>
                 </label>
-                <button type="submit" class="site-btn">Subscribe</button>
+                
             </form>
         </div>
     </div>
@@ -229,62 +230,64 @@ transform: translateX(-3px);
                 <div class="row">
                     <div class="col-lg-2 col-md-1 col-6 order-md-1 order-1">
                         <div class="header__humberger">
-                            
+                           
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-10 order-md-2 order-3">
                         <nav class="header__menu">
                             <ul>
-                               
-                                   <li><a href="{{ route('show.posts', $post->p_id ?? 0) }}">View Post</a></li>
-                                <li><a href="{{url('/about')}}">About</a></li>
                                 
-                               
+                                   <li><a href="{{ route('show.posts', $post->p_id ?? 0) }}">View Post</a></li>
+                              
+                                <li><a href="{{url('/about')}}">About</a></li>
                             </ul>
                         </nav>
                     </div>
                     <div class="col-lg-2 col-md-1 col-6 order-md-3 order-2">
                         <div class="header__search">
-                          
+                            
                         </div>
-                  
+                    </div>
                 </div>
             </div>
         </div>
         
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-3 col-md-3">
-                <div class="header__btn">
-                    @if(Auth::check())
-                        <h5 class="font-weight-bold"> {{ Auth::user()->username }}</h5>
-                        @if (auth()->user()->isAdmin())
-                            <a href="{{ url('/admin/dashboard') }}" class="custom-account-link">My Account</a>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__btn">
+                        @if(Auth::check())
+                            <h5 class="font-weight-bold"> {{ Auth::user()->username }}</h5>
+                            @if (auth()->user()->isAdmin())
+                                <a href="{{ url('/admin/dashboard') }}" class="custom-account-link">My Account</a>
+                            @else
+                                <a class="custom-account-link" style="color: #f4952f;">My Account</a>
+                            @endif
                         @else
-                            <a class="custom-account-link" style="color: #f4952f;">My Account</a>
+                            <a href="{{ url('/signin') }}" class="primary-btn">Subscribe</a>
                         @endif
-                    @else
-                        <a href="{{ url('/signin') }}" class="primary-btn">Subscribe</a>
-                    @endif
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-6 col-md-6">
-                <div class="header__logo">
-                    <a><img src="img/logo.png" alt=""></a>
+                <div class="col-lg-6 col-md-6">
+                    <div class="header__logo">
+                        <a><img src="img/logo.png" alt=""></a>
+                    </div>
                 </div>
-            </div>
-            <div class="col-lg-3 col-md-3">
-                <div class="header__social">
-                    <a href="#"><i class="fa fa-facebook"></i></a>
-                    <a href="#"><i class="fa fa-twitter"></i></a>
-                    <a href="#"><i class="fa fa-youtube-play"></i></a>
-                    <a href="#"><i class="fa fa-instagram"></i></a>
-                    <a href="#"><i class="fa fa-envelope-o"></i></a>
+                <div class="col-lg-3 col-md-3">
+                    <div class="header__social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-youtube-play"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-envelope-o"></i></a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
     </header>
+   
+                
+            </div>
     <!-- Header Section End -->
 
     <!-- Contact Section Begin -->

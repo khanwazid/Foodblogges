@@ -24,7 +24,12 @@
 
 
     <style>
-      
+   .custom-account-link {
+    color: black; /* Make the link text black by default */
+    
+    text-decoration: none;
+    position: relative;
+}
 .header__btn h5 {
     color: #000000;
     text-transform: uppercase;
@@ -36,28 +41,6 @@
 
 .custom-account-link:hover {
     color: black; /* Change the color to orange on hover */
-}
-.header__btn {
-    text-align: left;
-    padding: 15px 0;
-}
-
-.header__btn h5 {
-    margin-bottom: 1px;
-    color: #333;
-    font-size: 16px;
-}
-
-.custom-account-link {
-    display: inline-block;
-    font-size: 16px;
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-.custom-account-link:hover {
-    color: #e67e22 !important;
-    text-decoration: none;
 }
 
 .primary-btn {

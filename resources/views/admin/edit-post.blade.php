@@ -506,7 +506,7 @@ input {
                 <div class="row">
                     <div class="col-lg-2 col-md-1 col-6 order-md-1 order-1">
                         <div class="header__humberger">
-                            <i class="fa fa-bars humberger__open"></i>
+                           
                         </div>
                     </div>
                     <div class="col-lg-8 col-md-10 order-md-2 order-3">
@@ -517,7 +517,7 @@ input {
                                 @if(auth()->check())
                                 @if(auth()->user()->isAdmin())
                                     <!-- Link for admin users -->
-                                    <li><a href="{{url('/admin/dashboard')}}">Admin Dashboard</a></li>
+                               <li><a href="{{url('/admin/dashboard')}}">Admin Dashboard</a></li>
                                 @else
                                     <!-- Link for regular users -->
                                     <li><a href="{{url('/profile')}}">Profile</a></li>
@@ -544,7 +544,7 @@ input {
                     </div>
                     <div class="col-lg-2 col-md-1 col-6 order-md-3 order-2">
                         <div class="header__search">
-                            <i class="fa fa-search search-switch"></i>
+                            
                         </div>
                     </div>
                 </div>
@@ -579,7 +579,7 @@ input {
                 <!-- Logo Section -->
                 <div class="col-lg-6 col-md-6">
                     <div class="header__logo">
-                        <a href="#">
+                        <a >
                             <img src="{{ asset('img/logo.png') }}" alt="Logo">
                         </a>
                         

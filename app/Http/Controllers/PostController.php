@@ -16,68 +16,25 @@ use Illuminate\Validation\ValidationException;
 
 class PostController extends Controller
 {
-    public function create()
-    {
-        // Return the form for creating a post
-        return view('create');
-       // return 'This is a test response from create method';
-    }
-
-    public function store(Request $request)
-    {
-        // Validate the incoming request
-        $request->validate([
-            'title' => 'required|string|max:255',
-            'description' => 'required|string',
-            'header_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'read_time' => 'required|integer',
-            'categories' => 'required|string',
-            'cook_time' => 'required|integer',
-            'prep_time' => 'required|integer',
-            'serves' => 'required|integer',
-        ]);
-
-        // Handle file upload if there's an image
-        if ($request->hasFile('header_pic')) {
-            $imagePath = $request->file('header_pic')->store('images', 'public');
-               // Store the file path in the session for re-use
-        session(['header_pic_path' => $imagePath]);
-        } else {
-            // Use the previously saved file path if validation fails
-        $imagePath = session('header_pic_path', null);
-        }
-
-        // Store the post
-        Post::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'header_pic' => $imagePath,
-            'read_time' => $request->read_time,
-            'categories' => $request->categories,
-            'cook_time' => $request->cook_time,
-            'prep_time' => $request->prep_time,
-            'serves' => $request->serves,
-            'user_id' => Auth::id(),  // Use the logged-in user's ID
-        ]);
-        session()->forget('header_pic_path');
-
-        // Redirect with success message
-        return redirect()->route('profile')->with('success', 'Post created successfully!');
-    }
-   /* public function index()
-    {
-        // Fetch all posts
-        //$posts = Post::all(); // Alternatively, you can use pagination if you want to limit the number of posts per page
-        $posts = Post::with('user')->paginate(10);
-        return view('admin.list-posts', compact('posts'));
-      
-    }*/
+   /**
+ * Display a list of posts with optional search functionality.
+ * 
+ * This method retrieves a paginated list of posts, optionally filtered by a search term. 
+ * It allows users to search for posts based on the title, description, or the username of the post's author.
+ * The posts are ordered by the most recent, and the results are paginated for easy viewing.
+ * 
+ * @param \Illuminate\Http\Request $request The HTTP request instance containing search parameters.
+ * @return \Illuminate\Contracts\View\View The view displaying the list of posts.
+ */
     public function index(Request $request)
 {
-    $query = Post::with('user');
+    $query = Post::with('user'); // Eager load the 'user' relationship for posts
     
+     // Check if a search term is provided
     if($request->has('search')) {
         $search = $request->get('search');
+
+         // Apply search filters on title, description, and username
         $query->where(function($q) use ($search) {
             $q->where('title', 'like', "%{$search}%")
               ->orWhere('description', 'like', "%{$search}%")
@@ -86,25 +43,26 @@ class PostController extends Controller
               });
         });
     }
-    
+     // Retrieve the paginated posts, ordered by the latest first
     $posts = $query->latest()->paginate(2);
+
+    // Return the view with the list of posts
     return view('admin.list-posts', compact('posts'));
 }
 
-    public function show($id)
-    {
-        // Retrieve the post using the provided ID
-      //  $post = Post::findOrFail($id);
-        $post = Post::with('user')->findOrFail($id);
-
-        // Retrieve the user related to the post (assuming the post has a user relationship)
-        $user = User::findOrFail($post->user_id);
-
-        // Return the view and pass the post and user data
-        return view('admin.posts-show', compact('post', 'user'));
-    }
+   
     
-        
+        /**
+ * Display the form to edit a specific post.
+ * 
+ * This method retrieves the post with the specified ID, along with its associated user data,
+ * using eager loading to minimize database queries. If the post is found, it returns the 
+ * 'admin.edit-post' view with the post's data, allowing the admin to modify the post.
+ * If the post is not found, a 404 error will be thrown automatically by the `findOrFail` method.
+ * 
+ * @param int $id The ID of the post to be edited.
+ * @return \Illuminate\Contracts\View\View The view for editing the post.
+ */
         public function edit($id)
         {
             // Retrieve the post with its user using eager loading
@@ -114,137 +72,26 @@ class PostController extends Controller
             return view('admin.edit-post', compact('post'));
         }
     
-        // Update post method
-       /*public function update(Request $request, $id)
-        {
-            // Validate the input data
-            $request->validate([
-                'username' => 'required|string|max:255',
-                'title' => 'required|string|max:255',
-                'description' => 'required|string',
-                'categories' => 'required|string',
-                'read_time' => 'required|integer|min:1',
-                'cook_time' => 'required|integer|min:1',
-                'prep_time' => 'required|integer|min:1',
-                'serves' => 'required|integer|min:1',
-                'header_pic' => 'nullable|image|max:2048',  // Optional header image, but it must be an image if provided
-            ]);
-    
-            // Find the post to update
-            $post = Post::findOrFail($id);
-    
-            // Update the post details
-            $post->title = $request->title;
-            $post->description = $request->description;
-            $post->categories = $request->categories;
-            $post->read_time = $request->read_time;
-            $post->cook_time = $request->cook_time;
-            $post->prep_time = $request->prep_time;
-            $post->serves = $request->serves;
-    
-            // If a new header image is uploaded, handle it
-            if ($request->hasFile('header_pic')) {
-                // Delete the old image if exists
-                if ($post->header_pic && \Storage::exists('public/' . $post->header_pic)) {
-                    \Storage::delete('public/' . $post->header_pic);
-                }
-    
-                // Store the new image
-                $post->header_pic = $request->file('header_pic')->store('images', 'public');
-            }
-    
-            // Save the post changes
-            $post->save();
-    
-         
-           // $post->user->username = $request->username;
-           // $post->user->save();
-    
-            // Redirect back with success message
-            return redirect()->route('list.post', $post->p_id)->with('success', 'Post updated successfully.');
-        }*/
-       /* public function update(Request $request, $p_id)
+
+        /**
+ * Update the specified post in the database.
+ * 
+ * This method validates the incoming request data for updating a post, including the title, 
+ * description, categories, and other relevant fields. It handles image file uploads (if any),
+ * ensuring that the existing header image is deleted before a new one is uploaded. The categories 
+ * are saved as a JSON-encoded array, and the post is updated with the validated data.
+ * 
+ * If the update is successful, the user is redirected back to the list of posts with a success 
+ * message. If any validation errors occur, the user is redirected back to the form with 
+ * the errors highlighted.
+ * 
+ * @param \Illuminate\Http\Request $request The incoming request containing the updated post data.
+ * @param int $id The ID of the post to be updated.
+ * @return \Illuminate\Http\RedirectResponse Redirects to the list of posts with a success message.
+ */
+     public function update(Request $request, $id)
 {
-    // Validate the input data
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required|string',
-        'categories' => 'required|string',
-        'read_time' => 'required|integer|min:1',
-        'cook_time' => 'required|integer|min:1',
-        'prep_time' => 'required|integer|min:1',
-        'serves' => 'required|integer|min:1',
-        'header_pic' => 'nullable|image|max:2048',
-    ]);
-
-    // Find the post using p_id
-    $post = Post::where('p_id', $p_id)->firstOrFail();
-
-    // Update the post details
-    $post->update([
-        'title' => $request->title,
-        'description' => $request->description,
-        'categories' => $request->categories,
-        'read_time' => $request->read_time,
-        'cook_time' => $request->cook_time,
-        'prep_time' => $request->prep_time,
-        'serves' => $request->serves,
-    ]);
-
-    // Handle image upload if present
-    if ($request->hasFile('header_pic')) {
-        // Delete old image
-        if ($post->header_pic) {
-            Storage::disk('public')->delete($post->header_pic);
-        }
-        
-        // Store new image
-        $post->header_pic = $request->file('header_pic')->store('images', 'public');
-        $post->save();
-    }
-
-    return redirect()->route('list.post')->with('success', 'Recipe updated successfully!');
-}*/
-/*public function update(Request $request, $id)
-{
-    // Validate the input data
-    $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required|string',
-       // 'categories' => 'required|string',
-        'categories' => 'required|array|min:1',  // Ensure categories is an array and not empty
-        'categories.*' => 'string|in:breakfast,lunch,dinner,desserts,appetizers,beverages,snacks',
-        'read_time' => 'required|integer|min:1',
-        'cook_time' => 'required|integer|min:1',
-        'prep_time' => 'required|integer|min:1',
-        'serves' => 'required|integer|min:1',
-        'header_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    ]);
-
-    // Find the post using p_id
-    $post = Post::where('p_id', $id)->firstOrFail();
-
-    // If an image is uploaded, handle it the same way as in stores method
-    if ($request->hasFile('header_pic')) {
-        // Delete old image if it exists
-      /*  if ($post->header_pic) {
-            Storage::delete('public/' . $post->header_pic);
-        }  */
-        /*if ($post->header_pic && Storage::exists('public/' . $post->header_pic)) {
-            Storage::delete('public/' . $post->header_pic);
-        }
-        // Generate custom name and store new image
-        /*$imageName = Str::random(32) . '.' . $request->file('header_pic')->getClientOriginalExtension();
-        $request->file('header_pic')->storeAs('public/images', $imageName);
-        $validated['header_pic'] = 'images/' . $imageName;
-    }
-
-    // Updateing the post with validated data
-    $post->update($validated);
-
-    return redirect()->route('list.post')->with('success', 'Recipe updated successfully.');
-}*/public function update(Request $request, $id)
-{
+        // Validate the incoming request data for post update
     $validated = $request->validate([
         'title' => 'required|string|max:255',
         'description' => 'required|string',
@@ -257,13 +104,16 @@ class PostController extends Controller
         'header_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
     ]);
 
+     // Retrieve the post by its ID, throw an exception if not found
     $post = Post::where('p_id', $id)->firstOrFail();
 
-    // Handle image upload
+ // Handle image upload (if provided) and delete the old image
     if ($request->hasFile('header_pic')) {
+         // Check if an old image exists and delete it
         if ($post->header_pic && Storage::exists('public/' . $post->header_pic)) {
             Storage::delete('public/' . $post->header_pic);
         }
+         // Generate a random file name and store the new image
         $imageName = Str::random(32) . '.' . $request->file('header_pic')->getClientOriginalExtension();
         $request->file('header_pic')->storeAs('public/images', $imageName);
         $validated['header_pic'] = 'images/' . $imageName;
@@ -272,60 +122,80 @@ class PostController extends Controller
     // Convert categories array to JSON before saving
     $validated['categories'] = json_encode($request->categories);
 
+     // Update the post with the validated data
     $post->update($validated);
 
+     // Redirect to the list of posts with a success message
     return redirect()->route('list.post')->with('success', 'Recipe updated successfully.');
 }
 
 
-
+/**
+ * Delete the specified post from the database.
+ * 
+ * This method handles the deletion of a post by first checking if an associated header image
+ * exists. If the image exists, it is deleted from the storage directory. Afterward, the post 
+ * record is deleted from the database. Finally, the user is redirected back to the list of posts 
+ * with a success message indicating that the post has been successfully deleted.
+ * 
+ * @param int $id The ID of the post to be deleted.
+ * @return \Illuminate\Http\RedirectResponse Redirects to the list of posts with a success message.
+ */
         public function destroy($id)
         {
-            // Find the post to delete
+            // Find the post by its ID, throwing a 404 exception if not found
             $post = Post::findOrFail($id);
     
             // Check if there's an associated header image and delete it from storage
             if ($post->header_pic && Storage::exists('public/' . $post->header_pic)) {
+                   // Delete the image from storage
                 Storage::delete('public/' . $post->header_pic);
             }
     
-            // Delete the post record
+           // Delete the post record from the database
             $post->delete();
     
-            // Redirect to the index or profile page with a success message
+       
+         // Redirect back to the list of posts with a success message
             return redirect()->route('list.post')->with('success', 'Post deleted successfully.');
         }
 
-        /*public function creates()
-    {
-        // Getting all users excluding the admins
-        $users = User::where('role', '!=', 'admin')->get();
-        
-        return view('admin.post-create', compact('users'));
-    }*/
+     /**
+ * Display the form to create a new post.
+ * 
+ * This method checks if the authenticated user has the 'admin' role. If so,  
+ * Afterward, it returns the 'post-create' view for the admin to create a new post.
+ * 
+ * @return \Illuminate\Contracts\View\View The view for creating a new post.
+ */  
     public function creates()
-{
+{  
+     // Check if the authenticated user is an admin
     if (auth()->user()->role === 'admin') {
         $users = User::where('role', '!=', 'admin')->get();
         return view('admin.post-create', compact('users'));
     }
     return redirect()->route('login.show')->with('error', 'Unauthorized access');
 }
-   /* public function creates()
-{
-    // Check if the authenticated user is an admin
-    if (!auth()->check() || auth()->user()->role !== 'admin') {
-        // If the user is not an admin, redirect them to the home page or another page
-        return redirect()->route('login.show')->with('error', 'You do not have permission to create a post.');
-    }
 
-    // If the user is an admin, proceed to the post creation page
-    return view('admin.post-create');
-}*/
+/**
+ * Store a newly created post in the database.
+ * 
+ * This method validates the incoming request, including the post data and the optional header image. 
+ * If the image is provided, it stores the image in the 'public/images' directory with a unique name 
+ * to avoid conflicts. It then creates a new post in the database and redirects the user to the admin 
+ * dashboard with a success message.
+ * 
+ * @param \Illuminate\Http\Request $request The request object containing the post data.
+ * @return \Illuminate\Http\RedirectResponse Redirects to the admin dashboard with a success message.
+ */
     public function stores(Request $request)
     {
+         // Merge the user_id field with the authenticated user's ID
         $request->merge(['user_id' => auth()->id()]);
-        // Validate the request data
+        
+
+          // Validate the incoming request data
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'title' => 'required|string|max:255',
@@ -362,7 +232,7 @@ class PostController extends Controller
         Post::create($validated);
        
 
-
+ // Redirect the admin to the dashboard with a success message
         return redirect()->route('admin.dashboard')->with('success', 'Recipe created successfully.');
     }
     }
