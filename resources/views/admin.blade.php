@@ -368,8 +368,8 @@
                         <!-- Manage Comments Section -->
                         <div class="management-item">
                             <h3>COMMENTS</h3>
-                            <p>Manage your comments from here</p>
-                            <a href="{{ route('admin.comments.index') }}" class="management-button">MANAGE COMMENTS</a>
+                            <p>Take a look at comments</p>
+                            <a href="{{ route('admin.comments.index') }}" class="management-button">COMMENTS</a>
                         </div>
 
                         <div class="management-item">
