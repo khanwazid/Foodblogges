@@ -529,12 +529,19 @@
                             
                         </ul>
                         <h4>{{ $post->title }}</h4>
-                        <ul class="widget">
-                            <li>by {{ $post->user->username }}</li>
-                            <li>{{ $post->read_time }} min read</li>
-                            <li>{{ $post->comments->count() }} Comments</li>
-                        </ul>
-                    </div>
+
+        <ul class="widget">
+            <li>
+                <h5><i class="fa fa-user-o"></i> by {{ $post->user->username }}</h5>
+            </li>
+            <li>
+                <h5><i class="fa fa-clock-o"></i> {{ $post->read_time }} min read</h5>
+            </li>
+            <li>
+                <h5><i class="fa fa-comments-o"></i> {{ $post->comments->count() }} Comments</h5>
+            </li>
+        </ul>
+    </div>
                 </div>
 
                 <!-- Recipe Details Section -->
