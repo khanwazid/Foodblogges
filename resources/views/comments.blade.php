@@ -238,30 +238,6 @@
 }
  Alert Messages */
 
-.alert {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 15px 25px;
-    border-radius: 15px;
-    animation: slideIn 0.5s ease-out;
-}
-
-.alert-success {
-    background-color: #28a745;
-    color: white;
-    border-left: 5px solid #1e7e34;
-    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.2);
-}
-body {
-            background-color: #f8f9fa;
-            font-family: Arial, sans-serif;
-        }
-.alert-error {
-    background-color: #dc3545;
-    color: white;
-    border-left: 5px solid #bd2130;
-    box-shadow: 0 4px 15px rgba(220, 53, 69, 0.2);
-}
 .description-section::before {
     content: '🍽️';
     display: block;
@@ -418,6 +394,42 @@ body {
     </style>
 </head>
 <body>
+    @if (session('success'))
+    <div id="success-message" class="alert alert-success" style="background-color: #d4edda; color: #155724; padding: 10px; border-radius: 5px; margin: 10px 0;">
+        {{ session('success') }}
+    </div>
+@endif
+
+@if ($errors->any())
+    <div id="error-message" class="alert alert-danger" style="background-color: #f8d7da; color: #721c24; padding: 10px; border-radius: 5px; margin: 10px 0;">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+<script>
+    // Function to fade out an element
+    function fadeOutMessage(elementId) {
+        setTimeout(function() {
+            const message = document.getElementById(elementId);
+            if (message) {
+                message.style.transition = "opacity 1s ease";
+                message.style.opacity = 0; // Gradually fades out
+                setTimeout(function() {
+                    message.style.display = 'none'; // Remove from display after fade-out
+                }, 1000); // Wait for 1 second for the fade-out effect
+            }
+        }, 3000); // Display for 3 seconds before starting fade-out
+    }
+
+    // Apply fade-out to success and error messages
+    fadeOutMessage('success-message');
+    fadeOutMessage('error-message');
+</script>
+
     <div class="wrapper">
 
     
@@ -452,19 +464,7 @@ body {
         <a href="{{ url('/normal') }}" class="logout-button">BACK</a>
     <div class="container mt-5">
       
-        @if(session('success'))
-    <div class="alert alert-success" role="alert">
-        <i class="fas fa-check-circle me-2"></i>
-        {{ session('success') }}
-    </div>
-@endif
-
-@if(session('error'))
-    <div class="alert alert-error" role="alert">
-        <i class="fas fa-exclamation-circle me-2"></i>
-        {{ session('error') }}
-    </div>
-@endif
+        
 <div class="container">
     
     
@@ -611,7 +611,11 @@ body {
                 <div class="signin__warp">
                     <div class="signin__content">
                         <div class="signin__logo">
-                            <a href="#"><img src="{{ asset('img/siign-in-logo.png') }}" alt="Sign In Logo"></a>
+                            <a>
+                                <img src="{{ asset('img/siign-in-logo.png') }}" alt="Sign In Logo">
+                            </a>
+
+        
                         </div>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt labore dolore magna aliqua viverra.</p>
                         
@@ -626,16 +630,27 @@ body {
                     @method('PUT')
                     <div class="modal-body">
                         <div class="form-group">
-                            <textarea class="form-control" placeholder="Edit Comment*" name="content" rows="3" required>{{ $comment->content }}</textarea>
+                            <textarea 
+                                class="form-control @error('content') is-invalid @enderror" 
+                                placeholder="Edit Comment*" 
+                                name="content" 
+                                rows="3" 
+                                required
+                            >{{ old('content', $comment->content) }}</textarea>
+                            
+                            @error('content')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
                         </div>
                     </div>
                     <div class="modal-footer">
-                        
                         <button type="submit" class="btn btn-primary orange-save">SAVE CHANGES</button>
-<button type="button" class="btn btn-secondary black-close" data-bs-dismiss="modal">CLOSE</button>
-
+                        <button type="button" class="btn btn-secondary black-close" data-bs-dismiss="modal">CLOSE</button>
                     </div>
                 </form>
+
             </div>
         </div>
     </div>
@@ -650,10 +665,19 @@ body {
                                     </div>
                                     <form action="{{ route('comments.store', ['postId' => $post->p_id]) }}" method="POST">
                                         @csrf
-                                        <textarea name="content" placeholder="Share your thoughts..."></textarea>
+                                        
+                                        <textarea name="content" placeholder="Share your thoughts..." class="@error('content') is-invalid @enderror">{{ old('content') }}</textarea>
+                                        
+                                        @error('content')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                        
                                         <button type="submit" class="site-btn">Submit</button>
                                     </form>
                                 </div>
+                                
+
+                            
                                 
                             @else
                                 <p class="text-center mb-4">

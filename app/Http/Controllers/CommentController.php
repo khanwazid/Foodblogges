@@ -47,21 +47,26 @@ public function show()
 public function store(Request $request, $postId)
 {
     // Validate the incoming request
-    $request->validate([
-        'content' => 'required|string|max:500', // Content is required and should not exceed 500 characters
+    $validated = $request->validate([
+        'content' => 'required|string|max:500',  // Content is required and should not exceed 500 characters
+   
+    ], [
+        'content.required' => 'The comment cannot be empty',
+        'content.max' => 'The comment must not exceed 500 characters'
     ]);
+
 
     // Find the post using p_id (primary key)
     $post = Post::where('p_id', $postId)->firstOrFail();
-
+   
     // Check if the post already has a comment
     $existingComment = Comment::where('post_id', $post->p_id)->first();
 
     if ($existingComment) {
-        // Optionally update the existing comment or show a message if only one comment is allowed
-        return redirect()->back()->with('error', 'This post already has a comment.');
+        return redirect()->back()
+            ->withInput()
+            ->withErrors(['content' => 'This post already has a comment.']);
     }
-
     // Create a new comment related to the post
     Comment::create([
         'content' => $request->content,      // The comment content
@@ -90,7 +95,9 @@ public function update(Request $request, Comment $comment)
 {
     // Check if user owns the comment
     if (auth()->id() !== $comment->user_id) {
-        return redirect()->back()->with('error', 'Unauthorized action');
+        return redirect()->back()
+            ->withInput()
+            ->withErrors(['content' => 'Unauthorized action']);
     }
 
     // Check if the post already has another comment (excluding the current one being updated)
@@ -99,14 +106,21 @@ public function update(Request $request, Comment $comment)
                                 ->first();
 
    // If a comment already exists for the post, return an error
-    if ($existingComment) {
-        return redirect()->back()->with('error', 'This post already has a comment.');
+   if ($existingComment) {
+    return redirect()->back()
+    ->withInput()
+    ->withErrors(['content' => 'This post already has a comment.']);
     }
 
+
     // Validate the updated content of the comment
-    $request->validate([
+    $validated = $request->validate([
         'content' => 'required|string|max:500'
+    ], [
+        'content.required' => 'The comment cannot be empty',
+        'content.max' => 'The comment must not exceed 500 characters'
     ]);
+
 
    // Update the comment with the new content
     $comment->update([
