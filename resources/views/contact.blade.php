@@ -516,8 +516,7 @@ transform: translateX(-3px);
             full_name: {
                 required: true,
                 minlength: 3,
-                maxlength: 255,
-                pattern: /^[A-Za-z\s]+$/.toString()
+                maxlength: 255
             },
             email: {
                 required: true,
