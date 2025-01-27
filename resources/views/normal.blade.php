@@ -735,6 +735,7 @@ input {
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">CANCEL</button>
                                 </div>
                             </form>
+                            
                         </div>
                     </div>
                 </div>
@@ -817,6 +818,63 @@ input {
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script>
+    $(document).ready(function() {
+    $(".profile-form").validate({
+        rules: {
+            full_name: {
+                required: true,
+                minlength: 3,
+                maxlength: 255
+            },
+            username: {
+                required: true,
+                minlength: 3,
+                maxlength: 255,
+             
+            },
+            email: {
+                required: true,
+                email: true,
+                maxlength: 255
+            }
+        },
+        messages: {
+            full_name: {
+                required: "Full name is required",
+                minlength: "Full name must be at least 3 characters long",
+                maxlength: "Full name cannot exceed 255 characters"
+            },
+            username: {
+                required: "Username is required",
+                minlength: "Username must be at least 3 characters long",
+                maxlength: "Username cannot exceed 255 characters",
+                pattern: "Username can only contain letters, numbers, and underscores"
+            },
+            email: {
+                required: "Email address is required",
+                email: "Please enter a valid email address",
+                maxlength: "Email cannot exceed 255 characters"
+            }
+        },
+        errorElement: 'div',
+        errorClass: 'invalid-feedback',
+        highlight: function(element) {
+            $(element).addClass('is-invalid').removeClass('is-valid');
+        },
+        unhighlight: function(element) {
+            $(element).addClass('is-valid').removeClass('is-invalid');
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        }
+    });
+});
+
+</script>
 </body>
 
 </html>

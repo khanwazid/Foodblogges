@@ -3,15 +3,13 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\Post;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use Illuminate\Validation\Rules\Password;
+
 
 
 
@@ -489,25 +487,32 @@ public function updateProfiles(Request $request)
  */
 public function changePasswords(Request $request)
 {
-
-    // Validate the current and new password fields
-    $request->validate([
-        'current_password' => 'required',
-        'new_password' => 'required|min:8|confirmed',
-    ]);
-
-    // Get the currently authenticated user
-    $user = Auth::user();
+ // Validate the password input
+ $validator = Validator::make($request->all(), [
+    'current_password' => 'required|string',
+    'new_password' => 'required|string|min:8|confirmed', // At least 8 characters and matches confirmation
+]);
 
 
-    // Check if the current password entered matches the stored password
-    if (!Hash::check($request->current_password, $user->password)) {
-        return back()->withErrors(['current_password' => 'The current password is incorrect.'])->withInput();
-    }
+// If validation fails, return the errors and reopen the modal
+if ($validator->fails()) {
+    return redirect()->back()
+        ->withErrors($validator) // Return validation errors
+        ->with('showChangePasswordModal', true) // Reopen the modal for correction
+        ->withInput(); // Keep user input to correct any mistakes
+}
 
-    
-    // Update the user's password with the new hashed password
-    $user->update(['password' => Hash::make($request->new_password)]);
+// Check if current password matches the stored password for the authenticated user
+if (!Hash::check($request->current_password, Auth::user()->password)) {
+    return redirect()->back()
+        ->with('error', 'Current password is incorrect') // Provide error message if passwords do not match
+        ->with('showChangePasswordModal', true); // Reopen the modal for re-entry
+}
+
+// Proceed to update the password if everything is valid
+$user = Auth::user();
+$user->password = Hash::make($request->new_password); // Hash the new password before saving
+ $user->save(); // Save the updated password to the database
 
     // Redirect back with a success message indicating the password has been changed
     return back()->with('success', 'Your password has been changed successfully.');

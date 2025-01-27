@@ -35,98 +35,112 @@
     <link rel="stylesheet" href="{{ asset('css/slicknav.min.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}" type="text/css">
     <style>
-
-/* Add or modify these styles */
-.select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #f4952f !important;
-    color: white !important;
+/* Hide the remove button by default */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    display: none !important; /* Hide the button */
 }
 
-.select2-container--default .select2-results__option:hover {
-    background-color: #f4952f !important;
+/* Show the remove button on hover */
+.select2-container--default .select2-selection--multiple .select2-selection__choice:hover .select2-selection__choice__remove {
+    display: inline-block !important; /* Show the button when hovering over the choice */
     color: white !important;
+    margin-right: 5px !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.3) !important;
+    padding-right: 5px !important;
 }
 
-/* For when an option is both hovered and highlighted */
-.select2-container--default .select2-results__option--highlighted[aria-selected]:hover {
-    background-color: #f4952f !important;
-    color: white !important;
+/* Hover effect for remove button */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    background-color: rgba(255, 255, 255, 0.2) !important;
+    color: #f4952f !important; /* Match your theme */
+    border-radius: 50%; /* Optional: Circular shape */
 }
 
-/* For when an option is being actively hovered */
-.select2-container--default .select2-results__option[aria-selected]:hover {
-    background-color: #f4952f !important;
-    color: white !important;
-}
-
-        /* Select2 Custom Styling */
-/* Select2 Custom Styling for Categories */
-.select2-container--default .select2-selection--multiple {
-    border: 2px solid #ced4da !important;
-    border-radius: 4px !important;
+/* Placeholder text styling */
+.select2-container--default .select2-selection--multiple .select2-selection__placeholder {
+    color: #999;
     font-size: 14px !important;
-    padding: 4px 8px !important;
-    min-height: 40px !important;
-    background-color: #f9f9f9 !important;
+    white-space: nowrap !important;
+    overflow: visible !important;
 }
 
-.select2-container--default.select2-container--focus .select2-selection--multiple {
-    border-color: #f4952f !important;
-    box-shadow: 0 0 5px rgba(244, 149, 47, 0.5) !important;
-  
-    outline: none !important;
-}
-
+/* Styling for individual choice items */
 .select2-container--default .select2-selection--multiple .select2-selection__choice {
     background-color: #f4952f !important;
-    border: 1px solid #f4952f !important;
+    border: none !important;
     color: white !important;
     border-radius: 4px !important;
     padding: 2px 8px !important;
     margin: 2px !important;
+    display: flex !important;
+    align-items: center !important;
+    flex-direction: row !important;
 }
 
-.select2-container--default .select2-selection__choice__remove {
-    color: white !important;
+/* Place the remove button on the left */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    order: -1 !important; /* Forces the remove button to the start */
     margin-right: 5px !important;
-    border-right: 1px solid rgba(255,255,255,0.3) !important;
     padding-right: 5px !important;
+    border-right: 1px solid rgba(255, 255, 255, 0.3) !important;
+    float: left !important;
 }
 
-.select2-container--default .select2-selection__choice__remove:hover {
-    background-color: #f4952f !important;
-    
-    color: white !important;
+/* Main container styling */
+.select2-container--default .select2-selection--multiple {
+    border: 2px solid #ced4da !important;
+    border-radius: 4px !important;
+    padding: 5px 8px !important;
+    min-height: 45px !important;
+    background-color: #f9f9f9 !important;
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 4px; /* Spacing between items */
 }
 
-.select2-container--default .select2-search--inline .select2-search__field {
-    margin-top: 0 !important;
-    padding: 8px !important;
-    font-size: 14px !important;
+/* Focus state styling */
+.select2-container--default.select2-container--focus .select2-selection--multiple {
+    border-color: #2fa5f4 !important;
+    box-shadow: 0 0 5px rgba(244, 149, 47, 0.5) !important;
 }
 
-.select2-container--default .select2-results__option--highlighted[aria-selected] {
-    background-color: #f4952f; !important;
-    color: black !important;
-}
-
+/* Dropdown styling */
 .select2-dropdown {
     border: 2px solid #f4952f !important;
     border-radius: 4px !important;
     margin-top: 5px !important;
 }
 
-.select2-results__option {
+/* Style for dropdown options */
+.select2-container--default .select2-results__option {
     padding: 8px 12px !important;
     font-size: 14px !important;
 }
 
+/* Highlighted dropdown option */
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #f4952f !important;
+    color: white !important;
+}
+
+/* Already selected dropdown option */
 .select2-container--default .select2-results__option[aria-selected=true] {
     background-color: #fff3e6 !important;
     color: #f4952f !important;
 }
 
+/* Ensure placeholder visibility */
+.select2-container--default .select2-selection--multiple .select2-selection__placeholder {
+    width: auto !important;
+    white-space: nowrap !important;
+    display: block !important;
+}
 
+/* Ensure dropdown and container width match */
+.select2-container {
+    width: 100% !important;
+    min-width: 250px !important;
+}
 
 
 
@@ -1146,9 +1160,124 @@ jQuery(document).ready(function($) {
 <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
     <!-- Add these before closing </body> tag -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+    $(".profile-form").validate({
+        rules: {
+            title: {
+                required: true,
+                minlength: 3,
+                maxlength: 255
+            },
+            description: {
+                required: true,
+                minlength: 10,
+                maxlength: 5000
+            },
+            'categories[]': {
+                required: true,
+                minlength: 1,
+                maxlength: 5
+            },
+            read_time: {
+                required: true,
+                number: true,
+                min: 1,
+                max: 1440
+            },
+            cook_time: {
+                required: true,
+                number: true,
+                min: 1,
+                max: 1440
+            },
+            prep_time: {
+                required: true,
+                number: true,
+                min: 1,
+                max: 1440
+            },
+            serves: {
+                required: true,
+                number: true,
+                min: 1,
+                max: 100
+            },
+            header_pic: {
+                extension: "jpg|jpeg|png|gif|svg",
+                maxsize: 2048000 // 2MB in bytes
+            }
+        },
+        messages: {
+            title: {
+                required: "Please enter a recipe title",
+                minlength: "Title must be at least 3 characters long",
+                maxlength: "Title cannot exceed 255 characters"
+            },
+            description: {
+                required: "Please enter a recipe description",
+                minlength: "Description must be at least 10 characters long",
+                maxlength: "Description cannot exceed 5000 characters"
+            },
+            'categories[]': {
+                required: "Please select at least one category",
+                minlength: "Please select at least one category",
+                maxlength: "You can select up to 5 categories"
+            },
+            read_time: {
+                required: "Please enter read time",
+                number: "Please enter a valid number",
+                min: "Read time must be at least 1 minute",
+                max: "Read time cannot exceed 1440 minutes"
+            },
+            cook_time: {
+                required: "Please enter cook time",
+                number: "Please enter a valid number",
+                min: "Cook time must be at least 1 minute",
+                max: "Cook time cannot exceed 1440 minutes"
+            },
+            prep_time: {
+                required: "Please enter prep time",
+                number: "Please enter a valid number",
+                min: "Prep time must be at least 1 minute",
+                max: "Prep time cannot exceed 1440 minutes"
+            },
+            serves: {
+                required: "Please enter number of servings",
+                number: "Please enter a valid number",
+                min: "Servings must be at least 1",
+                max: "Servings cannot exceed 100"
+            },
+            header_pic: {
+                extension: "Please upload a valid image file (jpg, jpeg, png, gif, svg)",
+                maxsize: "Image size cannot exceed 2MB"
+            }
+        },
+        errorElement: 'div',
+        errorClass: 'invalid-feedback',
+        highlight: function(element) {
+            $(element).addClass('is-invalid').removeClass('is-valid');
+        },
+        unhighlight: function(element) {
+            $(element).addClass('is-valid').removeClass('is-invalid');
+        },
+        errorPlacement: function(error, element) {
+            if (element.hasClass('select2-hidden-accessible')) {
+                error.insertAfter(element.next('.select2'));
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+});
+
+</script>
 </body>
 
 </html>

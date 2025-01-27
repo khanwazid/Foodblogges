@@ -28,6 +28,27 @@
   <style>
 
 
+/* Hide the remove button by default */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove {
+    display: none !important; /* Hide the button */
+}
+
+/* Show the remove button on hover */
+.select2-container--default .select2-selection--multiple .select2-selection__choice:hover .select2-selection__choice__remove {
+    display: inline-block !important; /* Show the button when hovering over the choice */
+    color: white !important; /* Keep the color as desired */
+    margin-right: 5px !important;
+    border-right: 1px solid rgba(255,255,255,0.3) !important;
+    padding-right: 5px !important;
+}
+
+/* Optional: Add a hover effect for better user experience */
+.select2-container--default .select2-selection--multiple .select2-selection__choice__remove:hover {
+    background-color: rgba(255,255,255,0.2) !important;
+    color: #f4952f !important; /* Match your theme */
+    border-radius: 50%; /* Optional: Make it circular */
+}
+
         /* Make placeholder text fully visible */
 .select2-container--default .select2-selection--multiple .select2-selection__placeholder {
     color: #999;
@@ -958,47 +979,7 @@ document.getElementById("header_pic").addEventListener("change", function(e) {
 });
 
     </script>
-    {{--  <script>
-        document.getElementById("imagePlaceholder").addEventListener("click", function() {
-    document.getElementById("header_pic").click();  // Trigger the file input click
-});
-
-document.getElementById("header_pic").addEventListener("change", function(e) {
-    var reader = new FileReader();
-    reader.onload = function(event) {
-        document.getElementById("imagePreview").style.display = "block";
-        document.getElementById("imagePreview").src = event.target.result;
-        document.getElementById("imagePlaceholder").style.display = "none";  // Hide placeholder
-    };
-    reader.readAsDataURL(e.target.files[0]);
-});
-    </script>--}}
-  
-    {{--  <script>
-        document.getElementById('header_pic').addEventListener('change', function(event) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    // Create preview container if it doesn't exist
-                    let previewContainer = document.getElementById('image-preview-container');
-                    if (!previewContainer) {
-                        previewContainer = document.createElement('div');
-                        previewContainer.id = 'image-preview-container';
-                        previewContainer.className = 'mt-3';
-                        event.target.parentElement.appendChild(previewContainer);
-                    }
-                    
-                    // Update preview container content
-                    previewContainer.innerHTML = `
-                        <h6 class="mb-2">Image Preview:</h6>
-                        <img src="${e.target.result}" alt="Preview" style="max-width: 300px; max-height: 200px; object-fit: cover; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                    `;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-        </script> --}}
+    
 
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -1041,14 +1022,135 @@ document.getElementById("header_pic").addEventListener("change", function(e) {
 <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
 <script src="{{ asset('js/main.js') }}"></script>
     <!-- Add these before closing </body> tag -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/additional-methods.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
 
+<script>
+    $(document).ready(function() {
+    // Initialize Select2
+    $('#categories').select2({
+        placeholder: 'Select Categories',
+        maximumSelectionLength: 5
+    });
 
+    $(".profile-form").validate({
+        rules: {
+            title: {
+                required: true,
+                minlength: 3,
+                maxlength: 255
+            },
+            description: {
+                required: true,
+                minlength: 10,
+                maxlength: 5000
+            },
+            'categories[]': {
+                required: true,
+                minlength: 1,
+                maxlength: 5
+            },
+            read_time: {
+                required: true,
+                number: true,
+                min: 1,
+                max: 1440
+            },
+            cook_time: {
+                required: true,
+                number: true,
+                min: 1,
+                max: 1440
+            },
+            prep_time: {
+                required: true,
+                number: true,
+                min: 1,
+                max: 1440
+            },
+            serves: {
+                required: true,
+                number: true,
+                min: 1,
+                max: 100
+            },
+            header_pic: {
+                required: true,
+                extension: "jpg|jpeg|png|gif|svg",
+                maxsize: 2048000
+            }
+        },
+        messages: {
+            title: {
+                required: "Please enter a recipe title",
+                minlength: "Title must be at least 3 characters long",
+                maxlength: "Title cannot exceed 255 characters"
+            },
+            description: {
+                required: "Please enter a recipe description",
+                minlength: "Description must be at least 10 characters long",
+                maxlength: "Description cannot exceed 5000 characters"
+            },
+            'categories[]': {
+                required: "Please select at least one category",
+                minlength: "Please select at least one category",
+                maxlength: "You can select up to 5 categories"
+            },
+            read_time: {
+                required: "Please enter read time",
+                number: "Please enter a valid number",
+                min: "Read time must be at least 1 minute",
+                max: "Read time cannot exceed 1440 minutes"
+            },
+            cook_time: {
+                required: "Please enter cook time",
+                number: "Please enter a valid number",
+                min: "Cook time must be at least 1 minute",
+                max: "Cook time cannot exceed 1440 minutes"
+            },
+            prep_time: {
+                required: "Please enter prep time",
+                number: "Please enter a valid number",
+                min: "Prep time must be at least 1 minute",
+                max: "Prep time cannot exceed 1440 minutes"
+            },
+            serves: {
+                required: "Please enter number of servings",
+                number: "Please enter a valid number",
+                min: "Servings must be at least 1",
+                max: "Servings cannot exceed 100"
+            },
+            header_pic: {
+                required: "Please upload a header image",
+                extension: "Please upload a valid image file (jpg, jpeg, png, gif, svg)",
+                maxsize: "Image size cannot exceed 2MB"
+            }
+        },
+        errorElement: 'div',
+        errorClass: 'invalid-feedback',
+        highlight: function(element) {
+            $(element).addClass('is-invalid').removeClass('is-valid');
+        },
+        unhighlight: function(element) {
+            $(element).addClass('is-valid').removeClass('is-invalid');
+        },
+        errorPlacement: function(error, element) {
+            if (element.hasClass('select2-hidden-accessible')) {
+                error.insertAfter(element.next('.select2'));
+            } else {
+                error.insertAfter(element);
+            }
+        }
+    });
+});
 
+</script>
 </body>
 
 </html>

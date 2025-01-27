@@ -945,6 +945,79 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+    <script>
+    $(document).ready(function() {
+        $("#registerForm").validate({
+            rules: {
+                full_name: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 255
+                },
+                username: {
+                    required: true,
+                    minlength: 3,
+                    maxlength: 255
+                },
+                email: {
+                    required: true,
+                    email: true,
+                    maxlength: 255
+                },
+                password: {
+                    required: true,
+                    minlength: 8,
+                    maxlength: 255
+                },
+                password_confirmation: {
+                    required: true,
+                    equalTo: "[name='password']"
+                }
+            },
+            messages: {
+                full_name: {
+                    required: "Please enter your full name",
+                    minlength: "Full name must be at least 3 characters long",
+                    maxlength: "Full name cannot exceed 255 characters",
+                    pattern: "Full name can only contain letters and spaces"
+                },
+                username: {
+                    required: "Please enter a username",
+                    minlength: "Username must be at least 3 characters long",
+                    maxlength: "Username cannot exceed 255 characters"
+                },
+                email: {
+                    required: "Please enter your email address",
+                    email: "Please enter a valid email address",
+                    maxlength: "Email cannot exceed 255 characters"
+                },
+                password: {
+                    required: "Please enter a password",
+                    minlength: "Password must be at least 8 characters long",
+                    maxlength: "Password cannot exceed 255 characters"
+                },
+                password_confirmation: {
+                    required: "Please confirm your password",
+                    equalTo: "Passwords do not match"
+                }
+            },
+            errorElement: 'div',
+            errorClass: 'invalid-feedback',
+            highlight: function(element) {
+                $(element).addClass('is-invalid').removeClass('is-valid');
+            },
+            unhighlight: function(element) {
+                $(element).addClass('is-valid').removeClass('is-invalid');
+            },
+            errorPlacement: function(error, element) {
+                error.insertAfter(element);
+            }
+        });
+    });
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Clear forms when switching tabs

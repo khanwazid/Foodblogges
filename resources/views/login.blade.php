@@ -952,6 +952,53 @@
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+
+
+<script>
+    $(document).ready(function() {
+    $("#loginForm").validate({
+        rules: {
+            email: {
+                required: true,
+                email: true,
+                maxlength: 255
+            },
+            password: {
+                required: true,
+                minlength: 8,
+                maxlength: 255
+            }
+        },
+        messages: {
+            email: {
+                required: "Please enter your email address",
+                email: "Please enter a valid email address",
+                maxlength: "Email cannot exceed 255 characters"
+            },
+            password: {
+                required: "Please enter your password",
+                minlength: "Password must be at least 8 characters long",
+                maxlength: "Password cannot exceed 255 characters"
+            }
+        },
+        errorElement: 'div',
+        errorClass: 'invalid-feedback',
+        highlight: function(element) {
+            $(element).addClass('is-invalid').removeClass('is-valid');
+        },
+        unhighlight: function(element) {
+            $(element).addClass('is-valid').removeClass('is-invalid');
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        }
+    });
+});
+
+</script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Clear forms when switching tabs

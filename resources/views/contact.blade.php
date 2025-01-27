@@ -515,9 +515,9 @@ transform: translateX(-3px);
         rules: {
             full_name: {
                 required: true,
-                minlength: 2,
+                minlength: 3,
                 maxlength: 255,
-                pattern: /^[A-Za-z\s]+$/
+                pattern: /^[A-Za-z\s]+$/.toString()
             },
             email: {
                 required: true,
@@ -537,7 +537,7 @@ transform: translateX(-3px);
         messages: {
             full_name: {
                 required: "Please enter your name",
-                minlength: "Name must be at least 6 characters long",
+                minlength: "Name must be at least 3 characters long",
                 maxlength: "Name cannot exceed 255 characters",
                 pattern: "Name can only contain letters and spaces"
             },

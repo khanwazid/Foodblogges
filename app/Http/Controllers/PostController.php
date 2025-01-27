@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 
+
 use Exception;
 use App\Models\Post;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
+
 
 class PostController extends Controller
 {
@@ -89,45 +89,72 @@ class PostController extends Controller
  * @param int $id The ID of the post to be updated.
  * @return \Illuminate\Http\RedirectResponse Redirects to the list of posts with a success message.
  */
-     public function update(Request $request, $id)
+public function update(Request $request, $id)
 {
-        // Validate the incoming request data for post update
-    $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'description' => 'required|string',
-        'categories' => 'required|array|min:1|max:5',
-        'categories.*' => 'string|in:breakfast,lunch,dinner,desserts,appetizers,beverages,snacks',
-        'read_time' => 'required|integer|min:1',
-        'cook_time' => 'required|integer|min:1',
-        'prep_time' => 'required|integer|min:1',
-        'serves' => 'required|integer|min:1',
-        'header_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    ]);
+    try {
+        // Validate the incoming request data
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'categories' => 'required|array|min:1|max:5',
+            'categories.*' => 'string|in:breakfast,lunch,dinner,desserts,appetizers,beverages,snacks',
+            'read_time' => 'required|integer|min:1',
+            'cook_time' => 'required|integer|min:1',
+            'prep_time' => 'required|integer|min:1',
+            'serves' => 'required|integer|min:1',
+            'header_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
 
-     // Retrieve the post by its ID, throw an exception if not found
-    $post = Post::where('p_id', $id)->firstOrFail();
+        // Find the post or fail
+        $post = Post::where('p_id', $id)->firstOrFail();
 
- // Handle image upload (if provided) and delete the old image
-    if ($request->hasFile('header_pic')) {
-         // Check if an old image exists and delete it
-        if ($post->header_pic && Storage::exists('public/' . $post->header_pic)) {
-            Storage::delete('public/' . $post->header_pic);
+        // Handle image upload if present
+        if ($request->hasFile('header_pic')) {
+            try {
+                // Delete old image if exists
+                if ($post->header_pic && Storage::exists('public/' . $post->header_pic)) {
+                    Storage::delete('public/' . $post->header_pic);
+                }
+
+                // Store new image
+                $imageName = Str::random(32) . '.' . $request->file('header_pic')->getClientOriginalExtension();
+                $request->file('header_pic')->storeAs('public/images', $imageName);
+                $validated['header_pic'] = 'images/' . $imageName;
+            } catch (\Exception $e) {
+                throw new \Exception('Failed to process image: ' . $e->getMessage());
+            }
         }
-         // Generate a random file name and store the new image
-        $imageName = Str::random(32) . '.' . $request->file('header_pic')->getClientOriginalExtension();
-        $request->file('header_pic')->storeAs('public/images', $imageName);
-        $validated['header_pic'] = 'images/' . $imageName;
+
+        // Encode categories
+        $validated['categories'] = json_encode($request->categories);
+
+        // Update post
+        $post->update($validated);
+
+        return redirect()
+            ->route('list.post')
+            ->with('success', 'Recipe updated successfully.');
+
+    } catch (\Illuminate\Validation\ValidationException $e) {
+        return redirect()
+            ->back()
+            ->withErrors($e->errors())
+            ->withInput();
+            
+    } catch (ModelNotFoundException $e) {
+        return redirect()
+            ->back()
+            ->with('error', 'Recipe not found.')
+            ->withInput();
+            
+    } catch (\Exception $e) {
+        return redirect()
+            ->back()
+            ->with('error', 'Failed to update recipe: ' . $e->getMessage())
+            ->withInput();
     }
-
-    // Convert categories array to JSON before saving
-    $validated['categories'] = json_encode($request->categories);
-
-     // Update the post with the validated data
-    $post->update($validated);
-
-     // Redirect to the list of posts with a success message
-    return redirect()->route('list.post')->with('success', 'Recipe updated successfully.');
 }
+
 
 
 /**
@@ -189,52 +216,63 @@ class PostController extends Controller
  * @param \Illuminate\Http\Request $request The request object containing the post data.
  * @return \Illuminate\Http\RedirectResponse Redirects to the admin dashboard with a success message.
  */
-    public function stores(Request $request)
-    {
-         // Merge the user_id field with the authenticated user's ID
+public function stores(Request $request)
+{
+    try {
+        // Merge the user_id field with the authenticated user's ID
         $request->merge(['user_id' => auth()->id()]);
-        
 
-          // Validate the incoming request data
+        // Validate the incoming request data
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'header_pic' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            //'categories' => 'required|string',
-        'categories' => 'required|array|min:1|max:5',  // Ensure categories is an array and not empty
-        'categories.*' => 'string|in:breakfast,lunch,dinner,desserts,appetizers,beverages,snacks',  // Validate individual categories
+            'categories' => 'required|array|min:1|max:5',
+            'categories.*' => 'string|in:breakfast,lunch,dinner,desserts,appetizers,beverages,snacks',
             'prep_time' => 'required|integer',
             'cook_time' => 'required|integer',
             'read_time' => 'required|integer',
             'serves' => 'required|integer',
         ]);
-      
-        // If an image is uploaded, store it
-       //  if ($request->hasFile('header_pic')) {
-           // $path = $request->file('header_pic')->store('public/images');
-            //$validated['header_pic'] = basename($path);
-            
-       // } 
-        // If an image is uploaded, store it with a custom name
-    if ($request->hasFile('header_pic')) {
-        // Generate a custom, unique file name using a random string and the file's original extension
-        $imageName = Str::random(32) . '.' . $request->file('header_pic')->getClientOriginalExtension();
 
-        // Store the image in the 'public/images' directory with the custom name
-        $path = $request->file('header_pic')->storeAs('public/images', $imageName);
-
-        // Store only the relative image path in the database (i.e., 'images/{custom_name}.jpg')
-        $validated['header_pic'] = 'images/' . $imageName;
-    }
+        // Handle image upload if present
+        if ($request->hasFile('header_pic')) {
+            try {
+                // Generate a custom, unique file name
+                $imageName = Str::random(32) . '.' . $request->file('header_pic')->getClientOriginalExtension();
+                
+                // Store the image
+                $path = $request->file('header_pic')->storeAs('public/images', $imageName);
+                
+                // Update validated data with image path
+                $validated['header_pic'] = 'images/' . $imageName;
+            } catch (\Exception $e) {
+                throw new \Exception('Failed to upload image: ' . $e->getMessage());
+            }
+        }
 
         // Create the post
         Post::create($validated);
-       
 
- // Redirect the admin to the dashboard with a success message
-        return redirect()->route('admin.dashboard')->with('success', 'Recipe created successfully.');
+        return redirect()
+            ->route('admin.dashboard')
+            ->with('success', 'Recipe created successfully.');
+
+    } catch (ValidationException $e) {
+        return redirect()
+            ->back()
+            ->withErrors($e->errors())
+            ->withInput();
+            
+    } catch (Exception $e) {
+        return redirect()
+            ->back()
+            ->with('error', 'Failed to create recipe: ' . $e->getMessage())
+            ->withInput();
     }
+}
+
     }
 
    
