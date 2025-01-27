@@ -373,49 +373,46 @@ transform: translateX(-3px);
                                 <button type="submit" class="site-btn">Submit</button>
                             </form>
                              --}}  
-                             <form action="{{ route('contact.store') }}" method="POST" class="contact-form">
+                             <form action="{{ route('contact.store') }}" method="POST" id="contactForm" class="contact-form">
                                 @csrf
                                 
                                 <div class="form-group">
-                                    <input type="text" name="full_name" placeholder="Name" 
-                                           value="{{ old('full_name') }}"
-                                           required minlength="2" maxlength="255" 
-                                           pattern="[A-Za-z\s]+" 
-                                           class="@error('full_name') is-invalid @enderror">
+                                    <input type="text" name="full_name" id="full_name" 
+                                           class="form-control @error('full_name') is-invalid @enderror"
+                                           value="{{ old('full_name') }}" placeholder="Enter your full name">
                                     @error('full_name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            
+                    
                                 <div class="form-group">
-                                    <input type="email" name="email" placeholder="Email" 
-                                           value="{{ old('email') }}"
-                                           required maxlength="255" 
-                                           class="@error('email') is-invalid @enderror">
+                                    <input type="email" name="email" id="email" 
+                                           class="form-control @error('email') is-invalid @enderror"
+                                           value="{{ old('email') }}" placeholder="Enter your email">
                                     @error('email')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            
+                    
                                 <div class="form-group">
-                                    <input type="text" name="website" placeholder="Website" 
-                                           value="{{ old('website') }}" 
-                                           class="@error('website') is-invalid @enderror">
+                                    <input type="url" name="website" id="website" 
+                                           class="form-control @error('website') is-invalid @enderror"
+                                           value="{{ old('website') }}" placeholder="Enter your website (optional)">
                                     @error('website')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            
+                    
                                 <div class="form-group">
-                                    <textarea name="message" placeholder="Message" 
-                                              required minlength="10" 
-                                              maxlength="1000"
-                                              class="@error('message') is-invalid @enderror">{{ old('message') }}</textarea>
+                                    <textarea name="message" id="message" 
+                                              class="form-control @error('message') is-invalid @enderror"
+                                              rows="5" placeholder="Enter your message">{{ old('message') }}</textarea>
                                     @error('message')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
-                            
+                    
+                               
                                 <button type="submit" class="site-btn">Submit</button>
                             </form>
                             
@@ -509,6 +506,71 @@ transform: translateX(-3px);
     <script src="js/jquery.slicknav.js"></script>
     <script src="js/owl.carousel.min.js"></script>
     <script src="js/main.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+    $("#contactForm").validate({
+        rules: {
+            full_name: {
+                required: true,
+                minlength: 2,
+                maxlength: 255,
+                pattern: /^[A-Za-z\s]+$/
+            },
+            email: {
+                required: true,
+                email: true,
+                maxlength: 255
+            },
+            website: {
+                url: true,
+                maxlength: 255
+            },
+            message: {
+                required: true,
+                minlength: 10,
+                maxlength: 1000
+            }
+        },
+        messages: {
+            full_name: {
+                required: "Please enter your name",
+                minlength: "Name must be at least 6 characters long",
+                maxlength: "Name cannot exceed 255 characters",
+                pattern: "Name can only contain letters and spaces"
+            },
+            email: {
+                required: "Please enter your email address",
+                email: "Please enter a valid email address",
+                maxlength: "Email cannot exceed 255 characters"
+            },
+            website: {
+                url: "Please enter a valid website URL",
+                maxlength: "Website URL cannot exceed 255 characters"
+            },
+            message: {
+                required: "Please enter your message",
+                minlength: "Message must be at least 10 characters long",
+                maxlength: "Message cannot exceed 1000 characters"
+            }
+        },
+        errorElement: 'div',
+        errorClass: 'invalid-feedback',
+        highlight: function(element) {
+            $(element).addClass('is-invalid').removeClass('is-valid');
+        },
+        unhighlight: function(element) {
+            $(element).addClass('is-valid').removeClass('is-invalid');
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        }
+    });
+});
+
+    </script>
 </body>
 
 </html>

@@ -23,6 +23,13 @@
     
     
     <style>
+        .orange-save {
+    background-color: #f4952f !important;
+    border-color: #f4952f !important;
+}
+
+
+
        
        .post-image {
     width: 100%;
@@ -632,31 +639,29 @@
                     <h5 class="modal-title" id="editModalLabel{{ $comment->id }}">EDIT COMMENT</h5>
                     
                 </div>
-                <form action="{{ route('comments.update', $comment) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <textarea 
-                                class="form-control @error('content') is-invalid @enderror" 
-                                placeholder="Edit Comment*" 
-                                name="content" 
-                                rows="3" 
-                                required
-                            >{{ old('content', $comment->content) }}</textarea>
-                            
-                            @error('content')
-                                <div class="invalid-feedback">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary orange-save">SAVE CHANGES</button>
-                        <button type="button" class="btn btn-secondary black-close" data-bs-dismiss="modal">CLOSE</button>
-                    </div>
-                </form>
+              <!-- Edit Comment Form -->
+<form id="editCommentForm" action="{{ route('comments.update', $comment) }}" method="POST">
+    @csrf
+    @method('PUT')
+    <div class="modal-body">
+        <div class="form-group">
+            <textarea 
+                class="form-control @error('content') is-invalid @enderror" 
+                placeholder="Edit Comment*" 
+                name="content" 
+                rows="3"
+            >{{ old('content', $comment->content) }}</textarea>
+            @error('content')
+                <div class="invalid-feedback">{{ $message }}</div>
+            @enderror
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="submit" class="btn btn-primary orange-save">SAVE CHANGES</button>
+        <button type="button" class="btn btn-secondary black-close" data-bs-dismiss="modal">CLOSE</button>
+    </div>
+</form>
+
 
             </div>
         </div>
@@ -670,17 +675,22 @@
                                     <div class="widget__title">
                                         <h4>Leave a comment</h4>
                                     </div>
-                                    <form action="{{ route('comments.store', ['postId' => $post->p_id]) }}" method="POST">
-                                        @csrf
-                                        
-                                        <textarea name="content" placeholder="Share your thoughts..." class="@error('content') is-invalid @enderror">{{ old('content') }}</textarea>
-                                        
-                                        @error('content')
-                                            <div class="alert alert-danger">{{ $message }}</div>
-                                        @enderror
-                                        
-                                        <button type="submit" class="site-btn">Submit</button>
-                                    </form>
+                                    <!-- New Comment Form -->
+<form id="newCommentForm" action="{{ route('comments.store', ['postId' => $post->p_id]) }}" method="POST">
+    @csrf
+    <div class="form-group">
+        <textarea 
+            name="content" 
+            placeholder="Share your thoughts..." 
+            class="form-control @error('content') is-invalid @enderror"
+        >{{ old('content') }}</textarea>
+        @error('content')
+            <div class="invalid-feedback">{{ $message }}</div>
+        @enderror
+    </div>
+    <button type="submit" class="site-btn">Submit</button>
+</form>
+
                                 </div>
                                 
 
@@ -841,8 +851,91 @@
 });
 
             </script>
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+          
             
            
-            
+            <script>
+                $(document).ready(function() {
+    // Common validation rules and messages
+    const commentRules = {
+        content: {
+            required: true,
+            minlength: 10,
+            maxlength: 500
+        }
+    };
+
+    const commentMessages = {
+        content: {
+            required: "Please enter your comment",
+            minlength: "Comment must be at least 10 characters long",
+            maxlength: "Comment cannot exceed 500 characters"
+        }
+    };
+
+    // Validation for new comment form
+    $("#newCommentForm").validate({
+        rules: commentRules,
+        messages: commentMessages,
+        errorElement: 'div',
+        errorClass: 'invalid-feedback',
+        highlight: function(element) {
+            $(element).addClass('is-invalid').removeClass('is-valid');
+        },
+        unhighlight: function(element) {
+            $(element).addClass('is-valid').removeClass('is-invalid');
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            $('.site-btn').prop('disabled', true);
+            form.submit();
+        }
+    });
+
+    // Validation for edit comment form
+    $("#editCommentForm").validate({
+        rules: commentRules,
+        messages: commentMessages,
+        errorElement: 'div',
+        errorClass: 'invalid-feedback',
+        highlight: function(element) {
+            $(element).addClass('is-invalid').removeClass('is-valid');
+        },
+        unhighlight: function(element) {
+            $(element).addClass('is-valid').removeClass('is-invalid');
+        },
+        errorPlacement: function(error, element) {
+            error.insertAfter(element);
+        },
+        submitHandler: function(form) {
+            $('.orange-save').prop('disabled', true);
+            form.submit();
+        }
+    });
+
+    // Character counter for textareas
+    $('textarea[name="content"]').on('keyup', function() {
+        let charCount = $(this).val().length;
+        let remaining = 500 - charCount;
+        
+        if (!$(this).next('.char-counter').length) {
+            $(this).after('<div class="char-counter text-muted small"></div>');
+        }
+        
+        $(this).next('.char-counter').html(`${remaining} characters remaining`);
+        
+        if (remaining < 50) {
+            $(this).next('.char-counter').addClass('text-warning');
+        } else {
+            $(this).next('.char-counter').removeClass('text-warning');
+        }
+    });
+});
+
+            </script>
     </body>
     </html>
