@@ -26,6 +26,27 @@
   
   
   <style>
+.select2-container .select2-selection--multiple.is-valid {
+    border-color: #28a745;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2328a745' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+.select2-container .select2-selection--multiple.is-invalid {
+    border-color: #dc3545;
+    padding-right: calc(1.5em + 0.75rem);
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23dc3545' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23dc3545' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right calc(0.375em + 0.1875rem) center;
+    background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+}
+
+
+
+
 
 
 /* Hide the remove button by default */
@@ -634,11 +655,11 @@ input {
                 <!-- Social Section -->
                 <div class="col-lg-3 col-md-3">
                     <div class="header__social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-envelope-o"></i></a>
+                         <a><i class="fa fa-facebook"></i></a>
+                            <a><i class="fa fa-twitter"></i></a>
+                            <a><i class="fa fa-instagram"></i></a>
+                            <a><i class="fa fa-youtube-play"></i></a>
+                            <a><i class="fa fa-envelope-o"></i></a>
                     </div>
                 </div>
             </div>
@@ -919,17 +940,20 @@ input {
                             ut<br /> labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus
                             commodo viverra<br /> maecenas accumsan lacus vel facilisis. </p>
                         <div class="footer__social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            <a href="#"><i class="fa fa-envelope-o"></i></a>
+                           
+                            <a><i class="fa fa-facebook"></i></a>
+                            <a><i class="fa fa-twitter"></i></a>
+                            <a><i class="fa fa-instagram"></i></a>
+                            <a><i class="fa fa-youtube-play"></i></a>
+                            <a><i class="fa fa-envelope-o"></i></a>
                         </div>
                     </div>
                     <div class="footer__copyright">
-                        <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by Colorlib
                         </p>
+                        
                     </div>
                 </div>
             </div>
@@ -1037,10 +1061,34 @@ document.getElementById("header_pic").addEventListener("change", function(e) {
     $('#categories').select2({
         placeholder: 'Select Categories',
         maximumSelectionLength: 5
+    }).on('change', function() {
+        // Trigger validation on change
+        $(this).valid();
+        
+        // Add validation classes to Select2 container
+        if ($(this).valid()) {
+            $(this).next('.select2-container').find('.select2-selection')
+                .addClass('is-valid')
+                .removeClass('is-invalid');
+        } else {
+            $(this).next('.select2-container').find('.select2-selection')
+                .addClass('is-invalid')
+                .removeClass('is-valid');
+        }
     });
+
+    // Add custom validation method for Select2 multiple
+    $.validator.addMethod("selectRequired", function(value, element) {
+        return value && value.length > 0;
+    }, "Please select at least one category");
 
     $(".profile-form").validate({
         rules: {
+            'categories[]': {
+                selectRequired: true,
+                minlength: 1,
+                maxlength: 5
+            },
             title: {
                 required: true,
                 minlength: 3,
@@ -1051,11 +1099,7 @@ document.getElementById("header_pic").addEventListener("change", function(e) {
                 minlength: 10,
                 maxlength: 5000
             },
-            'categories[]': {
-                required: true,
-                minlength: 1,
-                maxlength: 5
-            },
+           
             read_time: {
                 required: true,
                 number: true,
@@ -1086,7 +1130,14 @@ document.getElementById("header_pic").addEventListener("change", function(e) {
                 maxsize: 2048000
             }
         },
+       
         messages: {
+            'categories[]': {
+                selectRequired: "Please select at least one category",
+                minlength: "Please select at least one category",
+                maxlength: "You can select up to 5 categories"
+            },
+            // ... rest of your existing messages
             title: {
                 required: "Please enter a recipe title",
                 minlength: "Title must be at least 3 characters long",
@@ -1097,11 +1148,7 @@ document.getElementById("header_pic").addEventListener("change", function(e) {
                 minlength: "Description must be at least 10 characters long",
                 maxlength: "Description cannot exceed 5000 characters"
             },
-            'categories[]': {
-                required: "Please select at least one category",
-                minlength: "Please select at least one category",
-                maxlength: "You can select up to 5 categories"
-            },
+           
             read_time: {
                 required: "Please enter read time",
                 number: "Please enter a valid number",
@@ -1134,22 +1181,33 @@ document.getElementById("header_pic").addEventListener("change", function(e) {
         },
         errorElement: 'div',
         errorClass: 'invalid-feedback',
-        highlight: function(element) {
-            $(element).addClass('is-invalid').removeClass('is-valid');
+        highlight: function(element, errorClass, validClass) {
+            if ($(element).hasClass('select2-hidden-accessible')) {
+                $(element).next('.select2-container').find('.select2-selection')
+                    .addClass('is-invalid')
+                    .removeClass('is-valid');
+            } else {
+                $(element).addClass('is-invalid').removeClass('is-valid');
+            }
         },
-        unhighlight: function(element) {
-            $(element).addClass('is-valid').removeClass('is-invalid');
+        unhighlight: function(element, errorClass, validClass) {
+            if ($(element).hasClass('select2-hidden-accessible')) {
+                $(element).next('.select2-container').find('.select2-selection')
+                    .addClass('is-valid')
+                    .removeClass('is-invalid');
+            } else {
+                $(element).addClass('is-valid').removeClass('is-invalid');
+            }
         },
         errorPlacement: function(error, element) {
             if (element.hasClass('select2-hidden-accessible')) {
-                error.insertAfter(element.next('.select2'));
+                error.insertAfter(element.next('.select2-container'));
             } else {
                 error.insertAfter(element);
             }
         }
     });
 });
-
 </script>
 </body>
 

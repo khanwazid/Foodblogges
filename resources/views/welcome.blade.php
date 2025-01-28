@@ -176,11 +176,11 @@
             <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et
                 dolore magna aliqua.</p>
             <div class="humberger__menu__about__social sidebar__item__follow__links">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
-                <a href="#"><i class="fa fa-envelope-o"></i></a>
+                <a><i class="fa fa-facebook"></i></a>
+    <a><i class="fa fa-twitter"></i></a>
+    <a><i class="fa fa-instagram"></i></a>
+    <a><i class="fa fa-youtube-play"></i></a>
+    <a><i class="fa fa-envelope-o"></i></a>
             </div>
         </div>
         <div class="humberger__menu__subscribe">
@@ -244,11 +244,11 @@
                 </div>
                 <div class="col-lg-3 col-md-3">
                     <div class="header__social">
-                        <a href="#"><i class="fa fa-facebook"></i></a>
-                        <a href="#"><i class="fa fa-twitter"></i></a>
-                        <a href="#"><i class="fa fa-youtube-play"></i></a>
-                        <a href="#"><i class="fa fa-instagram"></i></a>
-                        <a href="#"><i class="fa fa-envelope-o"></i></a>
+                        <a><i class="fa fa-facebook"></i></a>
+                        <a><i class="fa fa-twitter"></i></a>
+                        <a><i class="fa fa-instagram"></i></a>
+                        <a><i class="fa fa-youtube-play"></i></a>
+                        <a><i class="fa fa-envelope-o"></i></a>
                     </div>
                 </div>
             </div>
@@ -405,10 +405,11 @@
 <p>Whether you're a seasoned chef or just starting your culinary journey, our blog offers something for everyone. We believe that cooking is an expression of love and creativity. Through detailed recipes, cooking tips, and food stories, we aim to help you create memorable dining experiences. Join us as we explore the wonderful world of flavors, techniques, and food traditions that make every meal special.</p>
 
                             <div class="about__right__text__social">
-                                <a href="#"><i class="fa fa-facebook"></i></a>
-                                <a href="#"><i class="fa fa-twitter"></i></a>
-                                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                                <a href="#"><i class="fa fa-instagram"></i></a>
+                                <a><i class="fa fa-facebook"></i></a>
+                                <a><i class="fa fa-twitter"></i></a>
+                                <a><i class="fa fa-instagram"></i></a>
+                                <a><i class="fa fa-youtube-play"></i></a>
+                            
                             </div>
                         </div>
                     </div>
@@ -463,13 +464,14 @@
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                             ut<br /> labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus
                             commodo viverra<br /> maecenas accumsan lacus vel facilisis. </p>
-                        <div class="footer__social">
-                            <a href="#"><i class="fa fa-facebook"></i></a>
-                            <a href="#"><i class="fa fa-twitter"></i></a>
-                            <a href="#"><i class="fa fa-instagram"></i></a>
-                            <a href="#"><i class="fa fa-youtube-play"></i></a>
-                            <a href="#"><i class="fa fa-envelope-o"></i></a>
-                        </div>
+                            <div class="footer__social">
+                                <a><i class="fa fa-facebook"></i></a>
+                                <a><i class="fa fa-twitter"></i></a>
+                                <a><i class="fa fa-instagram"></i></a>
+                                <a><i class="fa fa-youtube-play"></i></a>
+                                <a><i class="fa fa-envelope-o"></i></a>
+                            </div>
+                            
                     </div>
                     <div class="footer__copyright">
                         <p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->

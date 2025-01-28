@@ -256,7 +256,7 @@ public function stores(Request $request)
         Post::create($validated);
 
         return redirect()
-            ->route('admin.dashboard')
+            ->route('list.post')
             ->with('success', 'Recipe created successfully.');
 
     } catch (ValidationException $e) {
