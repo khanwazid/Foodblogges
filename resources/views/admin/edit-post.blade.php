@@ -945,7 +945,7 @@ jQuery(document).ready(function($) {
                 <div class="col-lg-12">
                     <div class="footer__text">
                         <div class="footer__logo">
-                            <a href="#"><img src="{{ asset('img/logo.png') }}" alt="Logo"></a>
+                            <a><img src="{{ asset('img/logo.png') }}" alt="Logo"></a>
                         </div>
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                             ut<br /> labore et dolore magna aliqua. Quis ipsum suspendisse ultrices gravida. Risus

@@ -457,9 +457,10 @@
                         <nav class="header__menu">
                             <ul>
                                 {{--   <li><a href="{{url('/normal')}}">Home</a></li>
-                       href="{{url('/index')}}">Home</a></li>
+                       href="{{url('/index')}}">Home</a></li>  --}}
                                 <li><a href="{{url('/about')}}">About</a></li>
-                                <li><a href="{{url('/contact')}}">Contact</a></li> --}}
+                                <li><a href="{{url('/pagecontacts')}}">Contact</a></li>
+                               
                             </ul>
                         </nav>
                     </div>
@@ -771,7 +772,7 @@
                 <div class="col-lg-12">
                     <div class="footer__text">
                         <div class="footer__logo">
-                            <a href="#">
+                            <a>
                                 <img src="{{ asset('img/logo.png') }}" alt="Logo">
                             </a>
                         </div>

@@ -815,7 +815,7 @@ body {
                 <div class="col-lg-12">
                     <div class="footer__text">
                         <div class="footer__logo">
-                            <a href="#">
+                            <a>
                                 <img src="{{ asset('img/logo.png') }}" alt="Logo">
                             </a>
                         </div>
