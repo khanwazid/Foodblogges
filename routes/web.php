@@ -1,5 +1,6 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\TempController;
@@ -59,6 +60,7 @@ Route::middleware('auth')->group(function () {
 
 
 Route::middleware(['auth', 'admin'])->group(function () {
+    
 
     Route::post('/change/password', [UserController::class, 'changePassword'])->name('admin.passwordss');
 

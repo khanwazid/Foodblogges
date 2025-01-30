@@ -518,4 +518,6 @@ $user->password = Hash::make($request->new_password); // Hash the new password b
     return back()->with('success', 'Your password has been changed successfully.');
 }
 
+
+
 }

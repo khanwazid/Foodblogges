@@ -178,12 +178,7 @@
     margin: 0 auto;
 }
 
-#changePasswordModal p {
-    color: #333;
-    margin: 15px 0;
-    line-height: 1.5;
-    display: block;
-}
+
 
 #changePasswordModal .modal-dialog {
     max-width: 500px;
@@ -689,47 +684,6 @@
     </div>
 </div>
 
-<script>
-   document.addEventListener('DOMContentLoaded', function() {
-    const modal = document.getElementById('changePasswordModal');
-    if ({{ session('showChangePasswordModal') ? 'true' : 'false' }}) {
-        $('#changePasswordModal').modal('show');
-    }
-    // Show modal
-    document.querySelector('.change-password-button').addEventListener('click', function() {
-        modal.style.display = 'block';
-        modal.classList.add('show');
-        document.body.classList.add('modal-open');
-    });
-
-    // Close modal function
-    function closeModal() {
-        modal.style.display = 'none';
-        modal.classList.remove('show');
-        document.body.classList.remove('modal-open');
-    }
-
-    // Cancel button click handler
-    document.querySelector('.btn-secondary').addEventListener('click', closeModal);
-
-    // Close modal when clicking outside
-    document.addEventListener('click', function(event) {
-        if (event.target.closest('.modal-content') === null && 
-            event.target.closest('.change-password-button') === null) {
-            closeModal();
-        }
-    });
-
-    // Close with ESC key
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && modal.classList.contains('show')) {
-            closeModal();
-        }
-    });
-});
-
-
-</script>
 
 
     <!-- Js Plugins -->
@@ -741,8 +695,10 @@
     <!-- Add these before closing </body> tag -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.19.5/dist/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 <script>
     $(document).ready(function() {
     $(".profile-form").validate({
@@ -797,6 +753,95 @@
 });
 
 </script>
+
+<script>
+    $(document).ready(function() {
+        @if (session('showChangePasswordModal') || $errors->any())
+        $('#changePasswordModal').modal('show');
+        <?php session()->forget('showChangePasswordModal'); ?> // Clear session after use
+    @endif
+
+    // Show modal on button click
+    $('.change-password-button').on('click', function() {
+        $('#changePasswordModal').modal('show');
+    });
+
+    // Close modal when clicking cancel button
+    $('.btn-secondary').on('click', function() {
+        $('#changePasswordModal').modal('hide');
+        resetForm();
+    });
+
+    // Close modal when clicking outside - Updated handler
+    $(document).on('mousedown', function(event) {
+        const modal = $('#changePasswordModal');
+        if (modal.is(':visible') && !$(event.target).closest('.modal-content').length && !$(event.target).closest('.change-password-button').length) {
+            modal.modal('hide');
+            resetForm();
+        }
+    });
+
+    // Close modal on ESC key
+    $(document).on('keydown', function(event) {
+        if (event.key === 'Escape' && $('#changePasswordModal').hasClass('show')) {
+            $('#changePasswordModal').modal('hide');
+            resetForm();
+        }
+    });
+
+    // Function to reset form state
+    function resetForm() {
+        $('#changePasswordForm')[0].reset();
+        $('#changePasswordForm').validate().resetForm();
+        $('.form-control').removeClass('is-invalid is-valid');
+        $('.invalid-feedback').empty();
+    }
+    
+        // jQuery Validation for Change Password Form
+        $("#changePasswordForm").validate({
+            rules: {
+                current_password: {
+                    required: true,
+                    minlength: 8
+                },
+                new_password: {
+                    required: true,
+                    minlength: 8
+                },
+                new_password_confirmation: {
+                    required: true,
+                    minlength: 8,
+                    equalTo: "#new_password"
+                }
+            },
+            messages: {
+                current_password: {
+                    required: "Current password is required",
+                    minlength: "Password must be at least 8 characters"
+                },
+                new_password: {
+                    required: "New password is required",
+                    minlength: "Password must be at least 8 characters"
+                },
+                new_password_confirmation: {
+                    required: "Please confirm your new password",
+                    minlength: "Password must be at least 8 characters",
+                    equalTo: "Passwords do not match"
+                }
+            },
+            errorElement: "div",
+            errorPlacement: function(error, element) {
+                error.addClass("invalid-feedback").insertAfter(element);
+                element.addClass("is-invalid");
+            },
+            success: function(label, element) {
+                $(element).removeClass("is-invalid");
+            }
+        });
+    
+    });
+    </script>
+    
 </body>
 
 </html>
