@@ -836,11 +836,31 @@ input {
 </script>
 
 <script>
-    $(document).ready(function() {
-        @if (session('showChangePasswordModal') || $errors->any())
+$(document).ready(function() {
+    @if (session('showChangePasswordModal') || $errors->any())
         $('#changePasswordModal').modal('show');
         <?php session()->forget('showChangePasswordModal'); ?> // Clear session after use
     @endif
+
+    // Add custom validation method for current password using AJAX
+    $.validator.addMethod("validateCurrentPassword", function(value, element) {
+        let isValid = false;
+
+        $.ajax({
+            url: '/validate-current-password',
+            type: 'POST',
+            async: false, // Synchronous request (can be improved)
+            data: {
+                current_password: value,
+                _token: $('input[name="_token"]').val()
+            },
+            success: function(response) {
+                isValid = response.valid; // Expecting { valid: true/false }
+            }
+        });
+
+        return isValid;
+    }, "Current password is incorrect");
 
     // Show modal on button click
     $('.change-password-button').on('click', function() {
@@ -877,51 +897,58 @@ input {
         $('.form-control').removeClass('is-invalid is-valid');
         $('.invalid-feedback').empty();
     }
-    
-        // jQuery Validation for Change Password Form
-        $("#changePasswordForm").validate({
-            rules: {
-                current_password: {
-                    required: true,
-                    minlength: 8
-                },
-                new_password: {
-                    required: true,
-                    minlength: 8
-                },
-                new_password_confirmation: {
-                    required: true,
-                    minlength: 8,
-                    equalTo: "#new_password"
-                }
+
+    // jQuery Validation for Change Password Form
+    $("#changePasswordForm").validate({
+        rules: {
+            current_password: {
+                required: true,
+                minlength: 8,
+                validateCurrentPassword: true
             },
-            messages: {
-                current_password: {
-                    required: "Current password is required",
-                    minlength: "Password must be at least 8 characters"
-                },
-                new_password: {
-                    required: "New password is required",
-                    minlength: "Password must be at least 8 characters"
-                },
-                new_password_confirmation: {
-                    required: "Please confirm your new password",
-                    minlength: "Password must be at least 8 characters",
-                    equalTo: "Passwords do not match"
-                }
+            new_password: {
+                required: true,
+                minlength: 8
             },
-            errorElement: "div",
-            errorPlacement: function(error, element) {
-                error.addClass("invalid-feedback").insertAfter(element);
-                element.addClass("is-invalid");
-            },
-            success: function(label, element) {
-                $(element).removeClass("is-invalid");
+            new_password_confirmation: {
+                required: true,
+                minlength: 8,
+                equalTo: "#new_password"
             }
-        });
-    
+        },
+        messages: {
+            current_password: {
+                required: "Current password is required",
+                minlength: "Password must be at least 8 characters",
+                validateCurrentPassword: "Current password is incorrect"
+            },
+            new_password: {
+                required: "New password is required",
+                minlength: "Password must be at least 8 characters"
+            },
+            new_password_confirmation: {
+                required: "Please confirm your new password",
+                minlength: "Password must be at least 8 characters",
+                equalTo: "Passwords do not match"
+            }
+        },
+        errorElement: "div",
+        errorPlacement: function(error, element) {
+            error.addClass("invalid-feedback").insertAfter(element);
+            element.addClass("is-invalid");
+        },
+        success: function(label, element) {
+            $(element).removeClass("is-invalid").addClass("is-valid");
+        },
+        submitHandler: function(form) {
+            // Ensure form is only submitted if validation passes
+            form.submit();
+        }
     });
-    </script>
+});
+
+
+</script>
 </body>
 
 </html>

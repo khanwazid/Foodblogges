@@ -223,9 +223,8 @@ public function logout()
         );
 
         // Flash success message and redirect
-        return redirect()
-            ->route('admin.dashboard')
-            ->with('success', $successMessage);
+         return redirect()
+            ->back()->with('success',  $successMessage);
     
         }  catch (ValidationException $e) {
             // Handle validation errors
@@ -285,10 +284,16 @@ public function logout()
      $user->save(); // Save the updated password to the database
 
     // Redirect to the admin dashboard with a success message
-    return redirect()->route('admin.dashboard')->with('success', 'Your Password has been changed successfully!');
+    return back()->with('success', 'Your password has been changed successfully.');
+
 }
 
    
+public function adminCurrentPassword(Request $request)
+{
+    $isValid = Hash::check($request->current_password, auth()->user()->password);
+    return response()->json(['valid' => $isValid]);
+}
    /* public function edit($id)
     {
         $post = Post::findOrFail($id);
@@ -518,6 +523,11 @@ $user->password = Hash::make($request->new_password); // Hash the new password b
     return back()->with('success', 'Your password has been changed successfully.');
 }
 
+public function validateCurrentPassword(Request $request)
+{
+    $isValid = Hash::check($request->current_password, auth()->user()->password);
+    return response()->json(['valid' => $isValid]);
+}
 
 
 }

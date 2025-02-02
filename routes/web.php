@@ -42,7 +42,7 @@ Route::get('/signup', function () {
 
 Route::middleware('auth')->group(function () {
 
-    
+    Route::post('/validate-current-password', [UserController::class, 'validateCurrentPassword'])->name('validate.current.password');
     Route::get('/normal', [TempController::class, 'normal'])->name('normal');
     Route::put('/normal/update', [UserController::class, 'updateProfiles'])->name('normal.update');
     Route::post('/change-password', [UserController::class, 'changePasswords'])->name('change.passwordss');
@@ -61,6 +61,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware(['auth', 'admin'])->group(function () {
     
+    Route::post('/admin-current-password', [UserController::class, 'adminCurrentPassword'])->name('admin.current.password');
 
     Route::post('/change/password', [UserController::class, 'changePassword'])->name('admin.passwordss');
 

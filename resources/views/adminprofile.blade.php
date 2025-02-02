@@ -757,52 +757,73 @@
 <script>
     $(document).ready(function() {
         @if (session('showChangePasswordModal') || $errors->any())
-        $('#changePasswordModal').modal('show');
-        <?php session()->forget('showChangePasswordModal'); ?> // Clear session after use
-    @endif
-
-    // Show modal on button click
-    $('.change-password-button').on('click', function() {
-        $('#changePasswordModal').modal('show');
-    });
-
-    // Close modal when clicking cancel button
-    $('.btn-secondary').on('click', function() {
-        $('#changePasswordModal').modal('hide');
-        resetForm();
-    });
-
-    // Close modal when clicking outside - Updated handler
-    $(document).on('mousedown', function(event) {
-        const modal = $('#changePasswordModal');
-        if (modal.is(':visible') && !$(event.target).closest('.modal-content').length && !$(event.target).closest('.change-password-button').length) {
-            modal.modal('hide');
-            resetForm();
-        }
-    });
-
-    // Close modal on ESC key
-    $(document).on('keydown', function(event) {
-        if (event.key === 'Escape' && $('#changePasswordModal').hasClass('show')) {
+            $('#changePasswordModal').modal('show');
+            <?php session()->forget('showChangePasswordModal'); ?> // Clear session after use
+        @endif
+    
+        // Add custom validation method for current password using AJAX
+        $.validator.addMethod("validateCurrentPassword", function(value, element) {
+            let isValid = false;
+    
+            $.ajax({
+                url: '/admin-current-password',
+                type: 'POST',
+                async: false, // Synchronous request (can be improved)
+                data: {
+                    current_password: value,
+                    _token: $('input[name="_token"]').val()
+                },
+                success: function(response) {
+                    isValid = response.valid; // Expecting { valid: true/false }
+                }
+            });
+    
+            return isValid;
+        }, "Current password is incorrect");
+    
+        // Show modal on button click
+        $('.change-password-button').on('click', function() {
+            $('#changePasswordModal').modal('show');
+        });
+    
+        // Close modal when clicking cancel button
+        $('.btn-secondary').on('click', function() {
             $('#changePasswordModal').modal('hide');
             resetForm();
+        });
+    
+        // Close modal when clicking outside - Updated handler
+        $(document).on('mousedown', function(event) {
+            const modal = $('#changePasswordModal');
+            if (modal.is(':visible') && !$(event.target).closest('.modal-content').length && !$(event.target).closest('.change-password-button').length) {
+                modal.modal('hide');
+                resetForm();
+            }
+        });
+    
+        // Close modal on ESC key
+        $(document).on('keydown', function(event) {
+            if (event.key === 'Escape' && $('#changePasswordModal').hasClass('show')) {
+                $('#changePasswordModal').modal('hide');
+                resetForm();
+            }
+        });
+    
+        // Function to reset form state
+        function resetForm() {
+            $('#changePasswordForm')[0].reset();
+            $('#changePasswordForm').validate().resetForm();
+            $('.form-control').removeClass('is-invalid is-valid');
+            $('.invalid-feedback').empty();
         }
-    });
-
-    // Function to reset form state
-    function resetForm() {
-        $('#changePasswordForm')[0].reset();
-        $('#changePasswordForm').validate().resetForm();
-        $('.form-control').removeClass('is-invalid is-valid');
-        $('.invalid-feedback').empty();
-    }
     
         // jQuery Validation for Change Password Form
         $("#changePasswordForm").validate({
             rules: {
                 current_password: {
                     required: true,
-                    minlength: 8
+                    minlength: 8,
+                    validateCurrentPassword: true
                 },
                 new_password: {
                     required: true,
@@ -817,7 +838,8 @@
             messages: {
                 current_password: {
                     required: "Current password is required",
-                    minlength: "Password must be at least 8 characters"
+                    minlength: "Password must be at least 8 characters",
+                    validateCurrentPassword: "Current password is incorrect"
                 },
                 new_password: {
                     required: "New password is required",
@@ -835,13 +857,17 @@
                 element.addClass("is-invalid");
             },
             success: function(label, element) {
-                $(element).removeClass("is-invalid");
+                $(element).removeClass("is-invalid").addClass("is-valid");
+            },
+            submitHandler: function(form) {
+                // Ensure form is only submitted if validation passes
+                form.submit();
             }
         });
-    
     });
-    </script>
     
+    
+    </script>
 </body>
 
 </html>
